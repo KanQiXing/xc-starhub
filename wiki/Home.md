@@ -19,7 +19,7 @@
   </blockquote>
 
   <p>
-    <img src="https://img.shields.io/badge/HELIOS-V3.8-%23F8D36C?style=for-the-badge" alt="HELIOS V3.8">
+    <img src="https://img.shields.io/badge/HELIOS-V3.9-%23F8D36C?style=for-the-badge" alt="HELIOS V3.9">
     &nbsp;
     <img src="https://img.shields.io/badge/%E6%9C%AC%E5%9C%B0-%E4%BC%98%E5%85%88-%238BE28B?style=for-the-badge" alt="本地优先">
   </p>
@@ -130,6 +130,6 @@
 
 <div align="center">
   <sub>
-    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.8 &nbsp;·&nbsp; LOCAL-FIRST &nbsp;·&nbsp; OBSERVABLE &nbsp;·&nbsp; COMPOSABLE &nbsp;·&nbsp; CRAFTED ✦
+    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.9 &nbsp;·&nbsp; LOCAL-FIRST &nbsp;·&nbsp; OBSERVABLE &nbsp;·&nbsp; COMPOSABLE &nbsp;·&nbsp; CRAFTED ✦
   </sub>
 </div>

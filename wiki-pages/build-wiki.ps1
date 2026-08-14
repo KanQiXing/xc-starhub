@@ -1,4 +1,4 @@
-﻿# ================================================================
+# ================================================================
 #  build-wiki.ps1
 #  读取 wiki/*.md（排除 _Sidebar.md / _Footer.md），简易 Markdown→HTML
 #  转换，包裹完整 HTML 文档（固定顶栏 + 内容 + 底部导航），
@@ -411,7 +411,7 @@ __KBD__
   </div>
 </nav>
 <footer class="wiki-footer">
-  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.8 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.9 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
 </footer>
 </body>
 </html>
