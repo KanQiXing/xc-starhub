@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>更新日志 · 小星 Wiki</title>
+<meta name="description" content="XC 星枢 · 小星 Wiki — 更新日志">
+<meta property="og:title" content="更新日志 · 小星 Wiki">
+<meta property="og:description" content="XC 星枢 · 小星 Wiki — 更新日志">
+<meta property="og:image" content="../assets/xiaoxing/character-fullbody.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="更新日志 · 小星 Wiki">
+<meta name="twitter:description" content="XC 星枢 · 小星 Wiki — 更新日志">
+<meta name="twitter:image" content="../assets/xiaoxing/character-fullbody.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./wiki.css">
+</head>
+<body>
+<nav class="topbar">
+  <div class="nav-left">
+    <a class="nav-chip" href="../index.html">&larr; <span class="long">门户首页</span></a>
+  </div>
+  <div class="nav-title">更新日志<span class="crumb-sub">· 小星 Wiki</span></div>
+  <div class="nav-right">
+    <a class="nav-chip arrow" href="./截图画廊.html">← <span class="long">截图画廊</span></a>
+    <span class="nav-chip muted">下一篇 →</span>
+  </div>
+</nav>
+<main class="wiki-wrap">
+<section class="wiki-hero">
+  <h1>更新日志</h1>
+  <span class="hero-sub">XC · 星枢 · 小星 Wiki</span>
+</section>
+  <article class="wiki-content">
+<!--
+  ════════════════════════════════════════════════════════════════
+  📘  更新日志.md
+  排版意图：封面横幅（节日限定） + 倒序时间轴，每一版一个卡，高亮重点
+  ════════════════════════════════════════════════════════════════
+-->
+<img src="../assets/xiaoxing/banner-top.svg" width="100%" height="1">
+<div align="center">
+  <img src="../assets/xiaoxing/festival-limited.png" alt="节日限定 · 更新日志" style="width:70%;max-width:700px;border-radius:24px;box-shadow:0 24px 70px rgba(245,138,168,.18)">
+  <h1>📜 更新日志</h1>
+  <p>她又偷偷学会了什么新花样。</p>
+  <p>
+    <kbd>&nbsp;<a href="./高级功能.html">← 返回 高级功能</a>&nbsp;</kbd>
+    &nbsp;·&nbsp;
+    <kbd>&nbsp;<a href="./Home.html">回到 Wiki 首页</a>&nbsp;</kbd>
+  </p>
+</div>
+<hr>
+<h2>✦ HELIOS V3.8.1 · 多场景多情绪主题</h2>
+<blockquote>
+<p><strong>日期</strong>：2026-08-14</p>
+<p><strong>主打</strong>：三场景自由切换 × 四档情绪 × 功能按钮全保留</p>
+</blockquote>
+<h3>✨ 新的</h3>
+<ul>
+<li><strong>场景系统（Scene）</strong>：顶栏一键切 <code>陪伴 / 工作台 / 专注</code> 三套整体界面</li>
+<li><strong>陪伴 (cozy)</strong>：小星立绘 + 星光 halo 背景 + 礼物 / 星标 / 菜单 工具栏</li>
+<li><strong>工作台 (workbench)</strong>：网格科技风背景 + Hero 卡片 Agent 特性 + 快捷入口</li>
+<li><strong>专注 (focus)</strong>：暗调径向渐变 + 聚焦 Vignette，简化界面屏蔽干扰</li>
+<li><strong>情绪系统 (Mood)</strong>：仅在陪伴场景显示，四档情绪分别对应不同的问候语、占位文案和 Hero 徽标</li>
+<li><code>默认 / 开心 / 困倦 / 调皮</code>，每个情绪有独立的开场气泡和行动按钮（送你一颗星 / 抱抱你）</li>
+<li><strong>功能完整保留</strong>：上下文条、新建/分叉/归档、对话/Graph/Review 三模式、图片/语音/朗读/剪贴板/终端/停止/执行 所有按钮随场景自动调整形态，一个都不少</li>
+<li><strong>tsc --noEmit 通过</strong>：Scene / Mood 类型全程接入 NextApp、NextConversationPane、NextSessionBar</li>
+</ul>
+<h3>💪 增强</h3>
+<ul>
+<li>Hero 卡片随场景变化：陪伴显示「今日陪伴时长」，工作台显示「当前会话」，专注显示「专注时长」</li>
+<li>输入框占位文案、主按钮图标/标签、工具栏结构，根据场景自动匹配</li>
+<li><code>xiaoxing-workbench.css</code> 继续保留，工作台场景可直接沿用原有 workbench 视觉</li>
+</ul>
+<h3>🎨 设计与素材</h3>
+<ul>
+<li>工作台场景新增 <code>网格背景层 + 网格光晕层</code> 纯 CSS 叠加</li>
+<li>专注场景新增 <code>径向渐变层 + 聚焦暗角层</code> 纯 CSS 叠加</li>
+<li>所有问候气泡 / 快捷按钮均使用主题色渐变 + 阴影提升层次</li>
+</ul>
+<hr>
+<h2>✦ HELIOS V3.8 · 星枢 · Codex 版</h2>
+<blockquote>
+<p><strong>日期</strong>：2026 年</p>
+<p><strong>主打</strong>：本地优先 · 可观察 · 可组合 · 桌面伙伴</p>
+</blockquote>
+<h3>✨ 新的</h3>
+<ul>
+<li><strong>HELIOS 引擎升级</strong>：对话、任务、调度底层统一到 HELIOS V3.8</li>
+<li><strong>启动动画重做</strong>：小星在开场时会主动出现，不会挡你屏幕</li>
+<li><strong>主对话 + 任务编排</strong>：一边聊一边做，做到哪一步存到哪一步</li>
+<li><strong>Agent Graph</strong>：多步骤 / 多角色的任务图，按依赖自动流转</li>
+<li><strong>Mission Dock 右侧事实面板</strong>：文件 / 变更 / 审批 / 终端 / 证据 / 审查全集中</li>
+<li><strong>远程继续（微信 / 手机网页 / Telegram / 飞书）</strong>：电脑到手机无缝同一件事</li>
+<li><strong>AI 贴靠</strong>：自动扫描桌面可贴靠 AI 窗口，跟随移动 / 缩放</li>
+<li><strong>后台调度</strong>：Agent / 命令 / HTTP 三种触发，Cron 精确到每分钟</li>
+<li><strong>17 颗气氛胶囊</strong>：早安、雨天、睡前、陪伴、节日限定……</li>
+<li><strong>HELIOS Dashboard</strong>：概览、远程同步、任务日历、任务流水一眼看懂</li>
+<li><strong>日志面板</strong>：打开底部 "LOG"，能看到所有事件流（HELIOS 事件、渲染、IPC、服务、启动）</li>
+<li><strong>小星心情面板</strong>：情绪能量值、陪伴累计时长、最近事件、随机语录</li>
+<li><strong>Telemetry + Changelog</strong>：设置面板里可本地查看匿名使用摘要、获取更新日志</li>
+<li><strong>sqlite-vec 向量扩展</strong>：本地向量搜索为长期记忆打基础</li>
+</ul>
+<h3>💪 增强</h3>
+<ul>
+<li>设置面板重构为 <strong>NextSettingsDrawer</strong>（诊断、Provider、远程、通知、外观 分区）</li>
+<li>对话主界面 + 文档渲染器美化，Markdown / 表格 / 代码块样式统一</li>
+<li>外部 AI 管理与通知中心卡片样式优化</li>
+<li>启动顺序与销毁时序加固：splash 不再挡主界面</li>
+<li>electron-vite 构建外部化处理：better-sqlite3 + sqlite-vec 原生模块正确打包</li>
+<li>CLI ↔ Runtime 共用 Provider 配置，减少用户重复填写</li>
+</ul>
+<h3>🐛 修复</h3>
+<ul>
+<li>修复 XC-???? 标题乱码（<code>.gitattributes</code> 强制 UTF-8 working-tree-encoding）</li>
+<li>修复启动后透明遮罩挡主屏幕（alwaysOnTop 降级 + splash 超时销毁 + 错误兜底销毁）</li>
+<li>修复长对话后 Provider 断开无法重试（断线后自动走恢复连接 → 重试链路）</li>
+<li>修复导出设置 JSON 时 API Key 被明文暴露（默认脱敏）</li>
+<li>修复部分 Wiki / README 页面仍为旧纯文本形式（整体视觉重做 + 素材接入）</li>
+</ul>
+<h3>🎨 设计与素材</h3>
+<ul>
+<li>接入完整小星素材库（17 张成品图 + 2 张渐变横幅）</li>
+<li>README 视觉化：渐变横幅 / 立绘主视觉 / 8 大能力卡 / 场景画廊 / 情绪胶囊 / 人设 / FAQ</li>
+<li>门户页 <code>index.html</code> 可直接在浏览器预览产品主页</li>
+<li>Wiki 7 篇核心文档全视觉化：Home / 功能总览 / 快速开始 / 核心功能 / 主对话与任务编排 / 高级功能 / 更新日志</li>
+</ul>
+<hr>
+<h2>✦ HELIOS V3.7 · 历史版本摘要</h2>
+<ul>
+<li>首版小星桌面伙伴框架落地</li>
+<li>Provider、长对话、记忆模块基础可用</li>
+<li>提供桌面端首版可执行包</li>
+<li>完成与 HELIOS V3.x 的对接</li>
+</ul>
+<hr>
+<div align="center">
+  <p>
+    <a href="../README.html">← 回到仓库首页 README</a>
+    &nbsp;·&nbsp;
+    <a href="../index.html">🌐 打开门户页 index.html（需浏览器预览）</a>
+  </p>
+</div>
+  </article>
+</main>
+<nav class="bottom-nav">
+  <span class="bn-label">📖 Wiki 导航</span>
+  <div class="bn-group">
+<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <a class="kbd-btn" href="./高级功能.html">高级功能</a> <a class="kbd-btn" href="./常见问题.html">常见问题</a> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <span class="kbd-btn active">更新日志</span>
+  </div>
+  <div class="bn-prevnext">
+    <a class="kbd-btn" href="./截图画廊.html">← 截图画廊</a>
+    <span class="kbd-btn">已是最后一页</span>
+  </div>
+</nav>
+<footer class="wiki-footer">
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.8 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+</footer>
+</body>
+</html>

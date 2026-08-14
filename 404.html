@@ -1,0 +1,55 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>页面跳转中…</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,"PingFang SC","Microsoft YaHei",sans-serif;
+       display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;
+       background:linear-gradient(135deg,#eef4ff 0%,#fbf1ff 100%);color:#1e293b}
+  .card{background:#fff;border-radius:18px;padding:32px 40px;box-shadow:0 20px 60px rgba(15,23,42,.10);
+        max-width:480px;text-align:center}
+  h1{margin:0 0 10px;font-size:22px}p{color:#475569;margin:6px 0}
+  a{color:#3b82f6;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>✨ 正在为你跳转…</h1>
+  <p id="msg">如果 2 秒内没有跳转，请点击下方链接。</p>
+  <p><a id="fallback" href="./">🏠 返回 Wiki 首页</a></p>
+</div>
+<script>
+(function(){
+  var valid = ["Home","功能总览","快速开始","核心功能","主对话与任务编排","高级功能","常见问题","截图画廊","更新日志"];
+  var path = decodeURIComponent(location.pathname);
+  var segments = path.split('/');
+  // GitHub Pages 路径格式: /<project>/<file> 或 /<project>/<dir>/<file>
+  // segments[0]='' segments[1]=项目名 segments[2]=目录或文件名 segments[3]=文件名
+  var projectName = (segments.length > 1 && segments[1]) ? segments[1] : '';
+  var base = '/' + projectName;  // '/xc-starhub'
+  var m, target, newUrl;
+
+  // 规则一：/<project>/wiki/<Name>.md → /<project>/<Name>.html
+  m = path.match(/\/wiki\/([^\/]+?)\.md(?:$|[#?])/);
+  if (m) { target = m[1]; if (valid.indexOf(target) !== -1) {
+    newUrl = base + '/' + encodeURIComponent(target) + '.html';
+    location.replace(newUrl); return;
+  }}
+
+  // 规则二：/<project>/wiki-pages/<Name>.html → /<project>/<Name>.html
+  m = path.match(/\/wiki-pages\/([^\/]+?)\.html(?:$|[#?])/);
+  if (m) { target = m[1]; if (valid.indexOf(target) !== -1) {
+    newUrl = base + '/' + encodeURIComponent(target) + '.html';
+    location.replace(newUrl); return;
+  }}
+
+  // 兜底：未识别 → 回到门户首页
+  document.getElementById('msg').textContent =
+    '路径未识别：' + path + '。正在返回首页…';
+  document.getElementById('fallback').href = base + '/';
+  setTimeout(function(){ location.replace(base + '/'); }, 1500);
+})();
+</script>
+</body>
+</html>

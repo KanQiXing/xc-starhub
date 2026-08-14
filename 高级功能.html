@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>高级功能 · 小星 Wiki</title>
+<meta name="description" content="XC 星枢 · 小星 Wiki — 高级功能">
+<meta property="og:title" content="高级功能 · 小星 Wiki">
+<meta property="og:description" content="XC 星枢 · 小星 Wiki — 高级功能">
+<meta property="og:image" content="../assets/xiaoxing/character-fullbody.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="高级功能 · 小星 Wiki">
+<meta name="twitter:description" content="XC 星枢 · 小星 Wiki — 高级功能">
+<meta name="twitter:image" content="../assets/xiaoxing/character-fullbody.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./wiki.css">
+</head>
+<body>
+<nav class="topbar">
+  <div class="nav-left">
+    <a class="nav-chip" href="../index.html">&larr; <span class="long">门户首页</span></a>
+  </div>
+  <div class="nav-title">高级功能<span class="crumb-sub">· 小星 Wiki</span></div>
+  <div class="nav-right">
+    <a class="nav-chip arrow" href="./主对话与任务编排.html">← <span class="long">主对话与任务编排</span></a>
+    <a class="nav-chip arrow" href="./常见问题.html"><span class="long">常见问题</span> →</a>
+  </div>
+</nav>
+<main class="wiki-wrap">
+<section class="wiki-hero">
+  <h1>高级功能</h1>
+  <span class="hero-sub">XC · 星枢 · 小星 Wiki</span>
+</section>
+  <article class="wiki-content">
+<!--
+  ════════════════════════════════════════════════════════════════
+  📘  高级功能.md
+  排版意图：封面横幅（雨天治愈图）+ 4 大高级分区，每区配图标/小贴士/操作步骤
+  ════════════════════════════════════════════════════════════════
+-->
+<img src="../assets/xiaoxing/banner-top.svg" width="100%" height="1">
+<div align="center">
+  <img src="../assets/xiaoxing/rainy-healing.png" alt="雨天治愈 · 高级功能" style="width:94%;max-width:900px;border-radius:24px;box-shadow:0 24px 70px rgba(184,168,255,.20)">
+  <h1>⚙️ 高级功能</h1>
+  <p>调度 · 贴靠 · 外观 · 安全，四个进阶方向。</p>
+  <p>
+    <kbd>&nbsp;<a href="./核心功能.html">← 返回 核心功能</a>&nbsp;</kbd>
+    &nbsp;·&nbsp;
+    <kbd>&nbsp;<a href="./更新日志.html">最后：更新日志 →</a>&nbsp;</kbd>
+  </p>
+</div>
+<hr>
+<h2>⏰ 后台调度</h2>
+<blockquote>
+<p>每周一早上要做什么、每天晚上记得归档什么，全部交给她。</p>
+</blockquote>
+<h3>三种触发类型</h3>
+<table>
+<thead><tr>
+<th>类型</th>
+<th>说明</th>
+<th>适合</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>🤖 Agent 任务</td>
+<td>让某个角色跑一段对话/任务</td>
+<td>智能体自动处理，如周报生成</td>
+</tr>
+<tr>
+<td>💻 命令脚本</td>
+<td>执行本地可执行文件（如 node / ps1）</td>
+<td>脚本化操作，如定时构建</td>
+</tr>
+<tr>
+<td>🌐 HTTP 请求</td>
+<td>对某个 URL 发 GET / POST / PUT…</td>
+<td>调 Webhook、定时抓取</td>
+</tr>
+</tbody>
+</table>
+<h3>创建一个调度任务</h3>
+<ol start="1">
+<li>打开「设置 → 定时与调度」。</li>
+<li>点 <strong>新建调度</strong>，填三样东西：</li>
+</ol>
+<ul>
+<li><strong>名字</strong>：例如"周一周报提醒"</li>
+<li><strong>时间表达式</strong>：<code>daily 09:00</code> / <code>weekly Mon 09:00</code> / Cron 五段式</li>
+<li><strong>类型</strong>：Agent / 命令 / HTTP，填对应参数</li>
+</ul>
+<ol start="3">
+<li>保存后，到了时间她会自动执行，成功/失败都会通知你。</li>
+</ol>
+<blockquote>
+<p>💡 <strong>常见 Cron 速查</strong></p>
+<p>- 每天 9 点：<code>0 9 * * *</code></p>
+<p>- 每周一 9 点：<code>0 9 * * 1</code></p>
+<p>- 每天 23 点归档：<code>0 23 * * *</code></p>
+<p>- 每 6 小时：<code>0 */6 * * *</code></p>
+</blockquote>
+<hr>
+<h2>🧲 AI 贴靠</h2>
+<blockquote>
+<p>一边看文档一边和小星对话，一边画图一边让她帮你记要点。</p>
+</blockquote>
+<h3>3 步贴靠</h3>
+<ol start="1">
+<li>点顶部「贴靠」按钮（或设置 → 外部 AI 检测）。</li>
+<li>她会扫描当前桌面上<strong>可贴靠的 AI 窗口</strong>，列出来。</li>
+<li>选一个窗口 → 点"贴靠"。她会自动吸附到目标边上。</li>
+</ol>
+<h3>可调项</h3>
+<table>
+<thead><tr>
+<th>模式</th>
+<th>效果</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Move 跟随</td>
+<td>目标窗口移动时，小星跟着挪</td>
+</tr>
+<tr>
+<td>Resize 跟随</td>
+<td>目标窗口变小时，小星一起缩放</td>
+</tr>
+<tr>
+<td>Both</td>
+<td>位置 + 大小都跟随</td>
+</tr>
+<tr>
+<td>Off</td>
+<td>贴靠完就固定，不再跟随</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✨ <strong>小技巧</strong>：贴靠后如果你对布局不满意，点"重新布局"，她会重新算一版更合适的。</p>
+</blockquote>
+<hr>
+<h2>🎨 外观设置</h2>
+<blockquote>
+<p>白天浅色、晚上深色、想要的字体、提醒的节奏，都可以按你的习惯来。</p>
+</blockquote>
+<p>在「设置 → 外观与可读性」调整：</p>
+<table>
+<thead><tr>
+<th>类别</th>
+<th>选项</th>
+<th>建议</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>主题</strong></td>
+<td>多种主题包可选</td>
+<td>看感觉挑</td>
+</tr>
+<tr>
+<td><strong>可读性预设</strong></td>
+<td>清晰 / 平衡 / 沉浸 / 高对比</td>
+<td>长时间用眼选"高对比"；想沉浸选"沉浸"</td>
+</tr>
+<tr>
+<td><strong>密度</strong></td>
+<td>紧凑 / 正常 / 宽松</td>
+<td>小屏选紧凑，大屏选宽松</td>
+</tr>
+<tr>
+<td><strong>字号</strong></td>
+<td>滑杆调节</td>
+<td>默认 100%，不够再加</td>
+</tr>
+<tr>
+<td><strong>通知</strong></td>
+<td>Toast 类型 + 节奏</td>
+<td>不想被打断就减少"运行完成"提醒</td>
+</tr>
+<tr>
+<td><strong>启动项</strong></td>
+<td>开机启动 / 启动后隐藏 / 贴靠方式</td>
+<td>重度用户推荐开机启动</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>🔒 安全与权限</h2>
+<blockquote>
+<p>你的 API Key、对话记录和任务进度，默认都留在本机，不会往外随便跑。</p>
+</blockquote>
+<h3>我们做了什么</h3>
+<table>
+<thead><tr>
+<th>措施</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>🔐 主密码</td>
+<td>敏感数据以主密码加密后再存磁盘</td>
+</tr>
+<tr>
+<td>🛡 安全存储</td>
+<td>Provider 凭据优先走 <code>safeStorage</code>（OS 级）</td>
+</tr>
+<tr>
+<td>🚪 权限边界</td>
+<td>所有"可能出错"的操作都会走审批弹窗</td>
+</tr>
+<tr>
+<td>👀 遮蔽显示</td>
+<td>设置里的 Key 默认只露尾巴，长按显示</td>
+</tr>
+<tr>
+<td>📦 脱敏导出</td>
+<td>导出诊断包前会把敏感字段遮盖</td>
+</tr>
+</tbody>
+</table>
+<h3>你可以做什么</h3>
+<ul>
+<li>定期改主密码（设置 → 安全与权限 → 修改主密码）</li>
+<li>导设置 JSON 前，检查"脱敏导出"勾上了没</li>
+<li>关掉你暂时不用的远程渠道，减少攻击面</li>
+</ul>
+<hr>
+<div align="center">
+  <kbd>&nbsp;<a href="./更新日志.html">→ 最后：📜 更新日志 · 她又学会了什么</a>&nbsp;</kbd>
+</div>
+  </article>
+</main>
+<nav class="bottom-nav">
+  <span class="bn-label">📖 Wiki 导航</span>
+  <div class="bn-group">
+<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <span class="kbd-btn active">高级功能</span> <a class="kbd-btn" href="./常见问题.html">常见问题</a> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <a class="kbd-btn" href="./更新日志.html">更新日志</a>
+  </div>
+  <div class="bn-prevnext">
+    <a class="kbd-btn" href="./主对话与任务编排.html">← 主对话与任务编排</a>
+    <a class="kbd-btn" href="./常见问题.html">常见问题 →</a>
+  </div>
+</nav>
+<footer class="wiki-footer">
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.8 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+</footer>
+</body>
+</html>

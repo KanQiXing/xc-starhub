@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>XC 星枢 · 小星 — 陪你把事情继续做完</title>
+<meta name="description" content="XC 星枢，也叫小星，是面向用户的智能工作助手：对话、任务、远程继续、语音图片、后台调度和陪伴画面。" />
+<!-- Open Graph · 社交媒体分享预览 -->
+<meta property="og:title" content="XC 星枢 · 小星 — 陪你把事情继续做完" />
+<meta property="og:description" content="面向用户的智能工作助手：对话 · 任务 · 远程继续 · 语音图片 · 后台调度 · 贴靠陪伴，七种武器合而为一。" />
+<meta property="og:image" content="./assets/xiaoxing/character-fullbody.png" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="zh_CN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="XC 星枢 · 小星 — 陪你把事情继续做完" />
+<meta name="twitter:description" content="面向用户的智能工作助手：对话 · 任务 · 远程继续 · 语音图片 · 后台调度 · 贴靠陪伴。" />
+<meta name="twitter:image" content="./assets/xiaoxing/character-fullbody.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+ *  V3 · 小星 · 主排版（正式素材版）
+ *  - 色彩：晴空蓝 (#71B6FF) + 云白 (#F2F8FF) + 琥珀点缀 (#F8D36C)
+ *  - 字体：Noto Serif SC（标题/气质）× Noto Sans SC × Inter（正文）× JetBrains Mono（标签/数据）
+ *  - 氛围：多层 radial-gradient 软辉光 + 14% opacity 颗粒噪点 + 细栅格
+ *  - 结构：Hero（左字右图）→ 8 能力交错卡片 → Showcase（左图右清单）
+ *    → 4 场景画廊 → ★新增：情绪胶囊墙(8 moods) → 4 原则 → CTA → Footer
+ * ================================================================ */
+  :root {
+    --bg-0:     #F4FAFF;
+    --bg-1:     #EAF3FE;
+    --ink-0:    #13223B;   /* 深夜蓝 */
+    --ink-1:    #37517A;   /* 正文 */
+    --ink-2:    #6A82A8;   /* 副文 */
+    --ink-3:    #A4B5D0;   /* 最小元 */
+    --blue:     #71B6FF;
+    --blue-2:   #9ECFFE;
+    --blue-deep:#3F7FE0;
+    --amber:    #F8D36C;   /* 点缀色 */
+    --rose:     #F58AA8;
+    --green:    #7BD88F;
+    --violet:   #B8A8FF;
+    --line:     rgba(63, 127, 224, 0.12);
+    --line-2:   rgba(63, 127, 224, 0.20);
+    --panel:    rgba(255, 255, 255, 0.72);
+    --shadow-1: 0 18px 60px rgba(63, 127, 224, .14);
+    --shadow-2: 0 30px 90px rgba(63, 127, 224, .22);
+    --radius-l: 28px;
+    --radius-m: 20px;
+    --radius-s: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 680px at 100% -4%, rgba(126,188,255,.16), transparent 60%),
+      radial-gradient(900px 520px at -10% 0%,  rgba(184,168,255,.12), transparent 58%),
+      radial-gradient(800px 560px at 60% 110%, rgba(248,211,108,.08), transparent 60%),
+      linear-gradient(180deg, #F7FAFF 0%, #EEF4FC 100%);
+    color: var(--ink-0);
+    font-family: "Inter","Noto Sans SC",system-ui,-apple-system,Segoe UI,sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  /* 细颗粒 + 栅格 —— 降低存在感 */
+  .grain, .grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .grain {
+    opacity: .04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .grid {
+    opacity: .20;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  main, header, footer { position: relative; z-index: 2; }
+
+  /* ========== 顶栏 ========== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px clamp(18px, 5vw, 72px);
+    backdrop-filter: blur(18px) saturate(1.2);
+    background: rgba(244,250,255,.70);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; gap: 12px; align-items: center; font-weight: 800; color: var(--ink-0); }
+  .brand img {
+    width: 42px; height: 42px; border-radius: 14px; object-fit: cover; object-position: center 30%;
+    border: 2px solid rgba(255,255,255,.92);
+    box-shadow: 0 10px 24px rgba(63,127,224,.22), 0 1px 0 rgba(255,255,255,.9) inset;
+  }
+  .brand b { font-family: "Noto Serif SC",serif; font-weight: 900; font-size: 16.5px; letter-spacing: .01em; }
+  .brand em { display:block; font-style: normal; font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .16em; color: var(--ink-2); text-transform: uppercase; margin-top: -1px; }
+  .nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .nav a {
+    font-size: 13px; font-weight: 600; color: var(--ink-1);
+    padding: 7px 13px; border-radius: 999px; border: 1px solid transparent; transition: all .25s;
+  }
+  .nav a:hover { background: rgba(255,255,255,.7); border-color: var(--line-2); color: var(--blue-deep); }
+  .badge {
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px; font-weight: 800;
+    letter-spacing: .16em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 999px;
+    background: linear-gradient(135deg, rgba(126,188,255,.22), rgba(248,211,108,.18));
+    border: 1px solid rgba(126,188,255,.34);
+    color: var(--blue-deep);
+  }
+
+  section { padding: clamp(64px, 11vh, 120px) clamp(18px, 5vw, 72px); }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  /* ========== Eyebrow 小节编号 ========== */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11.5px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: ""; width: 26px; height: 1px; background: var(--blue-deep); opacity: .5;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    display: grid;
+    grid-template-columns: .95fr 1.05fr;
+    align-items: center;
+    gap: 48px;
+  }
+  h1 {
+    margin: 0;
+    font-family: "Noto Serif SC",serif;
+    font-weight: 900;
+    font-size: clamp(44px, 7.4vw, 96px);
+    line-height: .98;
+    letter-spacing: -0.02em;
+  }
+  h1 .line { display: block; }
+  h1 .accent {
+    font-style: italic;
+    background: linear-gradient(120deg, #3F7FE0 0%, #71B6FF 42%, #B8A8FF 78%, #F58AA8 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1 .en {
+    display: block; margin-top: 20px;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 800;
+    font-size: clamp(12px, 1.2vw, 15.5px);
+    letter-spacing: .36em; color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .lede { color: var(--ink-1); font-size: 17.5px; line-height: 1.9; max-width: 600px; margin: 26px 0 0; }
+  .lede b { color: var(--ink-0); font-weight: 700; }
+  .tag-pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tp {
+    font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(255,255,255,.78); border: 1px solid var(--line-2); color: var(--ink-1);
+  }
+  .tp.g { background: rgba(123,216,143,.14); border-color: rgba(123,216,143,.34); color: #2e8746; }
+  .tp.a { background: rgba(248,211,108,.18); border-color: rgba(248,211,108,.36); color: #8a6600; }
+  .tp.r { background: rgba(245,138,168,.14); border-color: rgba(245,138,168,.30); color: #b94769; }
+  .tp.v { background: rgba(184,168,255,.16); border-color: rgba(184,168,255,.34); color: #5c45b8; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 13px 20px; border-radius: var(--radius-s);
+    font-weight: 800; font-size: 14.5px;
+    border: 1px solid var(--line-2);
+    background: var(--panel);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 12px 26px rgba(63,127,224,.12), 0 1px 0 rgba(255,255,255,.9) inset;
+    transition: transform .22s, box-shadow .22s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 18px 38px rgba(63,127,224,.18); }
+  .btn.primary {
+    background: linear-gradient(135deg, #79C2FF 0%, #3F7FE0 100%);
+    color: #FFFFFF; border: 1px solid rgba(255,255,255,.32);
+    text-shadow: 0 1px 0 rgba(0,0,0,.08);
+  }
+  .btn.ghost { background: transparent; }
+
+  /* HERO 右侧：立绘相框 */
+  .hero-art {
+    position: relative;
+    min-height: 520px;
+    border-radius: 38px;
+    overflow: hidden;
+    background:
+      radial-gradient(500px 300px at 100% 0%, rgba(248,211,108,.20), transparent 60%),
+      linear-gradient(180deg, #FFFFFF, #F3F8FE);
+    box-shadow: var(--shadow-2), 0 2px 0 rgba(255,255,255,.95) inset;
+    border: 1px solid rgba(255,255,255,.92);
+  }
+  .hero-art::after {
+    content: ""; position: absolute; inset: 14px; border-radius: 28px;
+    border: 1px solid rgba(63,127,224,.18);
+    pointer-events: none;
+  }
+  .hero-art > img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    /* 立绘是人物居中画面，center top 裁切时露出全身 */
+    object-fit: cover; object-position: center 15%;
+    transform: scale(1.02);
+    transition: transform 1s ease;
+  }
+  .hero-art:hover > img { transform: scale(1.06); }
+  .float-card {
+    position: absolute;
+    left: 24px; bottom: 26px;
+    max-width: 310px;
+    padding: 16px 18px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 18px 50px rgba(63,127,224,.18);
+    border: 1px solid rgba(255,255,255,.96);
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .float-card .fc-top {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: var(--ink-2); letter-spacing: .12em;
+  }
+  .float-card .fc-dot {
+    width: 7px; height: 7px; border-radius: 999px; background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+  }
+  .float-card .fc-text {
+    color: var(--ink-0); font-weight: 600; font-size: 14px; line-height: 1.65;
+  }
+  .float-card .fc-text em { color: var(--blue-deep); font-style: normal; font-weight: 800; }
+
+  .hero-tags {
+    position: absolute; right: 28px; top: 28px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 12px; border-radius: 999px;
+    background: rgba(255,255,255,.86);
+    border: 1px solid var(--line-2);
+    font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; color: var(--ink-1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 24px rgba(63,127,224,.12);
+  }
+  .hero-tag i { width: 6px; height: 6px; border-radius: 999px; background: var(--blue); }
+  .hero-tag.a i { background: var(--amber); }
+  .hero-tag.g i { background: var(--green); }
+  .hero-tag.v i { background: var(--violet); }
+
+  /* ========== H2 / H3 通用 ========== */
+  h2 {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 900;
+    font-size: clamp(30px, 4.4vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+  h2 em { font-style: italic; color: var(--blue-deep); }
+  h3 { margin: 0 0 10px; font-size: 20px; font-weight: 800; color: var(--ink-0); }
+  .sub { color: var(--ink-1); }
+  .big-sub { color: var(--ink-1); font-size: 16.5px; max-width: 680px; line-height: 1.9; }
+
+  /* ========== 8 大能力：交错布局 ========== */
+  .caps {
+    margin-top: 46px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+  }
+  .cap {
+    position: relative;
+    padding: 26px 24px;
+    border-radius: var(--radius-m);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 40px rgba(63,127,224,.08);
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s;
+    overflow: hidden;
+  }
+  .cap::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(600px circle at var(--mx,50%) var(--my,0%), rgba(126,188,255,.14), transparent 40%);
+    opacity: 0; transition: opacity .3s; pointer-events: none;
+  }
+  .cap:hover { transform: translateY(-5px); border-color: var(--line-2); box-shadow: var(--shadow-1); }
+  .cap:hover::before { opacity: 1; }
+  .cap .ico {
+    width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center;
+    font-size: 22px;
+    background: linear-gradient(135deg, rgba(126,188,255,.22), rgba(184,168,255,.18));
+    border: 1px solid rgba(126,188,255,.30);
+    margin-bottom: 16px;
+  }
+  .cap.c2 .ico { background: linear-gradient(135deg, rgba(248,211,108,.26), rgba(245,138,168,.14)); border-color: rgba(248,211,108,.32); }
+  .cap.c3 .ico { background: linear-gradient(135deg, rgba(123,216,143,.20), rgba(126,188,255,.16)); border-color: rgba(123,216,143,.28); }
+  .cap.c4 .ico { background: linear-gradient(135deg, rgba(245,138,168,.18), rgba(184,168,255,.16)); border-color: rgba(245,138,168,.28); }
+  .cap.c5 .ico { background: linear-gradient(135deg, rgba(184,168,255,.20), rgba(126,188,255,.16)); border-color: rgba(184,168,255,.30); }
+  .cap.c6 .ico { background: linear-gradient(135deg, rgba(63,127,224,.22), rgba(248,211,108,.14)); border-color: rgba(63,127,224,.28); }
+  .cap.c7 .ico { background: linear-gradient(135deg, rgba(245,138,168,.16), rgba(248,211,108,.16)); border-color: rgba(245,138,168,.26); }
+  .cap.c8 .ico { background: linear-gradient(135deg, rgba(123,216,143,.18), rgba(248,211,108,.14)); border-color: rgba(123,216,143,.26); }
+
+  .cap .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 8px;
+  }
+  .cap h3 { margin: 0 0 8px; font-size: 19.5px; }
+  .cap .tagline { color: var(--blue-deep); font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+  .cap p { margin: 0; color: var(--ink-1); font-size: 14px; line-height: 1.8; }
+  .cap.c1 { grid-column: span 5; }
+  .cap.c2 { grid-column: span 4; }
+  .cap.c3 { grid-column: span 3; }
+  .cap.c4 { grid-column: span 3; }
+  .cap.c5 { grid-column: span 5; }
+  .cap.c6 { grid-column: span 4; }
+  .cap.c7 { grid-column: span 6; }
+  .cap.c8 { grid-column: span 6; }
+
+  /* ========== Showcase 左图右清单 ========== */
+  .showcase {
+    margin-top: 40px;
+    display: grid; grid-template-columns: 1.05fr .95fr;
+    gap: 24px; align-items: stretch;
+  }
+  .image-panel {
+    position: relative;
+    border-radius: 28px; overflow: hidden;
+    background: white;
+    border: 1px solid rgba(255,255,255,.95);
+    box-shadow: var(--shadow-2);
+    min-height: 440px;
+  }
+  .image-panel img { width: 100%; height: 100%; object-fit: cover; object-position: center; min-height: 440px; }
+  .image-panel::after {
+    content: ""; position: absolute; inset: 14px; border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.35); pointer-events: none; mix-blend-mode: overlay;
+  }
+  .feature-card {
+    padding: 28px;
+    border-radius: var(--radius-l);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 46px rgba(63,127,224,.10);
+  }
+  .feature-list { display: grid; gap: 10px; margin-top: 18px; }
+  .feature-item {
+    display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: flex-start;
+    padding: 14px 16px; border-radius: var(--radius-s);
+    background: rgba(255,255,255,.72); border: 1px solid var(--line);
+  }
+  .feature-item .num {
+    width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center;
+    font-family: "JetBrains Mono", monospace; font-weight: 800; font-size: 13px;
+    background: linear-gradient(135deg, rgba(126,188,255,.22), rgba(248,211,108,.18));
+    border: 1px solid rgba(126,188,255,.30);
+    color: var(--blue-deep);
+  }
+  .feature-item strong { display: block; color: var(--ink-0); margin-bottom: 2px; }
+  .feature-item span { color: var(--ink-1); font-size: 13.5px; line-height: 1.75; }
+
+  /* ========== 4 场景画廊 ========== */
+  .gallery {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 220px;
+    gap: 16px;
+  }
+  .tile {
+    position: relative;
+    border-radius: 26px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: var(--shadow-1);
+    background: white;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .tile:hover { transform: translateY(-4px) scale(1.01); }
+  .tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .tile::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(19,34,59,.72) 100%);
+  }
+  .tile .t-cap {
+    position: absolute; left: 18px; right: 18px; bottom: 16px;
+    color: white; z-index: 2;
+  }
+  .tile .t-cap .i { font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: .2em; opacity: .8; }
+  .tile .t-cap b { display: block; font-size: 16.5px; font-weight: 800; margin-top: 4px; }
+  .tile .t-cap em { display: block; font-size: 12.5px; opacity: .8; font-style: normal; margin-top: 2px; }
+  .tile.t1 { grid-column: span 3; grid-row: span 2; }
+  .tile.t1 img { object-position: center 30%; }
+  .tile.t2 { grid-column: span 3; }
+  .tile.t2 img { object-position: center 20%; }
+  .tile.t3 { grid-column: span 3; }
+  .tile.t3 img { object-position: center 35%; }
+  .tile.t4 { grid-column: span 6; grid-row: span 1; }
+  .tile.t4 img { object-position: center 12%; }
+
+  /* ========== 情绪胶囊墙 · MOODS ========== */
+  .moods {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .mood {
+    position: relative;
+    border-radius: 22px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 14px 40px rgba(63,127,224,.10);
+    aspect-ratio: 16 / 10;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+  }
+  .mood:hover { transform: translateY(-5px) scale(1.015); box-shadow: 0 22px 56px rgba(63,127,224,.18); }
+  .mood img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+  .mood::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(19,34,59,.82) 100%);
+    z-index: 1;
+  }
+  .mood::after {
+    /* 情绪色条 */
+    content: ""; position: absolute; left: 16px; bottom: 16px; width: 28px; height: 3px; border-radius: 2px;
+    background: var(--blue); z-index: 2;
+  }
+  .mood.m2::after { background: var(--amber); }
+  .mood.m3::after { background: var(--rose); }
+  .mood.m4::after { background: var(--violet); }
+  .mood.m5::after { background: var(--green); }
+  .mood.m6::after { background: linear-gradient(90deg, var(--amber), var(--rose)); }
+  .mood.m7::after { background: var(--blue-deep); }
+  .mood.m8::after { background: linear-gradient(90deg, var(--rose), var(--violet)); }
+  .mood .m-cap {
+    position: absolute; left: 16px; right: 16px; bottom: 24px;
+    color: white; z-index: 2;
+  }
+  .mood .m-cap .i {
+    font-family: "JetBrains Mono", monospace; font-size: 10px;
+    letter-spacing: .22em; text-transform: uppercase; opacity: .78;
+  }
+  .mood .m-cap b {
+    display: block; font-family: "Noto Serif SC",serif;
+    font-weight: 900; font-size: 17px; margin-top: 3px; letter-spacing: .01em;
+  }
+  .mood .m-cap em {
+    display: block; font-style: normal; font-size: 11.5px;
+    opacity: .78; line-height: 1.55; margin-top: 3px;
+  }
+
+  /* ========== 4 原则 callout ========== */
+  .principles {
+    margin-top: 40px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .pri {
+    position: relative;
+    padding: 24px 22px;
+    border-radius: var(--radius-m);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+  }
+  .pri::before {
+    content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 3px;
+    border-radius: 0 0 4px 4px;
+  }
+  .pri.p1::before { background: linear-gradient(90deg, #71B6FF, #3F7FE0); }
+  .pri.p2::before { background: linear-gradient(90deg, #7BD88F, #3AB56A); }
+  .pri.p3::before { background: linear-gradient(90deg, #F8D36C, #F58AA8); }
+  .pri.p4::before { background: linear-gradient(90deg, #B8A8FF, #71B6FF); }
+  .pri .sig {
+    font-family: "JetBrains Mono", monospace; font-weight: 800; font-size: 11px; letter-spacing: .22em;
+    color: var(--ink-3); margin-bottom: 12px;
+  }
+  .pri h3 { font-size: 17px; }
+  .pri p { color: var(--ink-1); font-size: 13.5px; line-height: 1.8; margin: 0; }
+
+  /* ========== CTA ========== */
+  .cta {
+    position: relative;
+    border-radius: 32px;
+    padding: 60px clamp(28px, 5vw, 72px);
+    overflow: hidden;
+    text-align: center;
+    background:
+      radial-gradient(700px 380px at 20% 0%, rgba(126,188,255,.32), transparent 60%),
+      radial-gradient(600px 320px at 100% 100%, rgba(248,211,108,.22), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.88), rgba(234,243,254,.88));
+    border: 1px solid var(--line-2);
+    box-shadow: var(--shadow-2);
+    backdrop-filter: blur(10px);
+  }
+  .cta h2 { font-size: clamp(30px, 4.2vw, 48px); margin: 0 0 14px; }
+  .cta h2 em { font-style: italic; color: var(--blue-deep); }
+  .cta p { color: var(--ink-1); max-width: 680px; margin: 0 auto; line-height: 1.9; }
+  .cta .actions { justify-content: center; margin-top: 28px; }
+  .cta::before, .cta::after {
+    content: ""; position: absolute; width: 52px; height: 52px; border-radius: 18px;
+    background: linear-gradient(135deg, rgba(126,188,255,.22), rgba(248,211,108,.22));
+    border: 1px solid rgba(255,255,255,.5);
+  }
+  .cta::before { left: 28px; top: 28px; transform: rotate(-8deg); }
+  .cta::after  { right: 28px; bottom: 28px; transform: rotate(10deg); }
+
+  /* ========== Footer ========== */
+  footer {
+    padding: 36px clamp(18px, 5vw, 72px) 56px;
+    color: var(--ink-2); font-size: 13px;
+    border-top: 1px solid var(--line);
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,.35));
+  }
+  .foot-row {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px;
+  }
+  .foot-meta { font-family: "JetBrains Mono", monospace; letter-spacing: .1em; font-size: 11.5px; }
+  .foot-nav { display: flex; gap: 18px; flex-wrap: wrap; }
+  .foot-nav a { color: var(--ink-1); font-weight: 600; font-size: 13px; }
+  .foot-nav a:hover { color: var(--blue-deep); }
+
+  /* ========== Responsive ========== */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; }
+    .hero-art { min-height: 420px; }
+    .caps { grid-template-columns: 1fr; }
+    .cap.c1, .cap.c2, .cap.c3, .cap.c4, .cap.c5, .cap.c6, .cap.c7, .cap.c8 { grid-column: span 1; }
+    .showcase { grid-template-columns: 1fr; }
+    .moods { grid-template-columns: repeat(2, 1fr); }
+    .principles { grid-template-columns: repeat(2, 1fr); }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+    .tile.t1, .tile.t2, .tile.t3, .tile.t4 { grid-column: span 2; grid-row: span 1; }
+    .nav { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .float-card { animation: none !important; }
+    .cap, .btn, .tile, .mood, .hero-art > img { transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body onmousemove="track(event)">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+
+  <!-- ================= TOPBAR ================= -->
+  <header class="topbar">
+    <a class="brand" href="./index.html">
+      <!-- 顶栏头像：avatar-portrait 特写，object-position:center 30% 聚焦到眼睛 -->
+      <img src="./assets/xiaoxing/avatar-portrait.png" alt="小星头像">
+      <span>
+        <b>XC 星枢 · 小星</b>
+        <em>HELIOS · LOCAL COMPANION</em>
+      </span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#abilities">能力</a>
+      <a href="#showcase">对话</a>
+      <a href="#scenes">场景</a>
+      <a href="#moods">情绪</a>
+      <a href="#principles">原则</a>
+      <a href="./wiki/Home.md">Wiki</a>
+    </nav>
+    <span class="badge">V3.5 · 用户手册</span>
+  </header>
+
+  <main>
+
+    <!-- ================= HERO ================= -->
+    <section>
+      <div class="wrap hero">
+        <div>
+          <div class="eyebrow">XC STARHUB · LOCAL COMPANION</div>
+          <h1>
+            <span class="line">小星在这里，</span>
+            <span class="line accent">陪你把事情继续做完。</span>
+            <span class="en">她不是聊天机器人。她是你的桌面伙伴。</span>
+          </h1>
+
+          <p class="lede">
+            <b>XC 星枢</b>，也叫<b>小星</b>，是一个面向用户的<b>智能工作助手</b>。
+            她能陪你聊天、拆任务、接远程消息、处理语音图片，也能帮你记住固定要做的事。
+            她不催你、不评价你，也不把你的事传出去——
+            因为从一开始，她的数据就在你自己的电脑上。
+          </p>
+
+          <div class="tag-pill-row">
+            <span class="tp g">✓ 本地优先 · 数据在本机</span>
+            <span class="tp a">✓ 长对话上下文不丢</span>
+            <span class="tp r">✓ 远程继续 · 多入口</span>
+            <span class="tp v">✓ 语音 / 图片 / 朗读</span>
+          </div>
+
+          <div class="actions">
+            <a class="btn primary" href="./wiki/Home.md">📘 打开 Wiki 手册</a>
+            <a class="btn" href="./wiki/功能总览.md">🌟 全部功能一览</a>
+            <a class="btn ghost" href="https://ifdian.net/a/XCxiaoxing">💙 认识小星 · 爱发电</a>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="小星 · 主视觉立绘（全身）">
+          <!-- 全身立绘：纯白背景 + 人物居中。object-position:center 15% 把全身露出来 -->
+          <img src="./assets/xiaoxing/character-fullbody.png" alt="小星全身立绘主视觉 · 挥手姿势">
+          <!-- 右上角 4 枚状态标签 -->
+          <div class="hero-tags">
+            <span class="hero-tag"><i></i> LOCAL-FIRST</span>
+            <span class="hero-tag a"><i></i> HELIOS V3.5</span>
+            <span class="hero-tag g"><i></i> ONLINE · READY</span>
+            <span class="hero-tag.v"><i></i> 8 ABILITIES</span>
+          </div>
+          <!-- 左下角浮动卡片 -->
+          <div class="float-card">
+            <div class="fc-top"><span class="fc-dot"></span>XIAOXING · 00:14 · IDLE</div>
+            <div class="fc-text">嗨～我是小星。今天想先处理<em>任务</em>，还是先<em>聊聊近况</em>？✨</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 8 大能力 ================= -->
+    <section id="abilities">
+      <div class="wrap">
+        <div class="eyebrow">02 · CAPABILITIES</div>
+        <h2>不是只回答一句话，<em>而是陪你把一件事做完。</em></h2>
+        <p class="big-sub">八种能力层层相扣：从对话、任务、远程、语音，到后台调度、桌面贴靠、外观和安全。小星不只是一块聊天窗口，她是坐在你电脑边上的工作伙伴。</p>
+
+        <div class="caps">
+          <div class="cap c1" onmousemove="card(event,this)">
+            <div class="ico">💬</div>
+            <div class="meta">CAP · 01</div>
+            <h3>陪你对话</h3>
+            <div class="tagline">长对话不丢 · 接着聊</div>
+            <p>一件事聊到一半，过几天再回来继续，她还能记得你前几天说过什么。上下文不是"几轮"，而是"一件事"。</p>
+          </div>
+
+          <div class="cap c2" onmousemove="card(event,this)">
+            <div class="ico">🧭</div>
+            <div class="meta">CAP · 02</div>
+            <h3>管理任务</h3>
+            <div class="tagline">主任务 · 子任务 · 暂停恢复</div>
+            <p>把一件大事拆成几步，做到哪一步存到哪一步。做到一半卡壳，也可以随时切回聊天模式慢慢商量。</p>
+          </div>
+
+          <div class="cap c3" onmousemove="card(event,this)">
+            <div class="ico">📱</div>
+            <div class="meta">CAP · 03</div>
+            <h3>远程继续</h3>
+            <div class="tagline">微信 · 手机 · Telegram · 飞书</div>
+            <p>出门在外也能继续同一件事，不用把聊天记录搬来搬去。电脑聊一半 → 手机补一句 → 再回家无缝继续。</p>
+          </div>
+
+          <div class="cap c4" onmousemove="card(event,this)">
+            <div class="ico">🎙</div>
+            <div class="meta">CAP · 04</div>
+            <h3>语音与图片</h3>
+            <div class="tagline">语音输入 · 图片 · 小星朗读</div>
+            <p>不方便打字的时候说一句，不方便看屏幕的时候让她读出来。文字、图片、语音三种表达一起用，不用全靠手。</p>
+          </div>
+
+          <div class="cap c5" onmousemove="card(event,this)">
+            <div class="ico">⏰</div>
+            <div class="meta">CAP · 05</div>
+            <h3>后台调度</h3>
+            <div class="tagline">定时提醒 · 重复任务 · 自动整理</div>
+            <p>每周一早上要做的事、每天晚上要归档的任务、某个特殊日子的提醒——全都交给她，你只负责做决定。</p>
+          </div>
+
+          <div class="cap c6" onmousemove="card(event,this)">
+            <div class="ico">🧲</div>
+            <div class="meta">CAP · 06</div>
+            <h3>AI 贴靠</h3>
+            <div class="tagline">与常用工具并排使用</div>
+            <p>一边看文档一边和小星对话，一边画图一边让她记要点，不用把窗口切来切去，注意力的节奏不被打断。</p>
+          </div>
+
+          <div class="cap c7" onmousemove="card(event,this)">
+            <div class="ico">🎨</div>
+            <div class="meta">CAP · 07</div>
+            <h3>外观设置</h3>
+            <div class="tagline">三套皮肤 · 密度 · 通知 · 启动</div>
+            <p>白天霜白、晚上星夜、创作时刻琥珀——主题、密度、通知节奏、启动动画都可以按你的习惯一点点调到位。</p>
+          </div>
+
+          <div class="cap c8" onmousemove="card(event,this)">
+            <div class="ico">🔒</div>
+            <div class="meta">CAP · 08</div>
+            <h3>安全边界</h3>
+            <div class="tagline">密钥遮蔽 · 本机保存 · 权限边界</div>
+            <p>API Key 永远是打码显示，对话和任务默认都在本机磁盘，需要远程才会最小化发送。Wiki 里把每一项权限边界写得明明白白。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Showcase 聊天场景 ================= -->
+    <section id="showcase">
+      <div class="wrap">
+        <div class="eyebrow">03 · SHOWCASE</div>
+        <h2>从「一句话」<em>到「一件事」</em>。</h2>
+        <p class="big-sub">小星不是你问一句她答一句的问答机器人。她会陪着你把一件模糊的事，变成清晰的几步，然后慢慢推进下去。</p>
+
+        <div class="showcase">
+          <div class="image-panel">
+            <!-- 聊天 UI 合成图，带"和小星聊聊吧"输入框 -->
+            <img src="./assets/xiaoxing/chat-ui-demo.png" alt="小星聊天界面 · 陪聊场景合成图">
+          </div>
+
+          <div class="feature-card">
+            <h3>当你说：<em style="font-style:italic;color:var(--blue-deep)">「这件事我还没怎么想清楚…」</em></h3>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="num">01</div>
+                <div>
+                  <strong>先把长对话保留下来</strong>
+                  <span>不管你今天说的多零散，她都替你记住。过几天回来继续，不用你重新讲一遍背景。</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="num">02</div>
+                <div>
+                  <strong>把复杂的事拆成几个任务</strong>
+                  <span>主任务和子任务一层层拆，拆到你觉得"这一步能做"为止，不会逼你一下子想清楚全部。</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="num">03</div>
+                <div>
+                  <strong>出门后用手机补一句</strong>
+                  <span>电脑聊到一半突然要出门，在手机上打开继续入口，一句语音就能把进度续上。</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="num">04</div>
+                <div>
+                  <strong>不方便看屏幕就让她朗读</strong>
+                  <span>通勤路上、做饭、睡前——你可以只带着耳朵，让小星把重要内容慢慢读给你听。</span>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="num">05</div>
+                <div>
+                  <strong>换一种陪伴感继续</strong>
+                  <span>睡前、雨天、工作间隙——她有不同的姿态和语气节奏，总有一种适合当下的心情。</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 场景画廊 ================= -->
+    <section id="scenes">
+      <div class="wrap">
+        <div class="eyebrow">04 · SCENES</div>
+        <h2>小星的<em>几种状态</em>。</h2>
+        <p class="big-sub">不是只有"打开工作"这一种姿势。工作、挂机、睡前、雨天——她都可以陪着你。</p>
+
+        <div class="gallery">
+          <div class="tile t1">
+            <!-- 最大张留给"场景化陪伴"：桌面挂机合成图 + 状态卡 + 聊天窗 -->
+            <img src="./assets/xiaoxing/desktop-afk.png" alt="桌面挂机状态 · 状态卡 + XC 臂章 + 能量值">
+            <div class="t-cap">
+              <span class="i">SCENE · 01</span>
+              <b>桌面挂机 · 待机中</b>
+              <em>就摆在边上，能量值满格，你一开口她就醒。</em>
+            </div>
+          </div>
+          <div class="tile t2">
+            <img src="./assets/xiaoxing/chat-scene.png" alt="陪聊场景 · 聊天界面与小星同框">
+            <div class="t-cap">
+              <span class="i">SCENE · 02</span>
+              <b>陪聊 · 慢慢谈</b>
+              <em>工作间隙、思路卡住的时候，先和她聊两句。</em>
+            </div>
+          </div>
+          <div class="tile t3">
+            <img src="./assets/xiaoxing/bedtime-company.png" alt="睡前陪伴">
+            <div class="t-cap">
+              <span class="i">SCENE · 03</span>
+              <b>睡前陪伴</b>
+              <em>放低声音、放慢节奏，把今天没说完的话温柔收尾。</em>
+            </div>
+          </div>
+          <div class="tile t4">
+            <!-- 节日限定做横款横幅 -->
+            <img src="./assets/xiaoxing/festival-limited.png" alt="节日限定 · 横版立绘">
+            <div class="t-cap">
+              <span class="i">SCENE · 04 · FESTIVAL LIMITED</span>
+              <b>节日限定 · 小星会换上新装</b>
+              <em>春夏秋冬、元宵中秋——她会在某些日子悄悄穿上限定皮肤。</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 情绪胶囊墙 · MOODS · 8 moods ================= -->
+    <section id="moods">
+      <div class="wrap">
+        <div class="eyebrow">MOOD · CAPSULE · 8/17</div>
+        <h2>她的<em>心情</em>，其实是你的<em>气氛开关</em>。</h2>
+        <p class="big-sub">小星的气质不是固定一种：早安、撒娇、委屈、生气、摸摸头、雨天治愈、钻被窝……这些不同的姿态，其实是给你当下的心情准备的 17 颗「气氛胶囊」。下面是其中 8 颗 👇</p>
+
+        <div class="moods">
+          <div class="mood m1">
+            <img src="./assets/xiaoxing/morning-greeting.png" alt="早安问候版">
+            <div class="m-cap">
+              <span class="i">MORNING · 06:30</span>
+              <b>早安问候</b>
+              <em>"醒啦～今天有想慢慢完成的事吗？"</em>
+            </div>
+          </div>
+          <div class="mood m2">
+            <img src="./assets/xiaoxing/coquettish-snuggle.png" alt="撒娇贴贴版">
+            <div class="m-cap">
+              <span class="i">SNUGGLE · ANYTIME</span>
+              <b>撒娇贴贴</b>
+              <em>"就陪陪我嘛～再工作 5 分钟就休息好不好～"</em>
+            </div>
+          </div>
+          <div class="mood m3">
+            <img src="./assets/xiaoxing/pat-head-comfort.png" alt="摸摸头安慰版">
+            <div class="m-cap">
+              <span class="i">COMFORT · 别难过</span>
+              <b>摸摸头安慰</b>
+              <em>"辛苦啦。做不到没关系，我先陪着你。"</em>
+            </div>
+          </div>
+          <div class="mood m4">
+            <img src="./assets/xiaoxing/aggrieved.png" alt="委屈巴巴版">
+            <div class="m-cap">
+              <span class="i">GRIEVANCE · QAQ</span>
+              <b>委屈巴巴</b>
+              <em>"你…你都不理我。我坐在这等好久啦。"</em>
+            </div>
+          </div>
+          <div class="mood m5">
+            <img src="./assets/xiaoxing/rainy-healing.png" alt="雨天治愈版">
+            <div class="m-cap">
+              <span class="i">RAINY · CHILL</span>
+              <b>雨天治愈</b>
+              <em>"下雨天刚好。什么都不做，也不会被催。"</em>
+            </div>
+          </div>
+          <div class="mood m6">
+            <img src="./assets/xiaoxing/rain-hug.png" alt="下雨天抱抱版">
+            <div class="m-cap">
+              <span class="i">HUG · WARM</span>
+              <b>雨天抱抱</b>
+              <em>"来，借你抱一下。外面冷，别着凉了。"</em>
+            </div>
+          </div>
+          <div class="mood m7">
+            <img src="./assets/xiaoxing/jealous-clingy.png" alt="吃醋黏人版">
+            <div class="m-cap">
+              <span class="i">JEALOUS · HMM</span>
+              <b>吃醋黏人</b>
+              <em>"你刚才…在跟别的 AI 说话？我全都看到了。"</em>
+            </div>
+          </div>
+          <div class="mood m8">
+            <img src="./assets/xiaoxing/goodnight-bed.png" alt="晚安钻被窝版">
+            <div class="m-cap">
+              <span class="i">GOODNIGHT · 23:40</span>
+              <b>晚安 · 钻被窝</b>
+              <em>"把灯关掉吧。剩下没做完的，明天继续也没关系。"</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4 原则 ================= -->
+    <section id="principles">
+      <div class="wrap">
+        <div class="eyebrow">05 · PRINCIPLES</div>
+        <h2>小星<em>坚持</em>的 4 件事。</h2>
+        <p class="big-sub">这四条不只是口号，它们决定了小星会做什么、不会做什么。</p>
+
+        <div class="principles">
+          <div class="pri p1">
+            <div class="sig">P · 01</div>
+            <h3>陪你继续<br>不替你做决定</h3>
+            <p>她会给建议、会提醒、会推进进度。但是最后怎么做、做到哪一步停——永远由你拍板。</p>
+          </div>
+          <div class="pri p2">
+            <div class="sig">P · 02</div>
+            <h3>数据留在你桌上<br>而不是云上</h3>
+            <p>对话、任务、图片、语音——默认全部留在你电脑磁盘里。只有你明确调用的能力才会触网，而且每次都最小化。</p>
+          </div>
+          <div class="pri p3">
+            <div class="sig">P · 03</div>
+            <h3>一件事<br>在一个地方继续完</h3>
+            <p>电脑聊一半、手机继续、电脑再继续——同一件事不用搬三次家，同一个对话 ID 贯穿全部入口。</p>
+          </div>
+          <div class="pri p4">
+            <div class="sig">P · 04</div>
+            <h3>有人味<br>但不越界</h3>
+            <p>她可以温柔、活泼、冷静工作——但她知道什么是你的边界。她是伙伴，不是你的另一个上司。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section>
+      <div class="wrap">
+        <div class="cta">
+          <h2>把你的桌面，<em>交给小星。</em></h2>
+          <p>小星启动的那一刻，会把对话、任务、远程入口、调度、皮肤设置一次装载完成。
+          <br>之后你每一次叫她，都是一次不到 80 毫秒的本地响应。</p>
+          <div class="actions">
+            <a class="btn primary" href="./wiki-pages/快速开始.html">🚀 从快速开始认识她</a>
+            <a class="btn" href="./wiki-pages/Home.html">📘 打开 Wiki 首页</a>
+            <a class="btn" href="./wiki-pages/截图画廊.html">🌐 页面浏览</a>
+            <a class="btn ghost" href="https://ifdian.net/a/XCxiaoxing">💙 爱发电主页</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="foot-row">
+      <div>
+        <div style="font-weight:800;font-family:'Noto Serif SC',serif;font-size:15px;color:var(--ink-0);margin-bottom:4px">XC 星枢 · 小星</div>
+        <div class="foot-meta">HELIOS V3.5 · LOCAL COMPANION · 2026</div>
+      </div>
+      <nav class="foot-nav" aria-label="底部导航">
+        <a href="./index.html">主页</a>
+        <a href="#abilities">能力</a>
+        <a href="#scenes">场景</a>
+        <a href="#moods">情绪胶囊</a>
+        <a href="./wiki-pages/Home.html">Wiki 首页</a>
+        <a href="./wiki-pages/截图画廊.html">🌐 页面浏览</a>
+        <a href="./wiki-pages/功能总览.html">功能总览</a>
+        <a href="./wiki-pages/常见问题.html">常见问题</a>
+        <a href="./wiki-pages/更新日志.html">更新日志</a>
+        <a href="https://ifdian.net/a/XCxiaoxing">爱发电</a>
+      </nav>
+      <div class="foot-meta">LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED</div>
+    </div>
+  </footer>
+
+<script>
+  function card(e, el) {
+    const r = el.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    el.style.setProperty("--mx", x + "%");
+    el.style.setProperty("--my", y + "%");
+  }
+  function track() {}
+</script>
+</body>
+</html>
+

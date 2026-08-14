@@ -1,0 +1,490 @@
+/* ================================================================
+ *  XC 星枢 · 小星 Wiki — 与门户页完全同款的浅色主题
+ *  设计系统与 index.html 一致：
+ *  - 色彩：晴空蓝 (#71B6FF) + 云白 (#F4FAFF) + 琥珀 (#F8D36C) + 玫瑰 (#F58AA8)
+ *  - 字体：Noto Serif SC（标题/气质）× Inter/Noto Sans SC（正文）× JetBrains Mono（标签）
+ *  - 氛围：多层 radial-gradient 软辉光 + 颗粒噪点 + 细栅格
+ *  - 结构：毛玻璃顶栏 + 居中内容卡片 + 底部导航条
+ * ================================================================ */
+
+:root {
+  --bg-0:        #F4FAFF;
+  --bg-1:        #EAF3FE;
+  --ink-0:       #13223B;
+  --ink-1:       #37517A;
+  --ink-2:       #6A82A8;
+  --ink-3:       #A4B5D0;
+  --blue:        #71B6FF;
+  --blue-2:      #9ECFFE;
+  --blue-deep:   #3F7FE0;
+  --amber:       #F8D36C;
+  --rose:        #F58AA8;
+  --green:       #7BD88F;
+  --violet:      #B8A8FF;
+  --line:        rgba(63, 127, 224, 0.12);
+  --line-2:      rgba(63, 127, 224, 0.20);
+  --panel:       rgba(255, 255, 255, 0.72);
+  --shadow-1:    0 18px 60px rgba(63, 127, 224, .14);
+  --shadow-2:    0 30px 90px rgba(63, 127, 224, .22);
+  --radius-l:    28px;
+  --radius-m:    20px;
+  --radius-s:    14px;
+  --maxw:        980px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1100px 680px at 100% -4%, rgba(126,188,255,.16), transparent 60%),
+    radial-gradient(900px 520px at -10% 0%, rgba(184,168,255,.12), transparent 58%),
+    radial-gradient(800px 560px at 60% 110%, rgba(248,211,108,.08), transparent 60%),
+    linear-gradient(180deg, #F7FAFF 0%, #EEF4FC 100%);
+  color: var(--ink-0);
+  font-family: "Inter", "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 颗粒噪点 + 栅格 —— 降低存在感 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .04;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .20;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+}
+
+a { color: var(--blue-deep); text-decoration: none; transition: color .18s ease; }
+a:hover { color: var(--rose); }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ========== 顶栏 ========== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px clamp(18px, 5vw, 72px);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  background: rgba(244, 250, 255, .70);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .nav-left,
+.topbar .nav-right { display: flex; align-items: center; gap: 10px; flex: 1 1 0; min-width: 0; }
+.topbar .nav-right { justify-content: flex-end; }
+.topbar .nav-title {
+  flex: 0 1 auto;
+  text-align: center;
+  font-family: "Noto Serif SC", serif;
+  font-weight: 700;
+  font-size: clamp(15px, 2.4vw, 19px);
+  color: var(--ink-0);
+  white-space: nowrap;
+  letter-spacing: .02em;
+}
+.topbar .nav-title .crumb-sub { color: var(--ink-2); font-weight: 500; font-size: .78em; margin-left: 6px; }
+
+.nav-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  color: var(--ink-1);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  transition: all .22s ease;
+  box-shadow: 0 1px 0 rgba(255,255,255,.9) inset;
+}
+.nav-chip:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(63,127,224,.14); color: var(--blue-deep); border-color: var(--blue); }
+.nav-chip.arrow { padding: 7px 12px; font-size: 15px; }
+.nav-chip.muted { background: transparent; color: var(--ink-3); border-color: var(--line); cursor: default; }
+.nav-chip.muted:hover { transform: none; color: var(--ink-3); }
+
+/* ========== 内容区 ========== */
+.wiki-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 60px clamp(16px, 4vw, 40px) 48px;
+}
+
+/* 标题横幅 - 简洁版 */
+.wiki-hero {
+  position: relative;
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 40px 24px 32px;
+  border-radius: var(--radius-l);
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+.wiki-hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #71B6FF, #B8A8FF, #F58AA8);
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+}
+.wiki-hero h1 {
+  position: relative;
+  margin: 0 0 10px;
+  font-family: "Noto Serif SC", serif;
+  font-weight: 900;
+  font-size: clamp(28px, 4.2vw, 42px);
+  line-height: 1.15;
+  color: var(--ink-0);
+}
+.wiki-hero .hero-sub {
+  position: relative;
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 12px;
+}
+.wiki-hero .hero-sub::before,
+.wiki-hero .hero-sub::after {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  background: var(--blue);
+  opacity: .45;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+
+.wiki-content {
+  position: relative;
+  z-index: 2;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.92);
+  border-radius: var(--radius-l);
+  padding: 40px clamp(20px, 4vw, 48px);
+  box-shadow: var(--shadow-1);
+}
+
+/* 段落 */
+.wiki-content p { margin: 0 0 1.05em; color: var(--ink-1); }
+.wiki-content p:last-child { margin-bottom: 0; }
+.wiki-content .align-center,
+.wiki-content div[align="center"] { text-align: center; margin: 1.2em 0; }
+.wiki-content .align-center img,
+.wiki-content div[align="center"] img { margin: 0 auto 12px; }
+
+/* 标题 */
+.wiki-content h1, .wiki-content h2, .wiki-content h3, .wiki-content h4 {
+  font-family: "Noto Serif SC", serif;
+  color: var(--ink-0);
+  line-height: 1.32;
+  margin: 1.6em 0 .7em;
+}
+.wiki-content h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 900; }
+.wiki-content h2 {
+  font-size: clamp(22px, 3vw, 26px);
+  font-weight: 700;
+  padding-bottom: .32em;
+  border-bottom: 1px solid var(--line);
+}
+.wiki-content h2::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 1.05em;
+  margin-right: 12px;
+  vertical-align: -.18em;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--blue), var(--rose));
+}
+.wiki-content h3 { font-size: clamp(18px, 2.4vw, 21px); font-weight: 700; color: var(--blue-deep); }
+.wiki-content h3::before { content: "◆"; color: var(--amber); margin-right: 8px; font-size: .8em; vertical-align: .05em; }
+.wiki-content h4 { font-size: 16px; font-weight: 700; color: var(--rose); }
+
+/* 代码 */
+.wiki-content code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: .9em;
+  padding: 2px 7px;
+  border-radius: 7px;
+  background: rgba(113,182,255,.14);
+  color: var(--blue-deep);
+  border: 1px solid var(--line);
+  word-break: break-word;
+}
+.wiki-content pre {
+  margin: 1.2em 0;
+  padding: 18px 20px;
+  border-radius: var(--radius-m);
+  background: linear-gradient(180deg, #0c1120 0%, #090d18 100%);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-1);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+.wiki-content pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #e8edf5;
+  font-size: 13.5px;
+  white-space: pre;
+}
+
+/* 引用 */
+.wiki-content blockquote {
+  margin: 1.3em 0;
+  padding: 14px 20px;
+  border-left: 4px solid var(--rose);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  background: rgba(245,138,168,.10);
+  color: var(--ink-1);
+}
+.wiki-content blockquote p { margin: .3em 0; color: var(--ink-1); }
+.wiki-content blockquote strong { color: var(--rose); }
+
+/* 列表 */
+.wiki-content ul, .wiki-content ol { margin: .6em 0 1.2em; padding-left: 1.6em; }
+.wiki-content li { margin: .35em 0; }
+.wiki-content ul li::marker { color: var(--blue); }
+.wiki-content ol li::marker { color: var(--amber); font-weight: 700; }
+.wiki-content li > ul, .wiki-content li > ol { margin: .25em 0; }
+
+/* 表格 */
+.wiki-content table {
+  width: 100%;
+  margin: 1.2em 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow-1);
+  font-size: 15px;
+}
+.wiki-content thead th {
+  background: linear-gradient(180deg, rgba(113,182,255,.18), rgba(113,182,255,.06));
+  color: var(--ink-0);
+  font-family: "Noto Serif SC", serif;
+  font-weight: 700;
+  text-align: left;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line-2);
+}
+.wiki-content tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-1);
+  vertical-align: top;
+}
+.wiki-content tbody tr:last-child td { border-bottom: 0; }
+.wiki-content tbody tr { transition: background .16s ease; }
+.wiki-content tbody tr:hover { background: rgba(113,182,255,.10); }
+.wiki-content tbody tr:hover td { color: var(--ink-0); }
+
+/* 图片 */
+.wiki-content img {
+  border-radius: var(--radius-m);
+  box-shadow: 0 16px 46px rgba(63,127,224,.18);
+}
+
+/* 分隔线 */
+.wiki-content hr {
+  border: 0;
+  height: 1px;
+  margin: 2em auto;
+  width: 80%;
+  background: linear-gradient(90deg, transparent, var(--line-2), transparent);
+}
+
+/* 手风琴 */
+.wiki-content details {
+  margin: .7em 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-m);
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color .2s ease, background .2s ease;
+}
+.wiki-content details[open] { border-color: var(--blue); background: #fff; box-shadow: var(--shadow-1); }
+.wiki-content details summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 20px;
+  font-weight: 600;
+  color: var(--ink-0);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wiki-content details summary::-webkit-details-marker { display: none; }
+.wiki-content details summary::before {
+  content: "▸";
+  color: var(--amber);
+  font-size: 1.05em;
+  transition: transform .2s ease;
+  display: inline-block;
+}
+.wiki-content details[open] summary::before { transform: rotate(90deg); }
+.wiki-content details summary:hover { background: rgba(113,182,255,.08); color: var(--blue-deep); }
+.wiki-content details[open] summary { border-bottom: 1px solid var(--line); }
+.wiki-content details > *:not(summary) { padding: 0 20px; }
+.wiki-content details > *:not(summary):last-child { padding-bottom: 16px; }
+
+/* kbd */
+.wiki-content kbd, .kbd-btn {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  margin: 2px 3px;
+  border-radius: 8px;
+  color: var(--ink-0);
+  background: linear-gradient(180deg, #fff, #F2F8FF);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 2px 0 rgba(63,127,224,.10), 0 1px 0 rgba(255,255,255,.9) inset;
+  transition: transform .15s ease, box-shadow .15s ease;
+  white-space: nowrap;
+}
+.wiki-content kbd a, .kbd-btn a { color: inherit; }
+.kbd-btn:hover { transform: translateY(-1px); border-color: var(--blue); box-shadow: 0 4px 12px rgba(63,127,224,.16); }
+.kbd-btn.active { color: var(--blue-deep); border-color: var(--blue); background: rgba(113,182,255,.18); }
+
+/* 按钮 */
+.wiki-content .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 20px;
+  border-radius: var(--radius-s);
+  font-weight: 800;
+  font-size: 14.5px;
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 26px rgba(63,127,224,.12), 0 1px 0 rgba(255,255,255,.9) inset;
+  transition: transform .22s, box-shadow .22s;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--ink-0);
+}
+.wiki-content .btn:hover { transform: translateY(-2px); box-shadow: 0 18px 38px rgba(63,127,224,.18); }
+.wiki-content .btn.primary {
+  background: linear-gradient(135deg, #79C2FF 0%, #3F7FE0 100%);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.32);
+  text-shadow: 0 1px 0 rgba(0,0,0,.08);
+}
+.wiki-content .btn.ghost { background: transparent; }
+
+/* strong / em */
+.wiki-content strong { color: var(--blue-deep); font-weight: 700; }
+.wiki-content em { color: var(--rose); font-style: italic; }
+.wiki-content b { color: var(--ink-0); font-weight: 700; }
+.wiki-content mark { background: rgba(248,211,108,.22); color: #8a6600; border-radius: 4px; padding: 0 4px; }
+
+/* 底部导航 */
+.bottom-nav {
+  position: relative;
+  z-index: 2;
+  max-width: var(--maxw);
+  margin: 20px auto 0;
+  padding: 30px clamp(16px, 4vw, 40px) 56px;
+  text-align: center;
+}
+.bottom-nav .bn-label {
+  display: block;
+  font-family: "Noto Serif SC", serif;
+  font-size: 14px;
+  color: var(--ink-2);
+  letter-spacing: .14em;
+  margin-bottom: 14px;
+}
+.bottom-nav .bn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.bottom-nav .bn-prevnext {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.bottom-nav .btn { font-size: 13.5px; padding: 11px 18px; }
+
+.wiki-footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 18px 20px 40px;
+  color: var(--ink-3);
+  font-size: 12.5px;
+  letter-spacing: .08em;
+}
+
+/* 响应式 */
+@media (max-width: 760px) {
+  body { font-size: 15px; }
+  .topbar { padding: 10px 14px; gap: 8px; }
+  .topbar .nav-left, .topbar .nav-right { flex: 0 1 auto; }
+  .topbar .nav-title { font-size: 14px; }
+  .nav-chip { padding: 6px 11px; font-size: 12.5px; }
+  .nav-chip span.long { display: none; }
+  .wiki-wrap { padding: 40px 14px 36px; }
+  .wiki-content { padding: 24px 18px; }
+  .wiki-hero { padding: 36px 18px 28px; }
+  .wiki-content pre { padding: 14px; }
+  .wiki-content pre code { font-size: 12.5px; }
+  .wiki-content table { font-size: 14px; }
+  .wiki-content thead th, .wiki-content tbody td { padding: 10px 11px; }
+  .bottom-nav { padding: 18px 14px 40px; }
+}
+
+::selection { background: rgba(113,182,255,.32); color: #fff; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: rgba(63,127,224,.26); border-radius: 10px; border: 2px solid var(--bg-0); }
+::-webkit-scrollbar-thumb:hover { background: rgba(63,127,224,.44); }
