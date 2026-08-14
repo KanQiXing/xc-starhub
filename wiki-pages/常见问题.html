@@ -1,12 +1,194 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>跳转中 → 常见问题</title>
-<meta http-equiv="refresh" content="0; url=../%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html">
-<script>location.replace("../%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html");</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>常见问题 · 小星 Wiki</title>
+<meta name="description" content="XC 星枢 · 小星 Wiki — 常见问题">
+<meta property="og:title" content="常见问题 · 小星 Wiki">
+<meta property="og:description" content="XC 星枢 · 小星 Wiki — 常见问题">
+<meta property="og:image" content="../assets/xiaoxing/character-fullbody.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="常见问题 · 小星 Wiki">
+<meta name="twitter:description" content="XC 星枢 · 小星 Wiki — 常见问题">
+<meta name="twitter:image" content="../assets/xiaoxing/character-fullbody.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./wiki.css">
 </head>
 <body>
-<p>跳转中... 如未自动跳转请点击 <a href="../%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html">这里</a></p>
+<nav class="topbar">
+  <div class="nav-left">
+    <a class="nav-chip" href="../index.html">&larr; <span class="long">门户首页</span></a>
+  </div>
+  <div class="nav-title">常见问题<span class="crumb-sub">· 小星 Wiki</span></div>
+  <div class="nav-right">
+    <a class="nav-chip arrow" href="./高级功能.html">← <span class="long">高级功能</span></a>
+    <a class="nav-chip arrow" href="./截图画廊.html"><span class="long">截图画廊</span> →</a>
+  </div>
+</nav>
+<main class="wiki-wrap">
+<section class="wiki-hero">
+  <h1>常见问题</h1>
+  <span class="hero-sub">XC · 星枢 · 小星 Wiki</span>
+</section>
+  <article class="wiki-content">
+<!--
+  ════════════════════════════════════════════════════════════════
+  ❓  Wiki · 常见问题.md
+  排版意图：横幅 + 分类 FAQ 手风琴 + 底部导航
+  ════════════════════════════════════════════════════════════════
+-->
+<img src="../assets/xiaoxing/banner-top.svg" width="100%" height="1">
+<div align="center">
+<img src="../assets/xiaoxing/aggrieved.png" alt="小星 · 委屈" width="200" style="border-radius:24px;box-shadow:0 18px 50px rgba(113,182,255,.18)">
+<h1>❓ 常见问题</h1>
+<blockquote>
+<p>有问题？先看看这里 —— 大部分疑问都能在这一页找到答案。</p>
+</blockquote>
+</div>
+<br>
+<hr>
+<h2>📦 安装与使用</h2>
+<details>
+<summary><b>🤔 这个公开仓库有源码吗？能下载安装包吗？</b></summary>
+<br>
+没有。这个仓库<strong>只放面向用户的介绍和手册</strong>，不放小星源码，也不提供安装包和下载链接。
+如果你想使用小星，可以从<a href="https://ifdian.net/a/XCxiaoxing">「爱发电主页」</a>或 Wiki 里说明的正式渠道入手。
+</details>
+<details>
+<summary><b>🤔 小星支持什么系统？</b></summary>
+<br>
+<p>小星支持 Windows（Windows 10 及以上），macOS 和 Linux 版本正在路上。每次发布会在更新日志里标注支持的系统。</p>
+</details>
+<details>
+<summary><b>🤔 安装后怎么启动？</b></summary>
+<br>
+<p>安装版：从开始菜单或启动台找到「XC 星枢」点击即可。便携版：双击解压目录里的可执行文件。启动后会先看到小星的呼吸动画，然后进入主界面。</p>
+</details>
+<br>
+<h2>🔒 隐私与数据</h2>
+<details>
+<summary><b>🤔 小星需要联网吗？我的数据会传到哪里？</b></summary>
+<br>
+<p>小星是「本地优先」的助手：你的对话记录、任务、语音、图片默认全部只存在你自己的电脑磁盘上。 只有当你触发了需要远程 AI Provider 的节点（例如让模型生成回答），那一段最小化内容才会被发送；远程继续、定时调度等用到云端的能力，也都会在 Wiki 里一一标注清楚权限边界。</p>
+</details>
+<details>
+<summary><b>🤔 我的 API Key 安全吗？</b></summary>
+<br>
+<p>小星采用双层加密保护你的密钥：先用 PBKDF2 派生 AES 密钥，再用 AES-256-GCM 加密后存入系统级 safeStorage。退出应用时自动锁定，需要重新解锁才能使用。密钥永远不会离开你的电脑。</p>
+</details>
+<details>
+<summary><b>🤔 我可以完全断网使用小星吗？</b></summary>
+<br>
+<p>可以。小星的所有本地功能（任务管理、工作区、记忆、贴靠、调度）都不需要联网。只有在需要 AI 生成回答、远程继续或检查更新时才需要网络。你可以随时在设置里关闭自动更新和远程功能。</p>
+</details>
+<br>
+<h2>💬 对话与任务</h2>
+<details>
+<summary><b>🤔 我不太会拆任务，小星能帮我吗？</b></summary>
+<br>
+<p>能。你可以把一件模糊的大事直接告诉她，她会陪你一起拆成主任务和子任务，并且每做到一步会自动帮你更新进度。做到哪一步卡壳了，也可以随时切换回"先聊天"的模式。</p>
+</details>
+<details>
+<summary><b>🤔 小星和其他 AI 助手有什么不一样？</b></summary>
+<br>
+一句话：小星不是「问一句答一句」的 Q&A 机器人，她是<strong>陪你把事情继续做完</strong>的伙伴。
+<p>你可以明天再回来、用手机再回来、语音再回来 —— 她都记得你们上一次做到哪里，不需要你重新讲一遍背景。</p>
+</details>
+<details>
+<summary><b>🤔 小星能记住我之前说过的话吗？</b></summary>
+<br>
+<p>能。小星有本地记忆系统，会自动记住你的偏好、工作习惯和之前的对话上下文。每个工作区的记忆是独立的，切换工作区时自动切换记忆。你可以在记忆检索面板里查看和管理所有记忆。</p>
+</details>
+<details>
+<summary><b>🤔 一个任务可以引用另一个任务的内容吗？</b></summary>
+<br>
+<p>可以。小星支持跨任务引用，你可以在任务 A 里引用任务 B 的对话内容，实现任务联动。在任务行的 Link2 按钮上点击即可弹出引用管理弹窗。</p>
+</details>
+<br>
+<h2>📱 远程与多设备</h2>
+<details>
+<summary><b>🤔 我能在手机上继续和小星聊天吗？</b></summary>
+<br>
+<p>可以。小星支持多个远程继续入口：微信、手机网页、Telegram、飞书 —— 出门后一句也不会断，回到家打开桌面端，全部都已经同步好了。</p>
+</details>
+<details>
+<summary><b>🤔 远程继续需要额外配置吗？</b></summary>
+<br>
+需要简单配置一下穿透通道（推荐 Cloudflare Tunnel，免费且不需要公网 IP）。配置方法见<a href="./快速开始.html">快速开始</a>页面的远程继续章节。配置好后，在微信/Telegram/飞书给小星发消息就能接上桌面端的对话。
+</details>
+<br>
+<h2>⚙️ 高级功能</h2>
+<details>
+<summary><b>🤔 小星能自动定时执行任务吗？</b></summary>
+<br>
+<p>能。小星有后台调度功能，你可以设置定时任务让小星在指定时间自动执行。比如每天早上自动整理昨天的笔记、每周自动生成工作总结。调度任务会在后台静默运行，不打扰你的桌面工作。</p>
+</details>
+<details>
+<summary><b>🤔 贴靠模式是什么？</b></summary>
+<br>
+<p>贴靠模式让小星"贴"在其他应用窗口旁边工作 —— 你在写代码、看文档、填表格的时候，小星就挂在旁边，随时可以对话或让帮忙处理任务，不需要切换窗口。支持自动贴靠、跟随移动/缩放、边距阈值等灵活配置。</p>
+</details>
+<details>
+<summary><b>🤔 小星支持哪些 AI 模型？</b></summary>
+<br>
+<p>小星支持 6 家 Provider：OpenRouter、Anthropic（Claude）、Google Gemini、阿里 DashScope（通义千问）、智谱 AI（GLM）、SiliconFlow。你在设置面板里配置好 API Key 后，可以在对话中随时切换模型。每个模型会标注推荐用途。</p>
+</details>
+<details>
+<summary><b>🤔 小星能换皮肤吗？</b></summary>
+<br>
+<p>能。小星内置 4 套皮肤：Nebula（星云）、Aurora（极光）、Dawn（黎明）、Carbon（碳灰）。在外观设置里可以一键切换，还能调整背景可读性、消息密度和编辑器字体大小。</p>
+</details>
+<br>
+<h2>💙 支持与反馈</h2>
+<details>
+<summary><b>🤔 怎么支持小星的开发？</b></summary>
+<br>
+欢迎到<a href="https://ifdian.net/a/XCxiaoxing">爱发电主页</a>支持小星！你的支持会让小星变得更聪明、更贴心、更强大。
+</details>
+<details>
+<summary><b>🤔 发现 Bug 或有功能建议怎么办？</b></summary>
+<br>
+<p>可以通过以下渠道反馈：</p>
+<br>• 爱发电主页留言
+<br>• GitHub Discussions（如果你有 GitHub 账号）
+<br>• 直接在桌面端用命令面板搜索"反馈"
+<br>我们会认真阅读每一条反馈，并在更新日志里标注修复和改进。
+</details>
+<br>
+<hr>
+<div align="center">
+<p>
+  <kbd>&nbsp;<a href="./Home.html">🏠 Wiki 首页</a>&nbsp;</kbd>
+  &nbsp;·&nbsp;
+  <kbd>&nbsp;<a href="./功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
+  &nbsp;·&nbsp;
+  <kbd>&nbsp;<a href="./快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
+  &nbsp;·&nbsp;
+  <kbd>&nbsp;<a href="./截图画廊.html">📸 截图画廊</a>&nbsp;</kbd>
+  &nbsp;·&nbsp;
+  <kbd>&nbsp;<a href="./更新日志.html">📜 更新日志</a>&nbsp;</kbd>
+</p>
+</div>
+<img src="../assets/xiaoxing/banner-bottom.svg" width="100%" height="1">
+  </article>
+</main>
+<nav class="bottom-nav">
+  <span class="bn-label">📖 Wiki 导航</span>
+  <div class="bn-group">
+<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <a class="kbd-btn" href="./高级功能.html">高级功能</a> <span class="kbd-btn active">常见问题</span> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <a class="kbd-btn" href="./更新日志.html">更新日志</a>
+  </div>
+  <div class="bn-prevnext">
+    <a class="kbd-btn" href="./高级功能.html">← 高级功能</a>
+    <a class="kbd-btn" href="./截图画廊.html">截图画廊 →</a>
+  </div>
+</nav>
+<footer class="wiki-footer">
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.8 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+</footer>
 </body>
 </html>
