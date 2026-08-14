@@ -389,13 +389,13 @@
 <div align="center">
 
   <p>
-    <kbd>&nbsp;<a href="./index.html">🏠 主页</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/index.html">🏠 主页</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="./wiki/Home.md">📘 Wiki</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/Home.html">📘 Wiki</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="./wiki/功能总览.md">🌟 功能总览</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="./wiki/快速开始.md">🚀 快速开始</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
     <kbd>&nbsp;<a href="https://ifdian.net/a/XCxiaoxing">💙 爱发电</a>&nbsp;</kbd>
   </p>

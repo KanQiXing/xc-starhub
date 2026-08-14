@@ -299,7 +299,8 @@ img { display: block; max-width: 100%; height: auto; }
   border-spacing: 0;
   border: 1px solid var(--line-2);
   border-radius: var(--radius-m);
-  overflow: hidden;
+  /* 注意: 去掉 overflow:hidden —— 窄屏下高 td 会被圆角 wrapper 纵向截断
+     源文件中需横向滚动的表格在外面手动包 <div style="overflow-x:auto"> */
   background: #fff;
   box-shadow: var(--shadow-1);
   font-size: 15px;
