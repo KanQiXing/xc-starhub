@@ -75,9 +75,9 @@
 <li><strong>🔍 LSP 语言服务接入</strong> — 支持 tsserver/pyright/rust-analyzer/gopls/jdtls,definition 跳转 / references 引用查找 / hover 悬停签名 / completion 补全 / diagnostics 诊断 / documentSymbols 文档符号 / rename 跨文件重命名,JSON-RPC stdio 通信</li>
 <li><strong>📊 Domain Usage 计费账本 + Event 事件源</strong> — 每次 LLM 调用记录 prompt/completion/cached token + costUsd 估算,按 provider/model/day 汇总;EventBus 16 种事件类型,Hook/Inflight/Goal/Jobs 产生事件流</li>
 <li><strong>🔌 Ports 端口化(IClock/IRandom/IEnv)</strong> — SystemClock/CryptoRandom/ProcessEnv 生产实现 + FakeClock(advance 前拨)/FakeRandom(sequence)/FakeEnv 测试实现,Scheduler nextFire 测试跑 100 倍速</li>
-<li><strong>🌐 Browser Use 浏览器自动化</strong> — 10 个动作(navigate/click/type/scroll/screenshot/extract/wait/evaluate/back/forward/close),URL pattern 黑名单 + maxTabs 限制 + evaluate script 安全审查(eval/Function/require 禁止),Playwright 延迟加载</li>
+<li><strong>🌐 Browser Use 浏览器自动化</strong> — 10 个动作(navigate / click / type / scroll / screenshot / extract / wait / evaluate / back / forward / close),URL pattern 黑名单 + maxTabs 限制 + evaluate script 安全审查(eval / Function / require 禁止),Playwright 延迟加载</li>
 <li><strong>🌿 Git Worktree 多任务隔离</strong> — 每个并行 Job 自动 <code>git worktree add</code> 独立分支沙箱,分支名自动生成防冲突,merge 冲突返回 conflictFiles 不强推,prune 清理超过 maxAge 的残留 worktree,并发度从 2 提升到 6-8</li>
-<li><strong>🔌 SDK 门面层(插件开发体验)</strong> — <code>registerPlugin/registerTool/on(Hook.Phase)/registerCapability</code> 门面 API,插件 30 行可 Hello World,自动注入 log/config/emit/fs/llm 上下文,dispose 时自动清理 Hook+Tool+Capability</li>
+<li><strong>🔌 SDK 门面层(插件开发体验)</strong> — <code>registerPlugin / registerTool / on(Hook.Phase) / registerCapability</code> 门面 API,插件 30 行可 Hello World,自动注入 log / config / emit / fs / llm 上下文,dispose 时自动清理 Hook + Tool + Capability</li>
 </ol>
 <h3>⚠️ 说明</h3>
 <ul>

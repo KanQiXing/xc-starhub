@@ -206,7 +206,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* 段落 */
-.wiki-content p { margin: 0 0 1.05em; color: var(--ink-1); }
+.wiki-content p { margin: 0 0 1.05em; color: var(--ink-1); overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
 .wiki-content p:last-child { margin-bottom: 0; }
 .wiki-content .align-center,
 .wiki-content div[align="center"] { text-align: center; margin: 1.2em 0; }
@@ -286,7 +286,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* 列表 */
 .wiki-content ul, .wiki-content ol { margin: .6em 0 1.2em; padding-left: 1.6em; }
-.wiki-content li { margin: .35em 0; }
+.wiki-content li { margin: .35em 0; overflow-wrap: anywhere; word-break: break-word; }
 .wiki-content ul li::marker { color: var(--blue); }
 .wiki-content ol li::marker { color: var(--amber); font-weight: 700; }
 .wiki-content li > ul, .wiki-content li > ol { margin: .25em 0; }
@@ -313,12 +313,17 @@ img { display: block; max-width: 100%; height: auto; }
   text-align: left;
   padding: 13px 16px;
   border-bottom: 1px solid var(--line-2);
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .wiki-content tbody td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
   color: var(--ink-1);
   vertical-align: top;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 0;  /* 让 width="25%" 真正生效，配合 break-word 不撑出容器 */
 }
 .wiki-content tbody tr:last-child td { border-bottom: 0; }
 .wiki-content tbody tr { transition: background .16s ease; }

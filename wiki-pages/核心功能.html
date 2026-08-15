@@ -218,11 +218,11 @@
     <tr>
       <td width="25%" valign="top"><h4>💎 Domain Usage 账本</h4><sub>P1 · Token 计费 + Event Bus</sub><p>UsageLedger 按 provider/model/day 聚合成本，EventBus 发布订阅系统事件，turnId/sessionId 全链路关联 🔬</p></td>
       <td width="25%" valign="top"><h4>🧩 Ports 端口可注入</h4><sub>P1 · IClock/IRandom/IEnv</sub><p>系统依赖抽象为 Ports，FakeClock/FakeRandom/FakeEnv 测试替身，单元测试确定性可重放，零时间等待 ⚙️</p></td>
-      <td width="25%" valign="top"><h4>🖱️ Browser Use 浏览器自动化</h4><sub>P1 · Playwright 封装</sub><p>createSession/execute/navigate/click/type/screenshot，脚本安全审查 + 域名白名单，防恶意网页注入 🌍</p></td>
-      <td width="25%" valign="top"><h4>🌿 Git Worktree 作业隔离</h4><sub>P1 · 多任务并行</sub><p>create/merge/list/cleanup，每个并行任务独占 worktree 互不干扰，merge 冲突文件清单返回，支持 deleteAfter 🌿</p></td>
+      <td width="25%" valign="top"><h4>🖱️ Browser Use 浏览器自动化</h4><sub>P1 · Playwright 封装</sub><p>createSession / execute / navigate / click / type / screenshot，脚本安全审查 + 域名白名单，防恶意网页注入 🌍</p></td>
+      <td width="25%" valign="top"><h4>🌿 Git Worktree 作业隔离</h4><sub>P1 · 多任务并行</sub><p>create / merge / list / cleanup，每个并行任务独占 worktree 互不干扰，merge 冲突文件清单返回，支持 deleteAfter 🌿</p></td>
     </tr>
     <tr>
-      <td width="25%" valign="top"><h4>🚪 SDK 门面层</h4><sub>P1 · 插件开发体验</sub><p>registerPlugin/registerTool/on(phase)/registerCapability，context 注入 + unregisterByPrefix 批量清理，插件开发一键开箱 🚪</p></td>
+      <td width="25%" valign="top"><h4>🚪 SDK 门面层</h4><sub>P1 · 插件开发体验</sub><p>registerPlugin / registerTool / on(phase) / registerCapability，context 注入 + unregisterByPrefix 批量清理，插件开发一键开箱 🚪</p></td>
       <td width="25%" valign="top"><h4>🪝 Hook Engine 扩展</h4><sub>P1 · unregisterByPrefix</sub><p>新增按前缀批量注销 hook，支持插件卸载时清理注册的所有拦截器，防止内存泄漏与幽灵回调 🧹</p></td>
       <td width="25%" valign="top"><h4>🗃️ types.ts 43 模块契约</h4><sub>V3.10 + V3.11 + V3.12 累计</sub><p>新增 9 模块入参出参强类型：LlmAdapter/E2B/FS/LSP/Usage/Ports/Browser/Worktree/SDK，全 1200+ 行 🔬</p></td>
       <td width="25%" valign="top"><h4>🏷️ 版本徽章一致 V3.12</h4><sub>README/index/wiki/9 HTML</sub><p>公开仓 14 处徽章 / hero-tag / foot-meta 一次替换，build-wiki.ps1 模板同步，源码不公开合规 ✦</p></td>
