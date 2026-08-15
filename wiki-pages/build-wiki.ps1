@@ -455,7 +455,7 @@ __KBD__
   </div>
 </nav>
 <footer class="wiki-footer">
-  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.12 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.16 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
 </footer>
 </body>
 </html>

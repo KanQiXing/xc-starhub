@@ -1,0 +1,112 @@
+# ================================================================
+#  deploy-wiki.yml
+#  只要 wiki/*.md 或 wiki-pages/build-wiki.ps1 / wiki-pages/wiki.css
+#  有 push 到 main,就自动跑 build-wiki.ps1,把生成的 HTML 发布
+#  到 gh-pages 分支,从而更新 GitHub Pages。
+#
+#  触发方式:
+#   1) push 到 main 分支且变更命中以下路径:
+#      - wiki/**
+#      - wiki-pages/build-wiki.ps1
+#      - wiki-pages/wiki.css
+#      - README.md
+#      - index.html
+#      - assets/**
+#      - sync-assets.ps1
+#   2) Actions 页面手动 Run workflow。
+#
+#  素材同步:
+#   小星品牌素材的母本存放在 XC-星枢 源码 (src/asset/img/xiaoxing/)。
+#   推送 wiki 前请在本地运行 sync-assets.ps1, 将素材同步到 assets/xiaoxing/。
+#
+#  环境要求(GitHub 仓库 Settings):
+#   - Settings → Pages → Source 选 "Deploy from a branch"
+#   - Branch 选 gh-pages / (root)
+#   - 本工作流会用 actions/upload-pages-artifact + deploy-pages
+#     直接上传产物到 Pages(无需 gh-pages 分支),这是官方推荐方式。
+# ================================================================
+
+name: 构建 Wiki 并部署 GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'wiki/**'
+      - 'wiki-pages/build-wiki.ps1'
+      - 'wiki-pages/wiki.css'
+      - 'README.md'
+      - 'index.html'
+      - 'assets/**'
+      - 'sync-assets.ps1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PowerShell
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y powershell
+
+      - name: Run build-wiki.ps1 (生成 9 个 Wiki HTML)
+        shell: pwsh
+        run: |
+          Set-Location ./wiki-pages
+          ./build-wiki.ps1
+
+      - name: 组装 Pages 产物（复制 README / index / assets / wiki-pages）
+        shell: bash
+        run: |
+          # 创建 _site 目录,严格按照公开仓的目录结构复制
+          rm -rf _site
+          mkdir -p _site
+
+          # 顶层:README.md / index.html / assets
+          cp -r README.md    _site/   2>/dev/null || true
+          cp -r index.html   _site/   2>/dev/null || true
+          if [ -d assets ]; then cp -r assets _site/; fi
+          if [ -d wiki   ]; then cp -r wiki   _site/; fi
+
+          # Wiki HTML 产物(9 个):保持 wiki-pages/*.html + wiki.css
+          if [ -d wiki-pages ]; then
+            mkdir -p _site/wiki-pages
+            cp wiki-pages/*.html _site/wiki-pages/ 2>/dev/null || true
+            cp wiki-pages/wiki.css _site/wiki-pages/ 2>/dev/null || true
+          fi
+
+          echo "✅ _site 目录结构:"
+          find _site -maxdepth 3 -type f | sort | head -60
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 上传 Pages 产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

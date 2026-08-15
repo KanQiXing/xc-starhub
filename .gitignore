@@ -1,0 +1,15 @@
+# ================================================================
+# XC-星枢-wiki 仓库专用 .gitignore
+# 此仓库只允许出现：README/index.html/wiki/wiki-pages/assets/.github/scripts/sync-assets
+# 严禁出现任何源码或构建产物
+# ================================================================
+
+# 构建产物（禁止出现）
+build-staging/
+dist/
+release/
+
+# 临时文件
+*.tmp
+*.temp
+.cache/

@@ -26,6 +26,6 @@
   <br><br>
   <sub>
     <img src="../assets/xiaoxing/xiaoxing-portrait.jpg" width="28" style="border-radius:50%;vertical-align:middle;border:2px solid #fff;box-shadow:0 6px 16px rgba(113,182,255,.26)">
-    &nbsp;XC · 星枢 · HELIOS V3.12 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦
+    &nbsp;XC · 星枢 · HELIOS V3.16 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦
   </sub>
 </div>

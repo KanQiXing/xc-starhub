@@ -43,7 +43,7 @@
     &nbsp;
     <img alt="本地优先" src="https://img.shields.io/badge/%E6%9C%AC%E5%9C%B0-%E4%BC%98%E5%85%88%20%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%9C%AC%E6%9C%BA-%238BE28B?style=for-the-badge&logo=shield&logoColor=white">
     &nbsp;
-    <img alt="HELIOS V3.12" src="https://img.shields.io/badge/HELIOS-V3.12-%23F8D36C?style=for-the-badge&logo=data:image/svg%2bxml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z'/></svg>">
+    <img alt="HELIOS V3.16" src="https://img.shields.io/badge/HELIOS-V3.16-%23F8D36C?style=for-the-badge&logo=data:image/svg%2bxml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z'/></svg>">
   </p>
 
   <!-- Slogan -->
@@ -339,6 +339,10 @@
 | ✅ 已经上线 | 一口气加了 12 件高阶能力:Token 预算可视化 / 看门狗 / 自愈切备用 / 沙箱 / 缓存优先 / 三层记忆 / 4 运行时模式 / 检查点分叉 / 插件内核 / Capability 解耦 / DAG 编排 / Trace 面板 | V3.10 · 核心拔高 |
 | ✅ 已经上线 | 22 件事一口气推上去:循环修复、可靠性、Harness 独有的高阶能力(Goal/Jobs/DAG监督/ReasoningEffort)、Guard防护、cron调度、MCP外连、34模块强类型全拉满 | V3.11 · Harness 对齐 |
 | ✅ 已经上线 | **插件终于能写了**。Provider适配器 / E2B沙箱 / FS读写分家 / LSP接了5家语言 / 用量账本 / 时钟随机数环境可注入 / Playwright浏览器自动化 / Git Worktree并行隔离 / SDK门面层四件套 | V3.12 · 插件基础齐活 |
+| ✅ 已经上线 | 三件看得见摸得着的事:对话全文搜索高亮(正则支持) / Jobs 五列看板(失败直接重跑) / 一键诊断包(打包+脱敏+反馈模板) | V3.13 · 体验补全 |
+| ✅ 已经上线 | Hook 终于让用户看见:敏感钩子审批浮层 / 按 phase 配策略面板 / IndexedDB 审批日志导出 / 空引用稳定化少 30% re-render | V3.14 · 钩子可见化 |
+| ✅ 已经上线 | PTC 调试器面板(单步/断点/重跑) · PTC 自动降级回老路 · 计划自我反思高危步骤 · chat-projection reducer 补齐三 case 不再哑炮 | V3.15 · 向内深挖 |
+| ✅ 已经上线 | 三层记忆权重可调(滑块+score面板) · 目标状态自动同步到调度器 · **源码正式归仓**:主源码进 XC-星枢 本地 git,公开仓只推 wiki 文档,源码不上传 GitHub | V3.16 · 归档与整理 |
 | 📋 下一阶段想做 | 真正的语音对话模式 · macOS / Linux 跨平台版 · 插件热沙箱再打磨 · 更多皮肤与立绘 | V4.0 以后 |
 | 💡 以后有机会就做 | 小星自己的语音包 · 你自定义角色人设 · 多人协作模式 · 桌面宠物形态 | 更久以后 |
 
@@ -412,7 +416,7 @@
   <img src="./assets/xiaoxing/banner-bottom.svg" alt="" width="100%" height="1">
 
   <sub>
-    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.12 &nbsp;·&nbsp; 面向用户的智能工作助手 ✦
+    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.16 &nbsp;·&nbsp; 面向用户的智能工作助手 ✦
     <br>
     <samp>LOCAL-FIRST &nbsp;·&nbsp; OBSERVABLE &nbsp;·&nbsp; COMPOSABLE &nbsp;·&nbsp; CRAFTED</samp>
   </sub>
