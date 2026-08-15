@@ -43,7 +43,7 @@
     &nbsp;
     <img alt="本地优先" src="https://img.shields.io/badge/%E6%9C%AC%E5%9C%B0-%E4%BC%98%E5%85%88%20%E6%95%B0%E6%8D%AE%E5%9C%A8%E6%9C%AC%E6%9C%BA-%238BE28B?style=for-the-badge&logo=shield&logoColor=white">
     &nbsp;
-    <img alt="HELIOS V3.10" src="https://img.shields.io/badge/HELIOS-V3.10-%23F8D36C?style=for-the-badge&logo=data:image/svg%2bxml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z'/></svg>">
+    <img alt="HELIOS V3.12" src="https://img.shields.io/badge/HELIOS-V3.12-%23F8D36C?style=for-the-badge&logo=data:image/svg%2bxml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z'/></svg>">
   </p>
 
   <!-- Slogan -->
@@ -405,7 +405,7 @@
   <img src="./assets/xiaoxing/banner-bottom.svg" alt="" width="100%" height="1">
 
   <sub>
-    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.10 &nbsp;·&nbsp; 面向用户的智能工作助手 ✦
+    ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.12 &nbsp;·&nbsp; 面向用户的智能工作助手 ✦
     <br>
     <samp>LOCAL-FIRST &nbsp;·&nbsp; OBSERVABLE &nbsp;·&nbsp; COMPOSABLE &nbsp;·&nbsp; CRAFTED</samp>
   </sub>
