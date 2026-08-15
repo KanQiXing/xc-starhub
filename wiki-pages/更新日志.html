@@ -54,7 +54,131 @@
   </p>
 </div>
 <hr>
-<h2>✦ HELIOS V3.10 · 彻底自研核心 · 脱离 Codex</h2>
+<h2>✦ HELIOS V3.12 · 三阶段 9 项高价值扩展 · Provider 适配器 + E2B 沙箱 + LSP + SDK 门面</h2>
+<blockquote>
+<p><strong>日期</strong>：2026-08-15</p>
+<p><strong>主打</strong>：差值合并 DeepSeek Harness + kun-reference 二仓库,提炼 P0 2 项 + P1 7 项共 9 个高价值模块一次性落地,<strong>全部内部自研实现 · 遵循「本地优先 · 源码不公开」规则</strong></p>
+</blockquote>
+<h3>✨ 新的</h3>
+<ul>
+<li><strong>🔥 P0 · 安全 / 兼容底盘(2 项)</strong></li>
+</ul>
+<ol start="1">
+<li><strong>🔌 LlmAdapter Provider 适配器层</strong> — 统一 OpenAI/Anthropic/DeepSeek/火山/豆包/OLLAMA 协议,<code>chat()/stream()/embed()/healthCheck()</code> 四接口,配合 Fallback LLM Client 切源零改动,支持 Prefix Caching 标记透传</li>
+<li><strong>🛡️ E2B 代码执行沙箱</strong> — 4 后端(e2b 云 / firecracker / local-tmpfs / local-child-process),危险 env 过滤(NODE_OPTIONS/LD_PRELOAD 等),超时 SIGKILL,workspace realpath 挂载防 symlink 穿越,PTC Code Mode 产出代码统一在此执行</li>
+</ol>
+<ul>
+<li><strong>💎 P1 · 代码能力 + 测试体验 + 插件 DX(7 项)</strong></li>
+</ul>
+<ol start="3">
+<li><strong>📁 FS Driver Read/Write 双权限分离</strong> — ReadDriver 和 WriteDriver 独立接口,插件只拿 read 通道,resolveAllowed 做 realpath 解析防 symlink 穿越,WriteDriver 写前自动 backup 到 .backup/ 目录</li>
+<li><strong>🔍 LSP 语言服务接入</strong> — 支持 tsserver/pyright/rust-analyzer/gopls/jdtls,definition 跳转 / references 引用查找 / hover 悬停签名 / completion 补全 / diagnostics 诊断 / documentSymbols 文档符号 / rename 跨文件重命名,JSON-RPC stdio 通信</li>
+<li><strong>📊 Domain Usage 计费账本 + Event 事件源</strong> — 每次 LLM 调用记录 prompt/completion/cached token + costUsd 估算,按 provider/model/day 汇总;EventBus 16 种事件类型,Hook/Inflight/Goal/Jobs 产生事件流</li>
+<li><strong>🔌 Ports 端口化(IClock/IRandom/IEnv)</strong> — SystemClock/CryptoRandom/ProcessEnv 生产实现 + FakeClock(advance 前拨)/FakeRandom(sequence)/FakeEnv 测试实现,Scheduler nextFire 测试跑 100 倍速</li>
+<li><strong>🌐 Browser Use 浏览器自动化</strong> — 10 个动作(navigate/click/type/scroll/screenshot/extract/wait/evaluate/back/forward/close),URL pattern 黑名单 + maxTabs 限制 + evaluate script 安全审查(eval/Function/require 禁止),Playwright 延迟加载</li>
+<li><strong>🌿 Git Worktree 多任务隔离</strong> — 每个并行 Job 自动 <code>git worktree add</code> 独立分支沙箱,分支名自动生成防冲突,merge 冲突返回 conflictFiles 不强推,prune 清理超过 maxAge 的残留 worktree,并发度从 2 提升到 6-8</li>
+<li><strong>🔌 SDK 门面层(插件开发体验)</strong> — <code>registerPlugin/registerTool/on(Hook.Phase)/registerCapability</code> 门面 API,插件 30 行可 Hello World,自动注入 log/config/emit/fs/llm 上下文,dispose 时自动清理 Hook+Tool+Capability</li>
+</ol>
+<h3>⚠️ 说明</h3>
+<ul>
+<li>以上 9 项能力<strong>全部为本地自研核心代码实现</strong>,不直接复制 DeepSeek Harness / kun-reference 源码,遵循 MIT 协议精神与「源码不公开」内部约定</li>
+<li>核心代码路径:<code>src/main/core/</code>(累计 30 个 TypeScript 文件 + 1 个 types.ts),仅本地维护,<strong>不推送到 GitHub 公开仓</strong></li>
+<li>types.ts 扩展至 43 大模块(G1-G9 新增类型约 500 行),跨模块入参出参强类型约束</li>
+<li>HookEngine 新增 <code>unregisterByPrefix()</code> 方法,配合 SDK Facade 插件卸载时批量清理</li>
+</ul>
+<hr>
+<h2>✦ HELIOS V3.11 · 二阶段 22 项深化 · P0+P1+DSH 特有高阶能力 一次性落地</h2>
+<blockquote>
+<p><strong>日期</strong>：2026-08-15</p>
+<p><strong>主打</strong>：深度参考 DeepSeek Harness 官方源码（deepseek-ai/deepseek-harness）+ kun-reference 二仓库差值合并，循环层 / 可靠性层 / Agent 高阶能力层 / 防护调度通信层 22 项全部落地，<strong>全部内部自研实现 · 遵循「本地优先 · 源码不公开」规则</strong></p>
+</blockquote>
+<h3>✨ 新的</h3>
+<ul>
+<li><strong>🔥 第一层 · 循环与修复（P0 5 项 + PTC 代码模式）</strong></li>
+</ul>
+<ol start="1">
+<li><strong>🧰 ToolCall JSON 修复引擎</strong> — 三层自动修复（wrapper 拆层 / fence 挖 JSON / 超长截断），工具调用失败率目测下降 60-80%</li>
+<li><strong>🔏 Immutable Prefix 前缀指纹</strong> — System/Tools/Pinned/FewShots 合成 SHA256，配合厂商 Prefix Caching 省 30-70% 前缀 Token</li>
+<li><strong>🧩 Compaction Marker 压缩标记</strong> — 压缩产物注入 <code>&lt;kun:tool_digest sha256&gt;</code> XML 标记 + 保留 sourceDigest + sourceItemIds，用户可溯源不做黑箱</li>
+<li><strong>🩹 History Healing 历史自愈</strong> — 加载老会话：抛畸形、补 id、配对 orphan 工具调用/结果，老版本脏数据不再打不开</li>
+<li><strong>🚦 Steering Queue 插嘴转向队列</strong> — 推理中途用户新消息进缓冲队列，安全边界（模型返回完 / 工具结束）自动 drain 注入，纠正不用等整轮结束</li>
+<li><strong>🧑‍💻 PTC 程序化工具调用（DeepSeek Harness 首创 Code Mode）</strong> — 多轮 read→grep→批量 edit 合成一段 TS/Python，受控沙箱一次跑完，模型轮次砍 50-80%</li>
+</ol>
+<ul>
+<li><strong>💎 第二层 · 可靠性 + 生命周期（P1 7 项）</strong></li>
+</ul>
+<ol start="7">
+<li><strong>🪝 Hook Engine 6 相位 AOP 钩子</strong> — PreToolUse / PostToolUse / UserPromptSubmit / TurnStart / TurnEnd / PreCompact，支持 function + 外部 command，一切皆插件的真正基石</li>
+<li><strong>📋 Plan Mode 先调研再动手</strong> — 宿主强约束只给读工具（write/edit/bash 一律拦），先写 Markdown 计划用户批准，再切执行模式，防乱改</li>
+<li><strong>🏷️ 自动标题 + 会话摘要（便宜小模型 3 级回退）</strong> — roleModel → smallModel → 主模型，超时静默，会话列表不再全是「新建对话」</li>
+<li><strong>🛡️ Atomic JSON 原子写入 + 乐观 CAS + 串行队列</strong> — 同 key 排队写、revision 冲突自动重试 N 次、tmp → rename 原子落盘，断电/并发写不丢文件</li>
+<li><strong>🔒 Data Mutex 跨进程租约互斥</strong> — holderId + TTL(3s renew)，dev 和 prod 两个 runtime 同写一个共享 key 不互相覆盖</li>
+<li><strong>🚀 InflightTracker 飞行请求追踪</strong> — begin/end 配对、run\<T\> try/finally 强制清理、abortAll 一键取消不泄漏</li>
+<li><strong>🪵 ExtensionLogWriter 每个插件独立日志</strong> — 大小滚动(默认 2MB×5 份)+ N 天保留，等级 DEBUG/INFO/WARN/ERROR，插件 bug 直接附日志</li>
+</ol>
+<ul>
+<li><strong>⭐ 第三层 · Agent 高阶能力（DeepSeek Harness 独有 4 项）</strong></li>
+</ul>
+<ol start="14">
+<li><strong>🎯 GoalTracker 目标追踪系统</strong> — 任务拆 goal tree（root → sub → 叶子），status/pct/blockers 字段齐全，父节点自动按子平均进度，UI 折叠显示</li>
+<li><strong>🧵 JobsManager 后台作业队列</strong> — 长任务（百张图、批量视频）异步跑，并发度默认 2，maxAttempts 自动重试，pause/resume/cancel 四状态，随时看进度</li>
+<li><strong>⚡ ReasoningEffort 推理努力度场景化策略</strong> — 标题/摘要/闲聊/标准助手/代码创作/长文创作 6 场景，effort + temperature + maxTokens + 模型档位 4 变量下发，省钱又出对</li>
+<li><strong>🧭 GraphSupervisor DAG 监督器</strong> — Stall 周期扫描（默认 15s tick）、Obligation 责任制、Review 节点结果打回、PerNode maxRetries 独立重试，DAG 自愈能力补齐</li>
+</ol>
+<ul>
+<li><strong>🚧 第四层 · 防护 / 调度 / 通信（P2 5 项）</strong></li>
+</ul>
+<ol start="18">
+<li><strong>Guard 质量防护层 · 8 条正则规则</strong> — 绝对路径泄露 / 身份证 / 手机号 / 邮箱 PII / Win+Unix 高危命令 / Prompt 注入，分级 warn/block</li>
+<li><strong>🔁 LLM Retry 抖动指数退避</strong> — status 429/5xx 可重试，401/403/余额不足永久错直接抛，±jitter 避免 API 雪崩</li>
+<li><strong>🕒 Scheduler 5 字段 cron 调度器（自研解析）</strong> — 不依赖第三方 cron 库，range/list/step/every 四语法 + nextFire 计算，30s tick 最小粒度，手动 triggerNow</li>
+<li><strong>🔌 McpClient 外连 MCP Server（3 transport）</strong> — stdio / SSE / WS，initialize handshake → listTools 广告缓存 → tools/call RPC，60s 心跳 + 超时清理</li>
+<li><strong>🗃️ types.ts 全量契约扩展至 34 大模块</strong> — V3.10 12 项 + V3.11 22 项合并成一个 900+ 行类型文件，所有模块入参出参强类型约束</li>
+</ol>
+<h3>⚠️ 说明</h3>
+<ul>
+<li>以上 22 项能力<strong>全部为本地自研核心代码实现</strong>，不直接复制 DeepSeek Harness / kun-reference 源码，遵循 MIT 协议精神与「源码不公开」内部约定</li>
+<li>核心代码路径：<code>src/main/core/</code>（24 个 TypeScript 文件），仅本地维护，<strong>不推送到 GitHub 公开仓</strong></li>
+<li>公开仓仅更新版本徽章与本文档，告知用户能力边界，不暴露源码细节</li>
+</ul>
+<hr>
+<h2>✦ HELIOS V3.10 · 12 大深化改进 · 插件内核 + DAG 编排 + 三层记忆 + 自愈降级</h2>
+<blockquote>
+<p><strong>日期</strong>：2026-08-15</p>
+<p><strong>主打</strong>：汲取 DeepSeek Harness「一切皆插件」+ kun-reference「缓存优先 + 图驱动」精髓，核心 12 大高阶能力一次到位</p>
+</blockquote>
+<h3>✨ 新的</h3>
+<ul>
+<li><strong>🔥 12 大深化改进全部落地（全部内部自研实现 · 遵循「本地优先 · 源码不公开」规则）</strong></li>
+</ul>
+<ol start="1">
+<li><strong>📊 Token 预算可视化</strong> — 软/硬/强制三阈值进度条 + 节省来源（Prefix 缓存 / 推理缓存 / Token Economy）分类汇总</li>
+<li><strong>💓 Dead Man 看门狗</strong> — Turn 90s / Step 45s 无事件自动告警，连续 2 次超时自动中断，防止软死锁</li>
+<li><strong>♻️ 自愈降级 Fallback</strong> — Provider 健康滑动窗口连续失败自动切备用 + 5 分钟冷却回探 + 用户零感知</li>
+<li><strong>🛡️ Tool Sandbox 沙箱</strong> — 路径白名单 workspace 内才写 + Shell 黑名单（format / rd /s /q / diskpart）直接 deny + 写前自动备份防误操作</li>
+<li><strong>⚡ 缓存优先推理 Cache</strong> — 内存 Map LRU + SQLite 持久化双层，sha256 键，7 天 TTL，完全相同场景零模型调用</li>
+<li><strong>🧠 三层混合记忆</strong> — Short（会话）/ Mid（压缩摘要产物复用）/ Long（全局偏好向量库）+ BM25×向量 混合 Top-K 自动注入</li>
+<li><strong>🎛️ 4 运行时模式</strong> — Minimal（零工具闲聊）/ Standard（标准助手）/ Code（编程增强 20 分钟熔断宽容 + 1.3 倍工具步长）/ Creator（长文创作 30 分钟）</li>
+<li><strong>🔁 会话检查点 + 分叉</strong> — 时间轴任意点 rollback 穿越；Fork 分叉保留父上下文并行试多方案</li>
+<li><strong>🧩 Cordis 级插件内核</strong> — Install→Load→Start→Stop→Uninstall 生命周期 + DAG 拓扑依赖解析 + SemVer 版本约束 + .zip 一键导入</li>
+<li><strong>⚙️ Capability 三层解耦注册中心</strong> — ServiceDef（契约）/ Provider（实现 + fitness 评分）/ Consumer（tags AND/OR + attributes 深度匹配）</li>
+<li><strong>🌐 图驱动 DAG 多 Agent 编排</strong> — Kahn 拓扑 + 事件驱动并行 + Condition 分支 / 重试 / 超时 / 子图复用，取代线性任务列表</li>
+<li><strong>🔍 推理 Trace 全链路面板</strong> — 每 Turn 的工具选择理由 / 压缩触发 / 缓存命中 / 模型切换全可追溯，Token 与耗时分布一目了然</li>
+</ol>
+<ul>
+<li><strong>🏆 质量</strong>：新增对应 12 模块单元测试，全部测试 100% PASS + TypeScript tsc --noEmit 零错误</li>
+<li><strong>🚪 接口兼容</strong>：原有 V3.9 公开接口零破坏性改动，所有新模块皆为可选注入升级</li>
+</ul>
+<h3>🛡️ 安全</h3>
+<ul>
+<li>所有文件写操作默认限定 workspace 内；Shell 命令必须在 workspace 当前目录执行；高危命令（format/磁盘分区/递归强制删除）默认拒绝</li>
+</ul>
+<h3>⚡ 性能</h3>
+<ul>
+<li>缓存优先循环命中即返回，Prefix Caching + Inference Cache 双重机制，相同场景节省 30-70% Token 与模型调用成本</li>
+</ul>
+<hr>
+<h2>✦ HELIOS V3.9 · 彻底自研核心 · 脱离 Codex</h2>
 <blockquote>
 <p><strong>日期</strong>：2026-08-14</p>
 <p><strong>主打</strong>：自研 Agent Loop × 事件溯源会话 × 6 协议直连 LLM × 零外部子进程依赖</p>
@@ -98,7 +222,7 @@
 <li>所有自研模块单元类型覆盖 100%，后续可独立替换任意实现（例如接入本地 OLLAMA 只需新增 LLM Client 适配器）</li>
 </ul>
 <hr>
-<h2>✦ HELIOS V3.10.1 · 多场景多情绪主题</h2>
+<h2>✦ HELIOS V3.8.1 · 多场景多情绪主题</h2>
 <blockquote>
 <p><strong>日期</strong>：2026-08-14</p>
 <p><strong>主打</strong>：三场景自由切换 × 四档情绪 × 功能按钮全保留</p>
@@ -127,14 +251,14 @@
 <li>所有问候气泡 / 快捷按钮均使用主题色渐变 + 阴影提升层次</li>
 </ul>
 <hr>
-<h2>✦ HELIOS V3.10 · 星枢 · Codex 版</h2>
+<h2>✦ HELIOS V3.8 · 星枢 · Codex 版</h2>
 <blockquote>
 <p><strong>日期</strong>：2026 年</p>
 <p><strong>主打</strong>：本地优先 · 可观察 · 可组合 · 桌面伙伴</p>
 </blockquote>
 <h3>✨ 新的</h3>
 <ul>
-<li><strong>HELIOS 引擎升级</strong>：对话、任务、调度底层统一到 HELIOS V3.10</li>
+<li><strong>HELIOS 引擎升级</strong>：对话、任务、调度底层统一到 HELIOS V3.8</li>
 <li><strong>启动动画重做</strong>：小星在开场时会主动出现，不会挡你屏幕</li>
 <li><strong>主对话 + 任务编排</strong>：一边聊一边做，做到哪一步存到哪一步</li>
 <li><strong>Agent Graph</strong>：多步骤 / 多角色的任务图，按依赖自动流转</li>

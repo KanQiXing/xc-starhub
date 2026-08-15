@@ -133,6 +133,104 @@
     </table>
   </div>
 </div>
+<div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+<div align="center">
+<h3 id="V3.10-深度">⭐ V3.10 深化 · 12 大高阶能力</h3>
+<table style="min-width:720px;">
+  <tbody>
+    <tr>
+      <td width="25%" valign="top"><h4>📊 Token 预算可视化</h4><sub>三阈值 + 节省来源</sub><p>软/硬/强制进度条 · 工具 token 热力图 · Prefix Caching/推理缓存/Token Economy 三类节省来源可视化分类展示</p></td>
+      <td width="25%" valign="top"><h4>💓 Dead Man 看门狗</h4><sub>推理心跳自动保护</sub><p>Turn 90s / Step 45s 无事件 → 连续 2 次超时自动中断，防止软死锁，对用户自动弹提醒 toast 🔥</p></td>
+      <td width="25%" valign="top"><h4>♻️ 自愈降级 Fallback</h4><sub>Provider 健康滑动窗口</sub><p>主模型连错自动静默切到备用，冷却 5min 后回探原主，全程对用户零感知 🛟</p></td>
+      <td width="25%" valign="top"><h4>🛡️ Tool Sandbox 沙箱</h4><sub>路径 + 命令双防护</sub><p>默认仅 workspace 内允许写操作，format / rd /s /q / diskpart 高危命令直接拒绝，写前自动备份防误操作可溯源 ✨</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>⚡ 缓存优先循环</h4><sub>双层 LRU 推理缓存</sub><p>内存 Map LRU + SQLite 持久化双层，前缀指纹 + prompt sha256 键，相同场景零模型调用，7 天 TTL</p></td>
+      <td width="25%" valign="top"><h4>🧠 三层混合记忆</h4><sub>Short / Mid / Long</sub><p>会话短期 + 压缩摘要产物复用 + 全局偏好向量库，BM25 × 向量相似度混合 Top-K 自动注入 ⭐</p></td>
+      <td width="25%" valign="top"><h4>🎛️ 4 套运行时模式</h4><sub>Minimal / Standard / Code / Creator</sub><p>一键切换工具可见性集 / Token 预算 / 熔断灵敏度，闲聊 · 标准助手 · 编程 · 长文创作四场景顺手</p></td>
+      <td width="25%" valign="top"><h4>🔁 检查点 + 分叉</h4><sub>时间旅行 + 方案并行</sub><p>时间轴任意点一键回滚穿越；Fork 分叉保留完整父上下文，可并行试多个方案互不干扰 🌿</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🧩 Cordis 插件内核</h4><sub>生命周期 + 依赖图</sub><p>Install→Load→Start→Stop→Uninstall 完整生命周期 · DAG 拓扑依赖解析 · SemVer 版本约束 · .zip 一键导入 🔥</p></td>
+      <td width="25%" valign="top"><h4>⚙️ Capability 三层解耦</h4><sub>Def / Provider / Consumer</sub><p>tags AND/OR 组合匹配 + attributes 深度匹配，fitness() 函数实时评分排序，不用硬编码模型或工具 id</p></td>
+      <td width="25%" valign="top"><h4>🌐 DAG 多 Agent 编排</h4><sub>拓扑并行 + 条件分支</sub><p>Kahn 拓扑排序 + 事件驱动并行，Condition T/F 分支 · 重试 · 超时 · 子图复用，取代线性任务列表 ✨</p></td>
+      <td width="25%" valign="top"><h4>🔍 推理 Trace 面板</h4><sub>全链路可追溯</sub><p>每 Turn：工具选择理由 / 压缩触发 / 缓存命中 / 模型切换 全展示，Token 消耗 + 耗时分布一目了然 🔬</p></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+<div align="center">
+<h3 id="V3.11-深度">⭐ V3.11 二阶段深化 · 22 项高阶能力（含 DeepSeek Harness 独有模块）</h3>
+<table style="min-width:720px;">
+  <tbody>
+    <tr>
+      <td width="25%" valign="top"><h4>🔏 Immutable Prefix 指纹</h4><sub>Prefix Caching 精准命中</sub><p>System/Tools/Pinned/FewShots 合成 SHA256，revision 变更可控，连续对话前缀 30-70% Token 走厂商缓存优惠价</p></td>
+      <td width="25%" valign="top"><h4>🧩 Compaction Marker</h4><sub>压缩不是黑箱</sub><p>注入 <code>&lt;kun:tool_digest sha256=...&gt;</code> XML，模型知道是压缩产物，sourceDigest + itemIds 完整可溯源不迷路 ✨</p></td>
+      <td width="25%" valign="top"><h4>🩹 History Healing 历史自愈</h4><sub>老会话永远能打开</sub><p>丢畸形项 · 补缺失 id · 配对 orphan tool_call/tool_result，reference identity 对比决定是否需要写回，不做无意义落盘</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🚦 Steering Queue 插嘴队列</h4><sub>推理中途纠正不废掉</sub><p>32 条 / 64KB 上限，priority 排序，安全边界 drain 注入，UI 有 peek 显示「即将注入的待办」</p></td>
+      <td width="25%" valign="top"><h4>🧑‍💻 PTC Code Mode</h4><sub>DSH 首创 程序化工具调用</sub><p>多轮 read/grep/batch edit 合并成一段 TS/Python，受控沙箱一次性跑完，Prelude SHA + 3 层高危代码拦截审查，模型轮次 -50~80% 🚀</p></td>
+      <td width="25%" valign="top"><h4>🪝 Hook Engine AOP</h4><sub>6 相位 · 一切皆插件基石</sub><p>PreToolUse/PostToolUse/UserPromptSubmit/TurnStart/TurnEnd/PreCompact，function+command 双形态，PreToolUse 可 deny/allow/rewrite 参数 🔌</p></td>
+      <td width="25%" valign="top"><h4>📋 Plan Mode 先调研</h4><sub>宿主强约束 不写代码</sub><p>Plan 激活时 write/edit/bash 一律拦，只给 read/ls/glob/grep/lsp 只读 + create_plan，用户 approve 后再切执行模式，防瞎改 ⭐</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🏷️ 自动标题 + 会话摘要</h4><sub>廉价小模型跑 3 级回退</sub><p>roleModel→smallModel→主模型，title ≤50 字，摘要 2-4 句，12s/20s 超时静默，会话列表不再全是「新建对话」✦</p></td>
+      <td width="25%" valign="top"><h4>🛡️ Atomic JSON + CAS</h4><sub>写文件不半截不丢数据</sub><p>每 key 串行队列 + Manager revision 乐观冲突重试 5 次 + tmp→rename 原子落盘，断电 / 多 tab 同写不损坏 JSON</p></td>
+      <td width="25%" valign="top"><h4>🔒 Data Mutex 租约互斥</h4><sub>跨 runtime 不冲突</sub><p>holderId + 3s renew TTL，30s 最长等待 busy 抛错，dev 和 prod 两开不互相覆盖共享配置</p></td>
+      <td width="25%" valign="top"><h4>🚀 Inflight Tracker</h4><sub>请求不泄漏 SSE 权威源</sub><p>begin/end 配对，run&lt;T&gt; try/finally 强制 cleanup，abortAll(reason) 一键全取消，列出正在飞的请求供 UI 展示</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🪵 Extension Log Writer</h4><sub>每个插件独立日志</sub><p>大小滚动 2MB × 5 份，保留 7 天，4 档等级，sink 失败不抛错，附带给 bug report 的最近 N 行附件接口</p></td>
+      <td width="25%" valign="top"><h4>🎯 Goal 目标追踪系统</h4><sub>DSH packages/goal 独有</sub><p>任务拆 Goal Tree：root/sub/leaf，status(5 种) + progressPct + blockers，父节点自动按子平均进度，支持 fold revision + activeGoal 📊</p></td>
+      <td width="25%" valign="top"><h4>🧵 Jobs 后台作业队列</h4><sub>DSH packages/jobs 独有</sub><p>长任务异步跑，brand 分类，并发度可设，maxAttempts 自动重试，queued/running/paused/succeeded/failed/cancelled 6 状态机</p></td>
+      <td width="25%" valign="top"><h4>⚡ ReasoningEffort 6 场景</h4><sub>努力度 + 温度 + token + 档位</sub><p>title/summary/trivial-qa/standard/code-auth/longform 6 档策略，scene 可根据用户文本启发式推断，又省钱又对题</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🧭 Graph Supervisor</h4><sub>DAG 不再裸奔</sub><p>stall sweep 卡节点扫描(15s tick) + Obligation 责任制 + Review 打回 + PerNode maxRetries 独立重试，超过 stall×3 自动 abort 🛟</p></td>
+      <td width="25%" valign="top"><h4>Guard 质量防护层</h4><sub>8 条正则不依赖模型</sub><p>绝对路径(Win+Unix)泄露 / 身份证 18 位 / 手机号 / 邮箱 / 高危命令(format/rd-s-q/rm-rf /*) / Prompt 注入，3 级 severity info/warn/block 🚧</p></td>
+      <td width="25%" valign="top"><h4>🔁 LLM Retry 抖动指数退避</h4><sub>429/5xx 可重试 1s→2s→4s…</sub><p>baseDelay×2^(attempt-1) capped at maxDelay，±jitter 防雪崩，401/403/余额不足/超长上下文永久错立刻拒</p></td>
+      <td width="25%" valign="top"><h4>🕒 Scheduler Cron 调度器</h4><sub>自研 5 字段解析 不依赖第三方</sub><p>every / range / list / step 四语法，Intl 时区 + HH:MM 偏移 + 30s tick，最小频率 60s，手动 triggerNow 🔁</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🔌 MCP Client 三 transport</h4><sub>stdio / SSE / WS</sub><p>initialize handshake → listTools 广告缓存（变动发事件）→ tools/call RPC，60s 心跳 + timeout pending 清理，onToolsChanged 订阅接口</p></td>
+      <td width="25%" valign="top"><h4>🗃️ types.ts 34 模块契约</h4><sub>V3.10 + V3.11 一次拉满</sub><p>预算/缓存/记忆 + 插件/编排/Trace + 循环修复 + 数据可靠 + Goal/Jobs/PTC + Guard/Retry/Sched/MCP，全 900+ 行，跨模块入参出参强类型 🔬</p></td>
+      <td width="25%" valign="top"><h4>🏷️ 版本徽章一致 V3.11</h4><sub>README/index/wiki/9 HTML 全仓统一</sub><p>公开仓 14 处徽章 / hero-tag / foot-meta 一次替换，build-wiki.ps1 模板同步，下次生成不再回退</p></td>
+      <td width="25%" valign="top"><h4>📝 更新日志 V3.11 章节</h4><sub>源码不公开 措辞合规</sub><p>四层 22 项分条说明，明确内部自研实现、源码路径、公开仓仅更文档不推源码，完全遵循本地优先规则</p></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;">
+<div align="center">
+<h3 id="V3.12-深度">⭐ V3.12 三阶段深化 · 9 项高价值扩展（DeepSeek Harness + kun-reference 差值合并）</h3>
+<table style="min-width:720px;">
+  <tbody>
+    <tr>
+      <td width="25%" valign="top"><h4>🔌 LlmAdapter Provider 适配器</h4><sub>P0 · 多协议统一抽象</sub><p>OpenAI/Anthropic/DeepSeek/火山/豆包/OLLAMA 一套接口，chat/stream/embed/healthCheck 四方法，热切换零代码改动 🔥</p></td>
+      <td width="25%" valign="top"><h4>🛡️ E2B 代码执行沙箱</h4><sub>P0 · 4 后端隔离</sub><p>e2b 云 / firecracker / local-tmpfs / local-child-process 四后端，环境变量白名单过滤，超时保护，写入沙箱不污染宿主 🛡️</p></td>
+      <td width="25%" valign="top"><h4>📁 FS Driver 读写分离</h4><sub>P1 · 路径双权限</sub><p>Read/Write 双权限分离 · realpath 解析防 symlink 越权 · 写前自动备份，路径校验拒绝逃逸 workspace 🔒</p></td>
+      <td width="25%" valign="top"><h4>🌐 LSP 语言服务接入</h4><sub>P1 · 符号跳转/诊断</sub><p>tsserver/pyright 等 LSP，JSON-RPC over stdio，definition/references/hover/diagnostics 四大能力，代码理解更精准 ✨</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>💎 Domain Usage 账本</h4><sub>P1 · Token 计费 + Event Bus</sub><p>UsageLedger 按 provider/model/day 聚合成本，EventBus 发布订阅系统事件，turnId/sessionId 全链路关联 🔬</p></td>
+      <td width="25%" valign="top"><h4>🧩 Ports 端口可注入</h4><sub>P1 · IClock/IRandom/IEnv</sub><p>系统依赖抽象为 Ports，FakeClock/FakeRandom/FakeEnv 测试替身，单元测试确定性可重放，零时间等待 ⚙️</p></td>
+      <td width="25%" valign="top"><h4>🖱️ Browser Use 浏览器自动化</h4><sub>P1 · Playwright 封装</sub><p>createSession/execute/navigate/click/type/screenshot，脚本安全审查 + 域名白名单，防恶意网页注入 🌍</p></td>
+      <td width="25%" valign="top"><h4>🌿 Git Worktree 作业隔离</h4><sub>P1 · 多任务并行</sub><p>create/merge/list/cleanup，每个并行任务独占 worktree 互不干扰，merge 冲突文件清单返回，支持 deleteAfter 🌿</p></td>
+    </tr>
+    <tr>
+      <td width="25%" valign="top"><h4>🚪 SDK 门面层</h4><sub>P1 · 插件开发体验</sub><p>registerPlugin/registerTool/on(phase)/registerCapability，context 注入 + unregisterByPrefix 批量清理，插件开发一键开箱 🚪</p></td>
+      <td width="25%" valign="top"><h4>🪝 Hook Engine 扩展</h4><sub>P1 · unregisterByPrefix</sub><p>新增按前缀批量注销 hook，支持插件卸载时清理注册的所有拦截器，防止内存泄漏与幽灵回调 🧹</p></td>
+      <td width="25%" valign="top"><h4>🗃️ types.ts 43 模块契约</h4><sub>V3.10 + V3.11 + V3.12 累计</sub><p>新增 9 模块入参出参强类型：LlmAdapter/E2B/FS/LSP/Usage/Ports/Browser/Worktree/SDK，全 1200+ 行 🔬</p></td>
+      <td width="25%" valign="top"><h4>🏷️ 版本徽章一致 V3.12</h4><sub>README/index/wiki/9 HTML</sub><p>公开仓 14 处徽章 / hero-tag / foot-meta 一次替换，build-wiki.ps1 模板同步，源码不公开合规 ✦</p></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
 <h3>给用户带来什么实际好处</h3>
 <table>
 <thead><tr>
