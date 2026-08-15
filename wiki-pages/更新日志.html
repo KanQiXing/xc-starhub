@@ -54,28 +54,39 @@
   </p>
 </div>
 <hr>
-<h2>V3.12 · 插件终于能写了,顺便把浏览器、代码沙箱、LSP 都端上来</h2>
+<h2 id="v3-12">V3.12 · 插件终于能写了,顺便把浏览器、代码沙箱、LSP 都端上来</h2>
 <blockquote>
 <p>日期：2026-08-15</p>
-<p>这一版其实是顺着 V3.11 的插件基础继续填坑。参考了 DeepSeek Harness 和 kun-reference 两份之后挑了 9 件最紧迫的。源码还是自己写的,公开仓只推文档不推代码。</p>
+<p>这一版其实是顺着 V3.11 的插件基础继续填坑。DeepSeek Harness 官方和 kun-reference 两份我都对着翻过,挑了 9 件最紧迫的先落地。源码自己一行行写的,公开仓只推文档不推代码。</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <p>先把底盘两件事补完,不补的话后面的能力全悬空。</p>
 <ul>
 <li><strong>LlmAdapter Provider 适配器。</strong> 每家接口都不一样这件事真的很烦,OpenAI 一套、Anthropic 一套、DeepSeek 和国内几家各自又有变体。最后把它们统一塞进一个壳,对外只留 <code>chat()</code>、<code>stream()</code>、<code>embed()</code>、<code>healthCheck()</code> 四个方法。切供应商改一行配置就行,代码不用动。Prefix Caching 的标记原样透传。</li>
+<p>> 「踩坑一句」一开始想直接复用 OpenAI SDK 的各种 adapter,结果各家 streaming 返回格式的细节差得有点多,最后干脆壳里留 4 个方法,每家写个薄适配层。代码量其实不大,反而省了后面接新厂商时被 SDK 内部细节绊住。</p>
+</ul>
+<ul>
 <li><strong>E2B 代码执行沙箱。</strong> 模型生成的代码不敢直接跑,这是常识了。准备了四种后端,以后看情况挑:e2b 云、firecracker 微虚、本地 tmpfs、本地子进程。NODE_OPTIONS 和 LD_PRELOAD 这些危险环境变量会被先过滤一遍;超时直接 SIGKILL;挂载目录用 realpath 展开,symlink 绕不出去。PTC 生成的代码以后全走这里。</li>
+<p>> 「取舍一句」firecracker 在 Windows 本地起很折腾,所以当前默认跑的是 local-tmpfs + 子进程双实现;e2b 云也接了,但国内网络连接偶发抖,先不做默认。以后容器化部署再切 firecracker。</p>
 </ul>
 <p>剩下的是具体能力和插件开发体验:</p>
 <ul>
 <li><strong>FS 读写权限分家。</strong> ReadDriver / WriteDriver 两个接口拆开,插件默认只读,写必须单独申请通道。写入前先备份一份到 <code>.backup/</code>,改坏了还能滚回去。resolveAllowed 同样做 realpath 解析,symlink 跨目录过不去。</li>
 <li><strong>LSP 语言服务。</strong> 目前接了 tsserver、pyright、rust-analyzer、gopls、jdtls。跳转定义、找引用、悬停看签名、补全、报错、文档符号、跨文件重命名这些常见操作都能用。走标准 JSON-RPC stdio 通信,以后再加语言只需要一份启动配置。</li>
+<p>> 「踩坑一句」jdtls 启动是真的慢,冷启动要 10 秒+,给它单独加了 idle-keepalive,用户没主动关 Java 项目就不杀进程。rust-analyzer 和 gopls 最省心,启动快、协议也干净。</p>
+</ul>
+<ul>
 <li><strong>用量账本 + 事件源。</strong> 每回调模型记一次账:prompt、completion、cached token 都记,美元金额估个数,按 provider / model / 当天三个维度汇总。EventBus 现在有 16 种事件类型,Hook、Inflight、Goal、Jobs 里有什么动作都会流出来。</li>
 <li><strong>Ports 可替换。</strong> IClock、IRandom、IEnv 全抽成接口。线上用 SystemClock + CryptoRandom + ProcessEnv 真实实现;测试换 FakeClock 直接把时间往前拨、FakeRandom 按固定序列吐值、FakeEnv 自己造环境变量。Scheduler 的 nextFire 在测试里直接按 100 倍速跑,不用真的等下一个 cron tick。</li>
 <li><strong>Browser Use 浏览器自动化。</strong> navigate / click / type / scroll / screenshot / extract / wait / evaluate / back / forward / close,10 个动作。URL pattern 黑名单、最多开多少个标签页、evaluate 前扫一遍代码里有没有 eval、Function、require 这种危险写法,都做了。Playwright 延迟加载,不用的时候不占资源。</li>
+<p>> 「取舍一句」Playwright 首装要下浏览器二进制,国内源有时候下不动。所以加了个「已存在本机 Chrome / Edge 就复用」的分支,不用非得下它自己打包的 Chromium。</p>
+</ul>
+<ul>
 <li><strong>Git Worktree 多任务隔离。</strong> 之前同一仓库两件事并行经常互相踩文件,现在每个并行 Job 自动 <code>git worktree add</code> 开独立分支沙箱,分支名自动拼 UUID 不会撞。真的 merge 冲突了就把冲突文件列出来,不强推,把决定留给上层。残留的 worktree 超过 maxAge 会被 prune 清掉。并发度从 2 提到 6-8。</li>
 <li><strong>SDK 门面层。</strong> 插件作者不用再摸内部接口了。<code>registerPlugin / registerTool / on(Hook.Phase) / registerCapability</code> 四件套,30 行能写出 Hello World 插件。log、config、emit、fs、llm 这些上下文自动注入,dispose 时 Hook / Tool / Capability 一块批量清,不用一个个摘。</li>
+<p>> 「踩坑一句」之前插件卸载时只 dispose 主对象,Hook 还挂着,结果反复启用/禁用插件就会出现同一个钩子触发两次的 bug。后来加了 unregisterByPrefix 一键清干净才算真的闭环。</p>
 </ul>
-<h3>说几句闲话</h3>
+<h3 id="说几句闲话">说几句闲话</h3>
 <ul>
 <li>9 件事全是本地写的,没直接拷参考实现的代码。MIT 的精神保留,源码不公开。</li>
 <li><code>src/main/core/</code> 这次加起来 30 个 TS 文件加 1 个 <code>types.ts</code>,只在本地存着。</li>
@@ -83,19 +94,25 @@
 <li>HookEngine 多了个 <code>unregisterByPrefix()</code>,插件卸载时用,省得插件自己注册了十几个钩子还得手动一个个删。</li>
 </ul>
 <hr>
-<h2>V3.11 · 22 件事一天内全怼上去了</h2>
+<h2 id="v3-11">V3.11 · 22 件事一天内全怼上去了</h2>
 <blockquote>
 <p>日期：2026-08-15</p>
-<p>对着 DeepSeek Harness 官方源码 + kun-reference 两份仓库做了差值合并。先挑 P0 的循环与修复,再上可靠性 + 生命周期,再跟 Harness 独有的高阶能力,最后补防护 / 调度 / 通信。22 件事一口气推完了,源码全部自研,不推公开仓。</p>
+<p>DeepSeek Harness 官方源码和 kun-reference 两份仓库我对着逐段比过,该合进来的差异一件件抄到自己代码里、合并。先挑最急的「循环与修复」,再补可靠性 + 生命周期,再跟 Harness 独有的高阶能力,最后收防护 / 调度 / 通信。22 件事一口气推完了,源码全部自己写,不推公开仓。</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <p><strong>循环与修复 + PTC 代码模式。</strong></p>
 <ul>
 <li><strong>ToolCall JSON 自动修。</strong> 三层兜底:先拆 wrapper 嵌套层,再挖 fence 包裹的 JSON,最后处理被截断的长片段。没做严格统计,肉眼看工具调用失败率确实掉了很多,大概 60%-80% 这个量级。</li>
+<p>> 「踩坑一句」本来想直接把各家 SDK 自带的 JSON parser 接进来,结果 DeepSeek 偶尔会在 tool_call 里塞半截截断的字符串 + 省略号那种「模型自己觉得太长就偷懒」的输出,SDK parser 一律抛错。最后只能手写三层 fallback,脏是脏点,但真的救回来了好多轮。</p>
+</ul>
+<ul>
 <li><strong>Immutable Prefix 前缀指纹。</strong> System、Tools、Pinned、FewShots 拼起来算 SHA256,配合各家的 Prefix Caching,前缀这部分 Token 能省 30%-70%。</li>
 <li><strong>Compaction Marker 压缩标记。</strong> 压缩后的摘要里塞 <code>&lt;kun:tool_digest sha256&gt;</code> 这种 XML 标记,同时保留 sourceDigest 和 sourceItemIds,用户想溯源就能溯源,不做黑箱。</li>
 <li><strong>History Healing 老会话自愈。</strong> 打开旧会话时顺手抛畸形消息、补缺失 id、把 orphan 的工具调用和结果配对上。之前老版本攒下来的脏数据现在也能打开了。</li>
 <li><strong>Steering Queue 插嘴转向队列。</strong> 模型推理途中突然想打断改方向的话,新消息先丢缓冲里,等模型返回完或者当前工具结束这种安全点,再自动 drain 注入。不用等一整轮结束再说。</li>
+<p>> 「取舍一句」安全点选在「模型完整返回 / 当前 tool 执行完」,而不是粗暴地停掉半中间的工具调用。这样副作用小很多,只是用户插嘴的时候可能要等 2-3 秒,不至于把正在读的大文件或者正在跑的构建搞残。</p>
+</ul>
+<ul>
 <li><strong>PTC 程序化工具调用。</strong> 这个是 DeepSeek Harness 首创的 Code Mode,我们跟了。把多轮的 read → grep → 批量 edit 合成一段 TS 或 Python,塞进受控沙箱一次性跑完,模型轮次少了 50%-80%。</li>
 </ul>
 <p><strong>可靠性 + 生命周期。</strong></p>
@@ -103,12 +120,15 @@
 <li><strong>Hook Engine 6 相位 AOP 钩子。</strong> PreToolUse、PostToolUse、UserPromptSubmit、TurnStart、TurnEnd、PreCompact。函数和外部命令都能挂,后面插件化的真正基石。</li>
 <li><strong>Plan Mode 先调研再动手。</strong> 宿主强制约束:前半段只给读工具,写、编辑、bash 一律拦住。先写一份 Markdown 计划给你批,过了再切执行模式。防模型上来就乱写一气。</li>
 <li><strong>自动标题 + 会话摘要。</strong> 便宜小模型优先跑:roleModel → smallModel → 主模型,三级回退,超时静默兜底。会话列表终于不全是"新建对话"了。</li>
+<p>> 「踩坑一句」一开始直接拿主模型跑标题,3 秒内出的活是挺漂亮,但成本扛不住。现在 95% 的标题都走 cheap 小模型,偶尔跑出「无标题」或者乱码,再 fallback 到主模型,用户体感差不多,账单砍到 1/6。</p>
+</ul>
+<ul>
 <li><strong>Atomic JSON 原子写入。</strong> 同一个 key 排队写,revision 冲突就重试 N 次。先写 tmp 再 rename 原子落盘。断电或者并发写不丢文件。</li>
 <li><strong>Data Mutex 跨进程租约互斥。</strong> holderId + TTL 每 3 秒续一次,dev 和 prod 两个 runtime 同写共享 key 时不会互相覆盖。</li>
 <li><strong>InflightTracker 飞行请求追踪。</strong> begin/end 强制配对,<code>run&lt;T&gt;</code> 用 try/finally 确保异常时也清掉,abortAll 一键全取消,不会漏挂请求。</li>
 <li><strong>ExtensionLogWriter 插件独立日志。</strong> 默认 2MB × 5 份滚动,按天保留。分 DEBUG / INFO / WARN / ERROR 四级。插件出 bug 直接附日志就行。</li>
 </ul>
-<p><strong>Agent 高阶能力(DeepSeek Harness 独有那几件)。</strong></p>
+<p><strong>Agent 高阶能力(Harness 独有的那几件)。</strong></p>
 <ul>
 <li><strong>GoalTracker 目标追踪。</strong> 任务拆成 goal tree:root → sub → 叶子。status、完成百分比、blockers 字段都齐。父节点进度自动按子节点平均。UI 里可以折叠。</li>
 <li><strong>JobsManager 后台作业队列。</strong> 跑百张图、批量视频这种长任务时丢后台。并发默认 2,maxAttempts 自动重试。pause / resume / cancel 四状态齐全,进度随时看。</li>
@@ -120,48 +140,57 @@
 <li><strong>Guard 质量防护层。</strong> 目前是 8 条正则:绝对路径泄露、身份证、手机号、邮箱 PII、Win/Unix 高危命令、Prompt 注入。分 warn 或 block 两档。真要做语义级检测以后再说。</li>
 <li><strong>LLM Retry 抖动指数退避。</strong> 429 和 5xx 可以重试;401、403、余额不足这种永久错直接抛,不会傻等。加了 ±jitter,免得所有请求同一秒爆发打到 API。</li>
 <li><strong>Scheduler cron 调度器。</strong> 5 字段解析自己写的,没找第三方库,支持 range / list / step / every 四种语法,nextFire 会算,30 秒一个 tick,手动 triggerNow 也行。</li>
+<p>> 「取舍一句」之前真的找了好几个 cron 库,Star 都挺多,但要么只支持 6 字段(带秒),要么把 DOW 的约定和我们常见的 cron 不一样。最后 300 行不到自己写了 5 字段解析器,range/list/step/every 四个语法够日常用,行为和 Linux crontab 完全一致,没有额外依赖。</p>
+</ul>
+<ul>
 <li><strong>McpClient 外连 MCP Server。</strong> 三种传输:stdio / SSE / WS。initialize 握手 → listTools 广告缓存 → tools/call RPC,60 秒心跳 + 超时清理。</li>
 <li><strong>types.ts 全量契约扩展到 34 大模块。</strong> V3.10 的 12 件 + V3.11 的 22 件合并成一个 900+ 行的类型文件,所有模块入参出参强类型。</li>
 </ul>
-<h3>说几句闲话</h3>
+<h3 id="说几句闲话">说几句闲话</h3>
 <ul>
 <li>22 件事全部本地自研,源码不推公开仓。公开仓只更文档和版本徽章。</li>
 <li>核心代码路径还是 <code>src/main/core/</code>,24 个 TypeScript 文件,只在本地维护。</li>
 </ul>
 <hr>
-<h2>V3.10 · 一口气做了 12 件大活,整个核心拔高一级</h2>
+<h2 id="v3-10">V3.10 · 一口气做了 12 件大活,整个核心拔高一级</h2>
 <blockquote>
 <p>日期：2026-08-15</p>
 <p>把 DeepSeek Harness "一切皆插件" 和 kun-reference "缓存优先 + 图驱动" 的思路揉到一起,做了 12 件高阶能力,全落地。</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <ul>
 <li><strong>Token 预算可视化。</strong> 软、硬、强制三阈值进度条。Prefix 缓存、推理缓存、Token Economy 三类节省来源分别列出来。</li>
 <li><strong>Dead Man 看门狗。</strong> Turn 超过 90 秒、Step 超过 45 秒没任何事件就自动告警。连续 2 次超时自动中断,防软死锁。</li>
-<li><strong>自愈降级 Fallback。</strong> Provider 健康窗口连续失败自动切备用,切完 5 分钟后会回探一下老的。用户基本没感觉。</li>
+<p>> 「踩坑一句」一开始把阈值写死在配置里,跑起来后有些用户的大文件 grep 或者 <code>npm install</code> 真的超过 90 秒不输出任何事件,触发了误杀。后来加了 whiteList,有些 shell 类工具可以单独申请宽松超时,才算平衡住。</p>
+</ul>
+<ul>
+<li>自愈降级 Fallback。Provider 健康窗口连续失败自动切备用,切完 5 分钟后会回探一下老的。用户基本没感觉。</li>
 <li><strong>Tool Sandbox 沙箱。</strong> 路径白名单,只允许 workspace 内写。Shell 黑名单里 format、<code>rd /s /q</code>、diskpart 这种直接 deny。写文件前自动备份。</li>
-<li><strong>缓存优先推理。</strong> 内存 Map LRU + SQLite 持久化两层,sha256 做 key,TTL 7 天。一模一样的场景零模型调用。</li>
+<li>缓存优先推理。内存 Map LRU + SQLite 持久化两层,sha256 做 key,TTL 7 天。一模一样的场景零模型调用。</li>
 <li><strong>三层混合记忆。</strong> Short 存当前会话,Mid 留压缩摘要产物复用,Long 是全局偏好的向量库,BM25 × 向量混合算 Top-K 自动注入。</li>
-<li><strong>4 运行时模式。</strong> Minimal 零工具闲聊、Standard 标准助手、Code 编程增强(20 分钟熔断宽容 + 1.3 倍工具步长)、Creator 长文创作(30 分钟)。</li>
+<p>> 「取舍一句」纯向量和纯 BM25 都试过,向量能抓住语义但会漏掉精确关键词(比如某个特定的错误码),BM25 反过来。最后搞成 7:3 加权混合,召回率明显比单用一个好。</p>
+</ul>
+<ul>
+<li>4 运行时模式。Minimal 零工具闲聊、Standard 标准助手、Code 编程增强(20 分钟熔断宽容 + 1.3 倍工具步长)、Creator 长文创作(30 分钟)。</li>
 <li><strong>会话检查点 + 分叉。</strong> 时间轴任意点 rollback 回去。Fork 保留父上下文,两个方向并行试方案。</li>
 <li><strong>Cordis 级插件内核。</strong> Install → Load → Start → Stop → Uninstall 生命周期齐全,DAG 拓扑解析依赖,SemVer 版本约束,.zip 一键导入。</li>
-<li><strong>Capability 三层解耦注册中心。</strong> ServiceDef 管契约,Provider 管实现(还带 fitness 评分),Consumer 用 tags AND/OR + attributes 深度匹配。</li>
+<li>Capability 三层解耦注册中心。ServiceDef 管契约,Provider 管实现(还带 fitness 评分),Consumer 用 tags AND/OR + attributes 深度匹配。</li>
 <li><strong>图驱动 DAG 多 Agent 编排。</strong> Kahn 拓扑 + 事件驱动并行。Condition 分支、重试、超时、子图复用都支持。线性任务列表那套可以退场了。</li>
-<li><strong>推理 Trace 全链路面板。</strong> 每 Turn 的工具选择理由、压缩触发、缓存命中、模型切换全都能看。Token 和耗时分布也一眼就清。</li>
+<li>推理 Trace 全链路面板。每 Turn 的工具选择理由、压缩触发、缓存命中、模型切换全都能看。Token 和耗时分布也一眼就清。</li>
 </ul>
-<h3>配套的</h3>
+<h3 id="配套的">配套的</h3>
 <p>新做的 12 个模块都配了单元测试,全部 PASS。TypeScript <code>tsc --noEmit</code> 零错误。V3.9 公开接口零破坏性改动,所有新模块都是可选注入,不升级也能用。</p>
-<h3>安全</h3>
+<h3 id="安全">安全</h3>
 <p>文件写默认限定 workspace 内。Shell 命令只允许在 workspace 当前目录跑。format、磁盘分区、递归强制删除这些高危命令默认拒绝。</p>
-<h3>性能</h3>
+<h3 id="性能">性能</h3>
 <p>缓存命中直接返回,不用跑模型。Prefix Caching + Inference Cache 双管齐下,相同场景省 30%-70% Token。</p>
 <hr>
-<h2>V3.9 · 彻底把核心从 Codex 里剥离出来,自己写了</h2>
+<h2 id="v3-9">V3.9 · 彻底把核心从 Codex 里剥离出来,自己写了</h2>
 <blockquote>
 <p>日期：2026-08-14</p>
 <p>移除了 <code>codex/</code> 子进程、config.toml 磁盘写入、jsonl RPC 管道。以前所有核心逻辑全走管道,现在全塞进程内。12 大模块全自研,不再依赖任何外部 Codex App Server 或 CLI。</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <p>HELIOS Core(<code>src/main/core/</code>)12 个大模块:</p>
 <ul>
 <li><strong>Agent Loop。</strong> Turn / Step 两层循环,多工具调用、流式输出、中断恢复都支持。</li>
@@ -177,33 +206,33 @@
 <li><strong>10 个内置工具。</strong> read_file、list_directory、write_file、grep_files、shell_exec、run_project_command、search_files、git_status、git_diff、inspect_workspace。</li>
 </ul>
 <p>架构上参考了 DeepSeek Harness 的"一切皆插件"和 kun-reference 的"端口/适配器 + 缓存优先循环"思路,核心扩展能力现在跟它们同一水平线。384 / 384 测试全过,构建成功,<code>tsc --noEmit</code> 零错误。</p>
-<h3>增强</h3>
+<h3 id="增强">增强</h3>
 <p><code>StarHubRuntime.createClient</code> 直接传 <code>ProviderConfig</code>,不再走环境变量 + 磁盘配置文件中间那层,少了一层就少一层出错概率。Provider 校验和连接流程更稳,失败提示改成"XC 自研核心",不再提 Codex。线程 source 字段从硬编码 <code>"codexAppServer"</code> 改成标准 <code>"appServer"</code>。移除 config.toml 写入后首次连接速度也快了一点,少了磁盘事务 I/O。</p>
-<h3>修的 bug</h3>
+<h3 id="修的-bug">修的 bug</h3>
 <p>"Codex 进程异常退出会话断连"彻底没了,因为核心全在进程内,没外部子进程依赖。长对话 Token 溢出修了,Context Compactor 三阈值 + 预算驱动自动压缩。工具调用死循环修了,Tool Storm Breaker 多维检测 + 熔断。Provider 切换时残留旧环境变量也修了,现在 ProviderConfig 纯内存传,不走 env,干净。</p>
-<h3>架构杂记</h3>
+<h3 id="架构杂记">架构杂记</h3>
 <p>核心层严格走"端口/适配器"模式。所有外部依赖都用抽象接口解耦:<code>ModelClient</code>、<code>ToolRegistryPort</code>、<code>SessionEventLogPort</code>,想换实现就换。Branded ID 系统(<code>ThreadId</code> / <code>TurnId</code> / <code>StepId</code> / <code>CallId</code>)防类型混淆,参考了 TS 类型驱动的写法。自研模块单元类型覆盖 100%,以后单独换任意实现都行。比如要加本地 OLLAMA,只需要新写一个 LLM Client 适配器。</p>
 <hr>
-<h2>V3.8.1 · 多场景 + 多情绪,陪伴的感觉终于出来了</h2>
+<h2 id="v3-8-1">V3.8.1 · 多场景 + 多情绪,陪伴的感觉终于出来了</h2>
 <blockquote>
 <p>日期：2026-08-14</p>
 <p>三场景自由切,四档情绪随陪伴变化。功能按钮一个没砍。</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <p><strong>场景系统。</strong> 顶栏一键切三套整体风格。陪伴风格是小星立绘 + 星光 halo 背景 + 礼物 / 星标 / 菜单工具栏。工作台风格走网格科技风背景 + Hero 卡片 Agent 特性 + 快捷入口。专注风格给暗调径向渐变 + 聚焦暗角,简化界面屏蔽干扰。</p>
 <p><strong>情绪系统。</strong> 只在陪伴场景显示,四档:默认、开心、困倦、调皮。每档配独立的问候语、占位文案、Hero 徽标,还有"送你一颗星""抱抱你"这种互动按钮。</p>
 <p><strong>功能完整保留。</strong> 上下文条、新建 / 分叉 / 归档、对话 / Graph / Review 三模式,图片、语音、朗读、剪贴板、终端、停止、执行,全跟着场景自动调样式,一个没少。<code>tsc --noEmit</code> 通过,Scene 和 Mood 类型全程接进了 NextApp、NextConversationPane、NextSessionBar。</p>
-<h3>增强</h3>
+<h3 id="增强">增强</h3>
 <p>Hero 卡片内容会跟着场景变:陪伴显示"今日陪伴时长",工作台显示"当前会话",专注显示"专注时长"。输入框占位文案、主按钮图标和标签、工具栏结构,全部按场景匹配。<code>xiaoxing-workbench.css</code> 原封不动保留,工作台场景直接沿用。</p>
-<h3>设计与素材</h3>
+<h3 id="设计与素材">设计与素材</h3>
 <p>工作台场景新增网格背景层 + 网格光晕层,纯 CSS 叠出来的。专注场景新增径向渐变层 + 聚焦暗角层,同样纯 CSS。问候气泡、快捷按钮统一用主题色渐变 + 阴影提层次。</p>
 <hr>
-<h2>V3.8 · 星枢 · Codex 版</h2>
+<h2 id="v3-8">V3.8 · 星枢 · Codex 版</h2>
 <blockquote>
 <p>日期：2026 年</p>
 <p>主打:本地优先 · 可观察 · 可组合 · 桌面伙伴</p>
 </blockquote>
-<h3>新东西</h3>
+<h3 id="新东西">新东西</h3>
 <ul>
 <li>HELIOS 引擎升级。对话、任务、调度三套底层统一到 HELIOS V3.8。</li>
 <li>启动动画重做。小星开场时主动靠边,不挡你屏幕。</li>
@@ -220,7 +249,7 @@
 <li>Telemetry + Changelog,设置面板里本地看匿名使用摘要和更新日志。</li>
 <li>sqlite-vec 向量扩展,本地向量搜索,为长期记忆打基础。</li>
 </ul>
-<h3>增强</h3>
+<h3 id="增强">增强</h3>
 <ul>
 <li>设置面板重构为 NextSettingsDrawer,分了诊断、Provider、远程、通知、外观五区。</li>
 <li>对话主界面和文档渲染器美化,Markdown、表格、代码块样式统一。</li>
@@ -229,7 +258,7 @@
 <li>electron-vite 构建外部化处理,better-sqlite3 + sqlite-vec 原生模块能正确打包。</li>
 <li>CLI 和 Runtime 共用一套 Provider 配置,用户不用填两遍。</li>
 </ul>
-<h3>修的 bug</h3>
+<h3 id="修的-bug">修的 bug</h3>
 <ul>
 <li>修 XC-???? 标题乱码。靠 <code>.gitattributes</code> 强制 UTF-8 working-tree-encoding。</li>
 <li>修启动后透明遮罩挡主屏。alwaysOnTop 降级 + splash 超时销毁 + 错误兜底销毁。</li>
@@ -237,7 +266,7 @@
 <li>修导出设置 JSON 时 API Key 明文暴露。默认脱敏。</li>
 <li>修部分 Wiki / README 页面还是旧的纯文本。整体视觉重做 + 素材接入。</li>
 </ul>
-<h3>设计与素材</h3>
+<h3 id="设计与素材">设计与素材</h3>
 <ul>
 <li>接入完整小星素材库,17 张成品图 + 2 张渐变横幅。</li>
 <li>README 视觉化:渐变横幅、立绘主视觉、8 大能力卡、场景画廊、情绪胶囊、人设、FAQ。</li>
@@ -245,7 +274,7 @@
 <li>Wiki 7 篇核心文档全视觉化:Home、功能总览、快速开始、核心功能、主对话与任务编排、高级功能、更新日志。</li>
 </ul>
 <hr>
-<h2>V3.7 · 起点</h2>
+<h2 id="v3-7">V3.7 · 起点</h2>
 <ul>
 <li>首版小星桌面伙伴框架落地。</li>
 <li>Provider、长对话、记忆模块基础能跑。</li>
