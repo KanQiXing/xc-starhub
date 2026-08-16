@@ -31,7 +31,7 @@
   <br>
 
   <!-- 立绘主图（全身挥手 / 高清） -->
-  <a href="./index.html">
+  <a href="https://kanqixing.github.io/xc-starhub/index.html">
     <img src="./assets/xiaoxing/character-fullbody.png" alt="小星 · 主视觉 · 全身立绘" width="820" style="max-width:94%;border-radius:30px;box-shadow:0 32px 100px rgba(113,182,255,.24),0 2px 0 rgba(255,255,255,.85) inset;border:1px solid rgba(255,255,255,.88)">
   </a>
 
@@ -258,7 +258,7 @@
   </tbody>
 </table>
 
-> 还有 9 颗：生气版 / 桌面挂机版 / 治愈休息版 / 晚安钻被窝版 / 睡前陪伴版 / 聊天界面版 / 节日限定版 / 陪聊场景版 / 小星头像版，全部放在 [主页 Gallery + Moods 区](./index.html#moods) 里展示。
+> 还有 9 颗：生气版 / 桌面挂机版 / 治愈休息版 / 晚安钻被窝版 / 睡前陪伴版 / 聊天界面版 / 节日限定版 / 陪聊场景版 / 小星头像版，全部放在 [主页 Gallery + Moods 区](https://kanqixing.github.io/xc-starhub/index.html#moods) 里展示。
 
 <br>
 
@@ -396,11 +396,11 @@
 <div align="center">
 
   <p>
-    <kbd>&nbsp;<a href="./wiki-pages/Home.html">📘 Wiki</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/Home.html">📘 Wiki</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="./wiki-pages/功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="./wiki-pages/快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
     <kbd>&nbsp;<a href="https://ifdian.net/a/XCxiaoxing">💙 爱发电</a>&nbsp;</kbd>
   </p>
