@@ -56,7 +56,7 @@
 <hr>
 <h2 id="v3-9">🧠 HELIOS Core · 自研核心引擎（V3.9 起）</h2>
 <blockquote>
-<p>全部塞进主进程里跑,没有外部子进程这一层了。架构上是对着 DeepSeek Harness 和 kun-reference 两家好设计学来的,所有外部依赖都走抽象接口,以后想换实现不痛苦。</p>
+<p>全部塞进主进程里跑,没有外部子进程这一层了。架构上参考了市面上两种主流插件化编排思路,加之前临时参考副本里好用的部分,融合到一起。所有外部依赖全走抽象接口,以后想换实现不痛苦。</p>
 </blockquote>
 <h3 id="12-大自研模块">12 大自研模块</h3>
 <div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;" class="wide-caps">
@@ -116,7 +116,7 @@
         <td width="25%" valign="top">
           <h4>🔌 XCRuntimeClient</h4>
           <sub>无缝接口适配层</sub>
-          <p>实现 CodexRuntimeClient 接口,StarHubRuntime 无感切换<br><em>旧的 runtime 接口没作废,底层换成自研核心,上层代码不用改。</em></p>
+          <p>实现旧版 XCRuntimeClient 接口,StarHubRuntime 无感切换<br><em>旧的 runtime 接口没作废,底层换成自研核心,上层代码不用改。</em></p>
         </td>
         <td width="25%" valign="top">
           <h4>🧩 端口 / 适配器</h4>
@@ -139,20 +139,20 @@
 <table style="min-width:720px;">
   <tbody>
     <tr>
-      <td width="25%" valign="top"><h4>📊 Token 预算可视化</h4><sub>三阈值 + 节省来源</sub><p>软 / 硬 / 强制 三档进度条 · 工具 token 热力图 · Prefix Caching / 推理缓存 / Token Economy 三类节省来源分别展示<br><em>钱花在哪、省在哪,眼睛能看见。</em></p></td>
-      <td width="25%" valign="top"><h4>💓 Dead Man 看门狗</h4><sub>推理心跳自动保护</sub><p>Turn 90 秒 / Step 45 秒 无事件 → 连续 2 次超时自动中断,防止软死锁,同时弹 toast 提醒你<br><em>怕她卡住不吭声,这块专门盯着「没动静」这件事。</em></p></td>
-      <td width="25%" valign="top"><h4>♻️ 自愈降级 Fallback</h4><sub>Provider 健康滑动窗口</sub><p>主模型连着错就静默切备用,冷却 5 分钟再回探原主,全程用户没感觉<br><em>一家模型挂了自动换另一家,不用手动切。</em></p></td>
-      <td width="25%" valign="top"><h4>🛡️ Tool Sandbox 沙箱</h4><sub>路径 + 命令双防护</sub><p>默认仅 workspace 内写,format / rd /s /q / diskpart 这类高危命令直接拒绝,写前自动备份<br><em>怕她把你磁盘搞乱,默认只在你指定的文件夹里动手。</em></p></td>
+      <td width="25%" valign="top"><h4>📊 回答额度可视化</h4><sub>三阈值 + 节省来源</sub><p>软 / 硬 / 强制 三档进度条 · 工具 token 热力图 · Prefix Caching / 推理缓存 / Token Economy 三类节省来源分别展示<br><em>钱花在哪、省在哪,眼睛能看见。</em></p></td>
+      <td width="25%" valign="top"><h4>💓 Dead Man 监督员</h4><sub>推理心跳自动保护</sub><p>Turn 90 秒 / Step 45 秒 无事件 → 连续 2 次超时自动中断,防止软死锁,同时弹 toast 提醒你<br><em>怕她卡住不吭声,这块专门盯着「没动静」这件事。</em></p></td>
+      <td width="25%" valign="top"><h4>♻️ 走不通自动换路 Fallback</h4><sub>Provider 健康滑动窗口</sub><p>主模型连着错就静默切备用,冷却 5 分钟再回探原主,全程用户没感觉<br><em>一家模型挂了自动换另一家,不用手动切。</em></p></td>
+      <td width="25%" valign="top"><h4>🛡️ Tool 关代码的隔离小盒子</h4><sub>路径 + 命令双防护</sub><p>默认仅 workspace 内写,format / rd /s /q / diskpart 这类高危命令直接拒绝,写前自动备份<br><em>怕她把你磁盘搞乱,默认只在你指定的文件夹里动手。</em></p></td>
     </tr>
     <tr>
       <td width="25%" valign="top"><h4>⚡ 缓存优先循环</h4><sub>双层 LRU 推理缓存</sub><p>内存 Map LRU + SQLite 持久化双层, sha256 做 key,一模一样的场景零模型调用,TTL 7 天<br><em>同样的问题第二次问,直接取缓存,省钱还秒回。</em></p></td>
-      <td width="25%" valign="top"><h4>🧠 三层混合记忆</h4><sub>Short / Mid / Long</sub><p>会话短期记忆 + 压缩摘要复用 + 全局偏好向量库,BM25 × 向量相似度 7:3 混合 Top-K<br><em>短中长三种记忆混起来,既能记住你刚说的,也不会忘以前的习惯。</em></p></td>
-      <td width="25%" valign="top"><h4>🎛️ 4 套运行时模式</h4><sub>Minimal / Standard / Code / Creator</sub><p>一键切工具集 / Token 预算 / 熔断灵敏度,闲聊 / 标准助手 / 编程 / 长文创作四场景<br><em>不同事配不同档位,该省的时候省,该出力的时候出力。</em></p></td>
-      <td width="25%" valign="top"><h4>🔁 检查点 + 分叉</h4><sub>时间旅行 + 方案并行</sub><p>时间轴任意点一键回滚;Fork 分叉保留完整父上下文,两个方向并行试方案互不干扰<br><em>想试 A / B 两个方案?直接分叉两条路,不用回滚重来。</em></p></td>
+      <td width="25%" valign="top"><h4>🧠 三段记忆抽屉(找以前的话更快)</h4><sub>Short / Mid / Long</sub><p>会话短期记忆 + 压缩摘要复用 + 全局偏好向量库,BM25 × 向量相似度 7:3 混合 Top-K<br><em>短中长三种记忆混起来,既能记住你刚说的,也不会忘以前的习惯。</em></p></td>
+      <td width="25%" valign="top"><h4>🎛️ 四种工作节奏档位</h4><sub>Minimal / Standard / Code / Creator</sub><p>一键切工具集 / 回答额度 / 熔断灵敏度,闲聊 / 标准助手 / 编程 / 长文创作四场景<br><em>不同事配不同档位,该省的时候省,该出力的时候出力。</em></p></td>
+      <td width="25%" valign="top"><h4>🔁 拍快照可回档</h4><sub>时间旅行 + 方案并行</sub><p>时间轴任意点一键回滚;Fork 分叉保留完整父上下文,两个方向并行试方案互不干扰<br><em>想试 A / B 两个方案?直接分叉两条路,不用回滚重来。</em></p></td>
     </tr>
     <tr>
-      <td width="25%" valign="top"><h4>🧩 Cordis 插件内核</h4><sub>生命周期 + 依赖图</sub><p>Install → Load → Start → Stop → Uninstall 全周期 · DAG 拓扑依赖解析 · SemVer 版本约束 · .zip 一键导入<br><em>插件不是随便塞进来,该启动、该停、该卸都有规矩。</em></p></td>
-      <td width="25%" valign="top"><h4>⚙️ Capability 三层解耦</h4><sub>Def / Provider / Consumer</sub><p>tags AND/OR 组合匹配 + attributes 深度匹配,fitness() 实时评分排序,不用硬编码模型或工具 id<br><em>一个能力可以有多个实现,挑当前最合适的,不用写死。</em></p></td>
+      <td width="25%" valign="top"><h4>🧩 Cordis 插件底座(插件能在这跑)</h4><sub>生命周期 + 依赖图</sub><p>Install → Load → Start → Stop → Uninstall 全周期 · DAG 拓扑依赖解析 · SemVer 版本约束 · .zip 一键导入<br><em>插件不是随便塞进来,该启动、该停、该卸都有规矩。</em></p></td>
+      <td width="25%" valign="top"><h4>⚙️ 各项独立能力(各干各的一个坏不拖垮整片) 三层解耦</h4><sub>Def / Provider / Consumer</sub><p>tags AND/OR 组合匹配 + attributes 深度匹配,fitness() 实时评分排序,不用硬编码模型或工具 id<br><em>一个能力可以有多个实现,挑当前最合适的,不用写死。</em></p></td>
       <td width="25%" valign="top"><h4>🌐 DAG 多 Agent 编排</h4><sub>拓扑并行 + 条件分支</sub><p>Kahn 拓扑排序 + 事件驱动并行,Condition T/F 分支 / 重试 / 超时 / 子图复用,取代线性任务列表<br><em>以前是 1→2→3 死顺序,现在能并行、能判断、能复用到其他图里。</em></p></td>
       <td width="25%" valign="top"><h4>🔍 推理 Trace 面板</h4><sub>全链路可追溯</sub><p>每 Turn:工具选择理由 / 压缩触发 / 缓存命中 / 模型切换 全展示,Token + 耗时分布一目了然<br><em>她到底怎么得出这个结果?翻 Trace 面板就能看个底朝天。</em></p></td>
     </tr>
@@ -162,17 +162,17 @@
 </div>
 <div style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;" class="wide-caps">
 <div align="center">
-<h3 id="V3.11-深度">⭐ V3.11 二阶段深化 · 22 件事一口气推上去(Harness 独有的能力也跟了)</h3>
+<h3 id="V3.11-深度">⭐ V3.11 二阶段深化 · 22 件事一口气推上去,高阶工具链也补齐</h3>
 <table style="min-width:720px;">
   <tbody>
     <tr>
       <td width="25%" valign="top"><h4>🔏 Immutable Prefix 指纹</h4><sub>Prefix Caching 精准命中</sub><p>System / Tools / Pinned / FewShots 合成 SHA256,revision 变更可控,连续对话前缀 30% - 70% Token 走厂商缓存价<br><em>前缀不变的部分直接算指纹,厂商缓存价自动帮你省钱。</em></p></td>
-      <td width="25%" valign="top"><h4>🧩 Compaction Marker</h4><sub>压缩不是黑箱</sub><p>注入 <code>&lt;kun:tool_digest sha256=...&gt;</code> 标记,模型知道是压缩摘要,sourceDigest + itemIds 完整可溯源<br><em>压缩完的东西不是一团谜,想溯源能溯源到原来哪几条。</em></p></td>
-      <td width="25%" valign="top"><h4>🩹 History Healing 历史自愈</h4><sub>老会话永远能打开</sub><p>抛畸形项 · 补缺失 id · 配对 orphan tool_call / tool_result,有真变化才写回磁盘,不做无意义 I/O<br><em>以前攒下来的老脏会话,现在打开会顺手帮你修干净。</em></p></td>
+      <td width="25%" valign="top"><h4>🧩 Compaction Marker</h4><sub>压缩不是黑箱</sub><p>注入 <code>&lt;xiaoxing:tool_digest sha256=...&gt;</code> 标记,模型知道是压缩摘要,sourceDigest + itemIds 完整可溯源<br><em>压缩完的东西不是一团谜,想溯源能溯源到原来哪几条。</em></p></td>
+      <td width="25%" valign="top"><h4>🩹 History Healing 历史走不通自动换路</h4><sub>老会话永远能打开</sub><p>抛畸形项 · 补缺失 id · 配对 orphan tool_call / tool_result,有真变化才写回磁盘,不做无意义 I/O<br><em>以前攒下来的老脏会话,现在打开会顺手帮你修干净。</em></p></td>
     </tr>
     <tr>
       <td width="25%" valign="top"><h4>🚦 Steering Queue 插嘴队列</h4><sub>推理中途纠正不废掉</sub><p>32 条 / 64KB 上限,priority 排序,等安全边界 drain 注入,UI 有 peek 显示「即将注入的待办」<br><em>她正在跑的时候你想改方向,不用等一整轮结束再说。</em></p></td>
-      <td width="25%" valign="top"><h4>🧑‍💻 PTC Code Mode</h4><sub>程序化工具调用</sub><p>多轮 read / grep / batch edit 合成一段 TS 或 Python,受控沙箱一次性跑完,3 层高危代码拦截,模型轮次少 50% - 80%<br><em>读→改→读→改 这种碎活,一段代码替她跑完,省轮次又省时间。</em></p></td>
+      <td width="25%" valign="top"><h4>🧑‍💻 PTC Code Mode</h4><sub>程序化工具调用</sub><p>多轮 read / grep / batch edit 合成一段 TS 或 Python,受控关代码的隔离小盒子一次性跑完,3 层高危代码拦截,模型轮次少 50% - 80%<br><em>读→改→读→改 这种碎活,一段代码替她跑完,省轮次又省时间。</em></p></td>
       <td width="25%" valign="top"><h4>🪝 Hook Engine AOP</h4><sub>6 相位 · 插件基石</sub><p>PreToolUse / PostToolUse / UserPromptSubmit / TurnStart / TurnEnd / PreCompact 六处都能挂,PreToolUse 可 deny / allow / rewrite 参数<br><em>做事的六个关键时刻都能插手,后面写插件想在哪拦就在哪拦。</em></p></td>
       <td width="25%" valign="top"><h4>📋 Plan Mode 先调研</h4><sub>宿主强约束,不瞎写</sub><p>Plan 激活时 write / edit / bash 一律拦,只给 read / ls / grep / lsp 这类只读 + create_plan,用户 approve 后再切执行模式<br><em>怕她一上来就写代码搞乱,先写一份计划批了再动手。</em></p></td>
     </tr>
@@ -184,7 +184,7 @@
     </tr>
     <tr>
       <td width="25%" valign="top"><h4>🪵 Extension Log Writer</h4><sub>每个插件独立日志</sub><p>大小滚动 2MB × 5 份,保留 7 天,4 档等级,日志写挂也不抛错,bug report 能带最近 N 行日志附件<br><em>插件出 bug 最怕「用户只说崩了没日志」,现在日志直接附上来。</em></p></td>
-      <td width="25%" valign="top"><h4>🎯 Goal 目标追踪系统</h4><sub>任务拆树、自动算进度</sub><p>Goal Tree root / sub / leaf,status + progressPct + blockers 齐全,父节点自动按子节点平均,支持折叠<br><em>一件大事拆成小块,每做完一块进度自动涨,不用手动更新 Todo。</em></p></td>
+      <td width="25%" valign="top"><h4>🎯 长期目标看板(把大事拆解盯进度)</h4><sub>任务拆树、自动算进度</sub><p>Goal Tree root / sub / leaf,status + progressPct + blockers 齐全,父节点自动按子节点平均,支持折叠<br><em>一件大事拆成小块,每做完一块进度自动涨,不用手动更新 Todo。</em></p></td>
       <td width="25%" valign="top"><h4>🧵 Jobs 后台作业队列</h4><sub>长任务放后面慢慢跑</sub><p>长任务异步跑,brand 分类,并发度可调,maxAttempts 自动重试,6 状态机齐全<br><em>跑百张图、转一堆视频这种活,放后台去,你可以继续聊其他事。</em></p></td>
       <td width="25%" valign="top"><h4>⚡ ReasoningEffort 6 场景</h4><sub>该省钱的地方省钱</sub><p>title / summary / 闲聊 / 标准助手 / 编程 / 长文创作 6 档策略,scene 能根据用户文本猜<br><em>起标题和写长文用的努力度肯定不一样,档位分开最划算。</em></p></td>
     </tr>
@@ -210,8 +210,8 @@
 <table style="min-width:720px;">
   <tbody>
     <tr>
-      <td width="25%" valign="top"><h4>🔌 LlmAdapter Provider 适配器</h4><sub>多协议统一抽象</sub><p>OpenAI / Anthropic / DeepSeek / 火山 / 豆包 / OLLAMA 一套壳,chat / stream / embed / healthCheck 四方法,切供应商改一行配置就行<br><em>每家接口长得都不一样,这下统一塞进一个壳,换模型不用改业务代码。</em></p></td>
-      <td width="25%" valign="top"><h4>🛡️ E2B 代码执行沙箱</h4><sub>4 后端隔离方案</sub><p>e2b 云 / firecracker / local-tmpfs / local-child-process 四后端,环境变量过滤 + 超时保护 + 沙箱目录不污染宿主<br><em>模型写的代码不敢直接在你电脑上跑,这是安全常识。四种后端随便挑。</em></p></td>
+      <td width="25%" valign="top"><h4>🔌 LlmAdapter Provider 适配器</h4><sub>多协议统一抽象</sub><p>OpenAI / Anthropic / 国内几家主流大模型 / 火山 / 豆包 / OLLAMA 一套壳,chat / stream / embed / healthCheck 四方法,切供应商改一行配置就行<br><em>每家接口长得都不一样,这下统一塞进一个壳,换模型不用改业务代码。</em></p></td>
+      <td width="25%" valign="top"><h4>🛡️ E2B 代码执行关代码的隔离小盒子</h4><sub>4 后端隔离方案</sub><p>e2b 云 / firecracker / local-tmpfs / local-child-process 四后端,环境变量过滤 + 超时保护 + 关代码的隔离小盒子目录不污染宿主<br><em>模型写的代码不敢直接在你电脑上跑,这是安全常识。四种后端随便挑。</em></p></td>
       <td width="25%" valign="top"><h4>📁 FS Driver 读写分离</h4><sub>读 / 写两套权限</sub><p>ReadDriver / WriteDriver 拆开,插件默认只读,写必须单独申请,写前自动备份 .backup/,realpath 解析防 symlink 越权<br><em>插件默认只能读不能动,想改文件得你点头才行。</em></p></td>
       <td width="25%" valign="top"><h4>🌐 LSP 语言服务接入</h4><sub>代码理解更精准</sub><p>tsserver / pyright / rust-analyzer / gopls / jdtls 都接了,definition / references / hover / diagnostics 四大能力跑 stdio JSON-RPC<br><em>代码跳转定义、看引用、报错提示,主流 LSP 全齐。</em></p></td>
     </tr>
@@ -219,10 +219,10 @@
       <td width="25%" valign="top"><h4>💎 Domain Usage 账本</h4><sub>Token 花多少心里有数</sub><p>UsageLedger 按 provider / model / day 聚合成本,EventBus 发布订阅 16 种系统事件,turnId / sessionId 全链路串起来<br><em>每调用一次模型记一次账,花了多少、省了多少,三个维度汇总看。</em></p></td>
       <td width="25%" valign="top"><h4>🧩 Ports 端口可注入</h4><sub>单测零时间等待</sub><p>IClock / IRandom / IEnv 全抽接口,线上真实实现,单元测试换 FakeClock / FakeRandom / FakeEnv,Scheduler 能 100 倍速跑<br><em>测试里不用真的等下一个 cron tick,把时间往前拨就行。</em></p></td>
       <td width="25%" valign="top"><h4>🖱️ Browser Use 浏览器自动化</h4><sub>Playwright 封装好</sub><p>createSession / execute / navigate / click / type / screenshot / extract,脚本安全审查 + 域名 pattern 白名单,防恶意网页注入<br><em>能在浏览器里做的 10 个动作全封装了,顺手拦了危险写法。</em></p></td>
-      <td width="25%" valign="top"><h4>🌿 Git Worktree 作业隔离</h4><sub>多任务并行不踩文件</sub><p>create / merge / list / cleanup 四件套,每个并行任务自动开独立 worktree,UUID 分支名不撞,冲突只列清单不强推<br><em>以前同一个仓库两件事一起跑经常互相踩文件,现在每人一个独立沙箱。</em></p></td>
+      <td width="25%" valign="top"><h4>🌿 Git Worktree 作业隔离</h4><sub>多任务并行不踩文件</sub><p>create / merge / list / cleanup 四件套,每个并行任务自动开独立 worktree,UUID 分支名不撞,冲突只列清单不强推<br><em>以前同一个仓库两件事一起跑经常互相踩文件,现在每人一个独立关代码的隔离小盒子。</em></p></td>
     </tr>
     <tr>
-      <td width="25%" valign="top"><h4>🚪 SDK 门面层</h4><sub>插件开发体验</sub><p>registerPlugin / registerTool / on(phase) / registerCapability 四件套,context 自动注入,unregisterByPrefix 批量清理<br><em>插件作者不用摸内部接口,30 行代码能写出 Hello World 插件。</em></p></td>
+      <td width="25%" valign="top"><h4>🚪 SDK 门面层</h4><sub>插件开发体验</sub><p>registerPlugin / registerTool / on(phase) / register各项独立能力(各干各的一个坏不拖垮整片) 四件套,context 自动注入,unregisterByPrefix 批量清理<br><em>插件作者不用摸内部接口,30 行代码能写出 Hello World 插件。</em></p></td>
       <td width="25%" valign="top"><h4>🪝 Hook Engine 扩展</h4><sub>按前缀一键注销</sub><p>新增 unregisterByPrefix,插件卸载时清掉自己注册的所有拦截器,防止内存泄漏和幽灵回调<br><em>以前卸载插件只 dispose 主对象,钩子还挂着会触发两次。现在一键清干净。</em></p></td>
       <td width="25%" valign="top"><h4>🗃️ types.ts 43 模块契约</h4><sub>V3.10 → V3.12 累计</sub><p>新增 9 模块入参出参强类型:LlmAdapter / E2B / FS / LSP / Usage / Ports / Browser / Worktree / SDK,共 1200+ 行<br><em>越改类型越全,跨模块调接口不会传错字段。</em></p></td>
       <td width="25%" valign="top"><h4>🏷️ 版本徽章一致 V3.12</h4><sub>全仓文案同步</sub><p>README / index / Wiki / 9 个 HTML 里徽章 / hero-tag / foot-meta 一次替换,build-wiki 模板也同步,源码不公开原则写清楚<br><em>版本号和说法一次拉齐,公开仓和文档里表达一致。</em></p></td>
@@ -282,10 +282,10 @@
 <table style="min-width:720px;">
   <tbody>
     <tr>
-      <td width="25%" valign="top"><h4>⚖️ 三层记忆权重面板</h4><sub>短期 / 摘要 / 长期自拉</sub><p>三滑块调权重 · 每条记忆看 score + 来源 + 命中率 · rankMemoryRecords 纯函数 · 一键复位默认 7:3 · Top-K 可配<br><em>不用让三层记忆按固定比例盲混了。</em></p></td>
+      <td width="25%" valign="top"><h4>⚖️ 三段记忆抽屉(找以前的话更快) 权重面板</h4><sub>短期 / 摘要 / 长期自拉</sub><p>三滑块调权重 · 每条记忆看 score + 来源 + 命中率 · rankMemoryRecords 纯函数 · 一键复位默认 7:3 · Top-K 可配<br><em>不用让三段记忆按固定比例盲混了。</em></p></td>
       <td width="25%" valign="top"><h4>🔗 目标 → 调度器连接器</h4><sub>目标动了任务自动跟着动</sub><p>goal status 变更 → goal-events 总线 → goal-dispatch-match 规则匹配 → scheduler 入队 → 每条留 dispatch 链路 id<br><em>之前目标动了后台任务经常跟不上,现在用订阅函数一把兜住。</em></p></td>
-      <td width="25%" valign="top"><h4>🗂️ 主源码正式归仓</h4><sub>主源码 + wiki 分仓明确</sub><p>小星源码从 .cache/kun-reference 平移进 XC-星枢 · 本地独立 git 无任何 remote · 公开仓只推 wiki 文档 · package.json 改回 xc-starhub / XC星枢 / 3.12.0 · 源码不上传 GitHub 从结构上焊死<br><em>两个仓库分工写清楚,手滑都推不到公开仓。</em></p></td>
-      <td width="25%" valign="top"><h4>🗃️ types.ts 48 模块契约</h4><sub>V3.13–V3.16 累计拉满</sub><p>新增 MemoryRanker / GoalDispatch / GoalStatusChange / PlanSelfReflection / PendingHookApproval / PtcDebugEvent · 1400+ 行,跨模块接口全强类型<br><em>越写类型越全,传错字段一眼就能发现。</em></p></td>
+      <td width="25%" valign="top"><h4>🗂️ 主源码正式归仓</h4><sub>主源码 + wiki 分仓明确</sub><p>小星源码从 .cache/小星参考实现平移进 XC-星枢 · 本地独立 git 无任何 remote · 公开仓只推 wiki 文档 · package.json 改回 xc-starhub / XC星枢 / 3.12.0 · 源码不上传 GitHub 从结构上焊死<br><em>两个仓库分工写清楚,手滑都推不到公开仓。</em></p></td>
+      <td width="25%" valign="top"><h4>🗃️ types.ts 48 模块契约</h4><sub>V3.13–V3.16 累计拉满</sub><p>新增 三段记忆抽屉(找以前的话更快) / GoalDispatch / GoalStatusChange / PlanSelfReflection / PendingHookApproval / PtcDebugEvent · 1400+ 行,跨模块接口全强类型<br><em>越写类型越全,传错字段一眼就能发现。</em></p></td>
     </tr>
   </tbody>
 </table>
@@ -299,7 +299,7 @@
 </tr></thead>
 <tbody>
 <tr>
-<td>依赖 Codex 子进程，异常退出会整段断连</td>
+<td>依赖外部子进程，异常退出会整段断连</td>
 <td>核心全在主进程，零外部进程依赖，更稳定</td>
 </tr>
 <tr>

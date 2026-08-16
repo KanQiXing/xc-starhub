@@ -19,7 +19,7 @@
 
 <div align="center">
 
-  <!-- 字符画品牌 LOGO（GitHub 解析出来就像一块品牌板） -->
+  <!-- 字符画品牌 LOGO（解析出来就像一块品牌板） -->
 
   <pre>
 ╭──────────────────────────────────────────────────────────╮
@@ -61,11 +61,7 @@
   <!-- 主入口按钮 -->
   <p>
     &nbsp;
-    <a href="https://kanqixing.github.io/xc-starhub/">
-      <img src="https://img.shields.io/badge/%F0%9F%8F%A0%20%E8%BF%9B%E5%85%A5%20%E4%B8%BB%E9%A1%B5-%231f314f?style=for-the-badge" alt="进入主页">
-    </a>
-    &nbsp;&nbsp;
-    <a href="https://kanqixing.github.io/xc-starhub/wiki-pages/Home.html">
+    <a href="./wiki-pages/Home.html">
       <img src="https://img.shields.io/badge/%F0%9F%93%98%20%E6%89%93%E5%BC%80%20Wiki-%2371B6FF?style=for-the-badge" alt="打开 Wiki">
     </a>
     &nbsp;&nbsp;
@@ -334,16 +330,16 @@
 
 | 现在啥情况 | 这一阶段真正做了啥 | 对应用版本 |
 |:---:|---|:---:|
-| ✅ 已经上线 | 小星桌面伙伴能跑 · Provider 能切 · 长对话 + 记忆 · 远程继续 · 语音图片 · 后台调度 · AI 贴靠 · 6 家 Provider · 4 套皮肤场景 | V3.8 · 星枢初版 |
-| ✅ 已经上线 | **把核心从 Codex 里剥离出来自己写了**。12 大自研模块全部进程内跑,零子进程依赖,100% 单测过 | V3.9 · HELIOS Core |
-| ✅ 已经上线 | 一口气加了 12 件高阶能力:Token 预算可视化 / 看门狗 / 自愈切备用 / 沙箱 / 缓存优先 / 三层记忆 / 4 运行时模式 / 检查点分叉 / 插件内核 / Capability 解耦 / DAG 编排 / Trace 面板 | V3.10 · 核心拔高 |
-| ✅ 已经上线 | 22 件事一口气推上去:循环修复、可靠性、Harness 独有的高阶能力(Goal/Jobs/DAG监督/ReasoningEffort)、Guard防护、cron调度、MCP外连、34模块强类型全拉满 | V3.11 · Harness 对齐 |
-| ✅ 已经上线 | **插件终于能写了**。Provider适配器 / E2B沙箱 / FS读写分家 / LSP接了5家语言 / 用量账本 / 时钟随机数环境可注入 / Playwright浏览器自动化 / Git Worktree并行隔离 / SDK门面层四件套 | V3.12 · 插件基础齐活 |
-| ✅ 已经上线 | 三件看得见摸得着的事:对话全文搜索高亮(正则支持) / Jobs 五列看板(失败直接重跑) / 一键诊断包(打包+脱敏+反馈模板) | V3.13 · 体验补全 |
-| ✅ 已经上线 | Hook 终于让用户看见:敏感钩子审批浮层 / 按 phase 配策略面板 / IndexedDB 审批日志导出 / 空引用稳定化少 30% re-render | V3.14 · 钩子可见化 |
-| ✅ 已经上线 | PTC 调试器面板(单步/断点/重跑) · PTC 自动降级回老路 · 计划自我反思高危步骤 · chat-projection reducer 补齐三 case 不再哑炮 | V3.15 · 向内深挖 |
-| ✅ 已经上线 | 三层记忆权重可调(滑块+score面板) · 目标状态自动同步到调度器 · **源码正式归仓**:主源码进 XC-星枢 本地 git,公开仓只推 wiki 文档,源码不上传 GitHub | V3.16 · 归档与整理 |
-| 📋 下一阶段想做 | 真正的语音对话模式 · macOS / Linux 跨平台版 · 插件热沙箱再打磨 · 更多皮肤与立绘 | V4.0 以后 |
+| ✅ 已经上线 | 小星桌面伙伴能跑 · 6家可选AI模型能切 · 长对话 + 记忆 · 远程继续 · 语音图片 · 后台调度 · AI 贴靠 · 4 套皮肤场景 | V3.8 · 星枢初版 |
+| ✅ 已经上线 | **从之前共用的壳子里整个抽出来自己重写了**。12 大自研模块全部进程内跑,零子进程依赖,100% 单测过 | V3.9 · HELIOS Core |
+| ✅ 已经上线 | 一口气加了 12 件高阶能力:每次调用的额度看得见 / 出问题自动跳回来的保险绳 / 不行就切备用方案 / 隔离环境 / 缓存优先 / 三层记忆 / 4 运行时模式 / 检查点分叉 / 做事前后可以插一脚的扩展点 + 插件底座 / 各能力拆开不绑死 / 先A再BC并行最后汇总的顺序安排 / 调用轨迹面板 | V3.10 · 核心拔高 |
+| ✅ 已经上线 | 22 件事一口气推上去:循环修复、可靠性、独有的高阶能力(长期目标/排队小事/盯顺序三件套监督/推理力度)、危险操作前拦一道的守门员防护、到点就提醒的后台钟表调度、接外部工具的通用转接口外连、34模块强类型全拉满 | V3.11 · 内核对齐 |
+| ✅ 已经上线 | **插件终于能写了**。6家可选AI模型适配 / 云里跑代码隔离环境 / 读文件写文件分开两路 / 代码补全助手接了5家语言 / 用量账本 / 时钟随机数环境可注入 / 网页自动操作浏览器 / 一个仓库同时开几个分支不打架并行隔离 / 对外简化好调用的接口层四件套 | V3.12 · 插件基础齐活 |
+| ✅ 已经上线 | 三件看得见摸得着的事:对话全文搜索高亮(正则支持) / 排队小事五列看板(失败直接重跑) / 一键诊断包(打包+脱敏+反馈模板) | V3.13 · 体验补全 |
+| ✅ 已经上线 | 做事前后可以插一脚的扩展点终于让用户看见:先审再放的审批卡片(分情况配规则/抽屉存审批记录) / 按阶段配策略面板 / 先审再放的审批卡片记录导出 / 空引用稳定化少 30% 界面重画次数 | V3.14 · 扩展点可见化 |
+| ✅ 已经上线 | 代码脚本模式调试器面板(单步/断点/重跑) · 代码脚本模式高端模式不行自动切回老路 · 计划写完先自查风险高危步骤 · 每条自动转发带编号+从边上滑出的目标详情抽屉面板 · 界面状态各自处理 · 高端模式不行切回老路的日志 · 计划写完等你过一眼才继续 · 4轮降级兜得住 · 多页编辑状态实时同步 | V3.15 · 向内深挖 |
+| ✅ 已经上线 | 插件底座全面接小星核心能力(4大阶段9个扩展口) / 5家代码助手+3家接入口+网页自动操作+云里跑代码隔离环境都接好了 / 界面状态处理少六成 / 读文件写文件分开两路 / 小星核心内部命名统一了 / 每个接口都提前说清楚 / 浏览器自动点网页填表单 / 智能体模板能存和分享 / 节点编辑器可拖拽 / 工作流能自动跑 / **源码正式归仓**:主源码进 XC-星枢 本地 git,公开仓只推 wiki 文档 | V3.16 · 归档与整理 |
+| 📋 下一阶段想做 | 真正的语音对话模式 · macOS / Linux 跨平台版 · 插件热隔离环境再打磨 · 更多皮肤与立绘 | V4.0 以后 |
 | 💡 以后有机会就做 | 小星自己的语音包 · 你自定义角色人设 · 多人协作模式 · 桌面宠物形态 | 更久以后 |
 
 </div>
@@ -400,13 +396,11 @@
 <div align="center">
 
   <p>
-    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/index.html">🏠 主页</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="./wiki-pages/Home.html">📘 Wiki</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/Home.html">📘 Wiki</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="./wiki-pages/功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/功能总览.html">🌟 功能总览</a>&nbsp;</kbd>
-    &nbsp;·&nbsp;
-    <kbd>&nbsp;<a href="https://kanqixing.github.io/xc-starhub/wiki-pages/快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
+    <kbd>&nbsp;<a href="./wiki-pages/快速开始.html">🚀 快速开始</a>&nbsp;</kbd>
     &nbsp;·&nbsp;
     <kbd>&nbsp;<a href="https://ifdian.net/a/XCxiaoxing">💙 爱发电</a>&nbsp;</kbd>
   </p>
@@ -418,7 +412,7 @@
   <sub>
     ✦ XC · 星枢 &nbsp;·&nbsp; 小星 · HELIOS V3.16 &nbsp;·&nbsp; 面向用户的智能工作助手 ✦
     <br>
-    <samp>LOCAL-FIRST &nbsp;·&nbsp; OBSERVABLE &nbsp;·&nbsp; COMPOSABLE &nbsp;·&nbsp; CRAFTED</samp>
+    📦数据留桌—全端本地存储模型不存你的内容 &nbsp;👀看得到的变化—每一步前后都透明 &nbsp;🧩一件事一处干完—不东拼西凑 &nbsp;💝有人味不越界—取舍踩坑边界都实话实说
   </sub>
 
 </div>
