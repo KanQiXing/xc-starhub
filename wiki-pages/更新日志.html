@@ -27,7 +27,7 @@
   <div class="nav-title">更新日志<span class="crumb-sub">· 小星 Wiki</span></div>
   <div class="nav-right">
     <a class="nav-chip arrow" href="./截图画廊.html">← <span class="long">截图画廊</span></a>
-    <span class="nav-chip muted">下一篇 →</span>
+    <a class="nav-chip arrow" href="./项目路线图.html"><span class="long">项目路线图</span> →</a>
   </div>
 </nav>
 <main class="wiki-wrap">
@@ -54,12 +54,12 @@
   </p>
 </div>
 <hr>
-<h2 id="v3-16">V3.16 · 内存权重面板 + 目标状态联动 + 版本归档</h2>
+<h2 id="v3-16">V3.16 · 内存权重面板 + 目标状态联动 + 版本归档 + 审批瀑布 + 权限预设 + 🗺️ 项目路线图公开</h2>
 <blockquote>
-<p>日期：2026-08-15</p>
-<p>这一轮顺手把前几版攒的"三件事"收了——三层记忆终于能自己调权重、目标状态变化会自动吐对应任务、源码也彻底归到了新主仓库。前三版是一个个点,这一版把它们串成线。</p>
+<p>日期：2026-08-15（用户功能）　·　2026-08-16（内部工程正式落地 + 路线图对外公开）</p>
+<p>这一版分两个阶段：<strong>8 月 15 日</strong>是用户能直接摸到的三件事（记忆权重面板、目标状态连接器、仓库归档搬家）；<strong>8 月 16 日</strong>是内部工程端的两件大事终于正式落地——审批从"先审再放卡片"升级成<strong>瀑布式三态审批</strong>（等 → 超时升级 → 终决），权限配置第一次能用<strong> Preset 预设</strong> 一套一套地切；与此同时，对外公开了独立的 <a href="项目路线图.html">🗺️《项目路线图》</a> 页——26 件事做到哪了、还剩 15 件什么、大概什么时候能用，全部摊开，不藏不画饼。</p>
 </blockquote>
-<h3 id="新东西">新东西</h3>
+<h3 id="8-月-15-日-用户侧">8 月 15 日 · 用户侧</h3>
 <ul>
 <li><strong>内存权重面板。</strong> 终于不用再让三层记忆按固定比例盲混了。短期、摘要、长期三个滑块自己拉权重,每条记忆能看 score、来源、命中率。新增 <code>rankMemoryRecords</code> 纯函数,7:3 是默认,你想调成 10:0、0:10 都行。面板自带「重置默认」,乱了能一键拉回来。</li>
 <p>> 「取舍一句」一开始搞了十几种可调参数,后来发现真的用得上的就三个权重 + 一个 Top-K。参数多了反而让人不敢碰,缩到四个刚刚好。</p>
@@ -72,10 +72,20 @@
 <li><strong>主源码仓库归档。</strong> 小星的源码从临时参考目录整个平移到了 <code>XC-星枢</code>,本地独立 git 仓库初始化完成,不再和任何外部副本混放。package.json 改回 <code>xc-starhub</code> / <code>XC星枢</code> / <code>3.12.0</code>。远程 remote 留空,<strong>公开仓只推 wiki 文档,源码绝不上传 GitHub</strong>,这条线从仓库结构上焊死了,不会再有手滑的可能。</li>
 <p>> 「踩坑一句」之前因为新目录不在沙箱工作范围内,npm install 会被 Trae 拦。最后把源码目录落进当前工作区的子目录,规则上合法、操作上也能跑通构建,归档才算真的完成。</p>
 </ul>
+<h3 id="8-月-16-日-内部工程端-对外公开-新东西有两件">8 月 16 日 · 内部工程端 + 对外公开（新东西有两件）</h3>
+<ul>
+<li><strong>🛡️ 审批瀑布式状态机 + 权限预设正式接管。</strong> V3.14 做的"先审再放卡片"只是用户端 UI，这一轮内部工程全部落地：<strong>请求 → 等待中 → 超时无人回应自动升级给审批人 → 最终结果</strong>，三态流转，每一步都有事件流记录，事后翻审批日志能看到完整时间线；权限配置也终于不用三四个字段一起改了——两套<strong>预设</strong>直接切：<code>工作区写入模式</code>（写文件之前才要批，120 秒没人理就不批）和 <code>全权限高级模式</code>（每次工具调用都要批，60 秒没人理就自动升级给下一级审批人）。预设和沙箱模式之间上了<strong>双重不变式校验</strong>：名字对不上立刻报、高级模式没装真实审批后端立刻拦——fail-closed，不做静默失败。</li>
+<p>> 「踩坑一句」这一轮踩了 8 个小坑：字段拼写错、异步可选语法歧义、旧预设名没全换、测试断言漏更、类型守卫没加全……都是工程细节类的坑。最后跑 tsc + 单元测试 207 个用例全绿才算过，踩的坑全部写进决策档案了，下次做类似的不会再踩同个坑。</p>
+</ul>
+<ul>
+<li><strong>🗺️ 新增《项目路线图》公开页面。</strong> 26 件事，<strong>做了 11 件还剩 15 件</strong>，总进度 42.3%，P0 核心架构完成度 91.7%——全部给你摊开写在 <a href="项目路线图.html">项目路线图.md</a> 里，不藏、不画饼、不放"某月某日必定发布"的死线。26 件事每一件"解决了啥""用户能摸到什么"全有大白话说明；剩下的 15 件按<strong>下一件必须做 → P1 三条并行线 → P2 五件链状依赖</strong>排好序，哪几件能同时跑、哪几件得等前一件完成，也都写得明明白白。最后老老实实回答了一句"什么时候能用"。</li>
+<p>> 「取舍一句」路线图这种东西写大了容易成笑话，所以我们故意不写死线，只写前后顺序和"每做完一件用户能摸到什么"。时间永远估不准，但依赖顺序和完成的先后不会乱。</p>
+</ul>
 <h3 id="闲话补一句">闲话补一句</h3>
 <ul>
-<li>这一版最花时间的反而是"搬家"。2000 多个文件搬过来,package.json 名字要改、版本要对、git 要干净、.gitignore 不能漏东西,不能漏也不能多。现在两个仓库分清楚了:wiki 仓管文档、XC-星枢 管源码。</li>
-<li>类型文件扩到 48 大模块,新增 MemoryRanker / GoalDispatch / GoalStatusChange。</li>
+<li>8 月 15 这一版最花时间的反而是"搬家"。2000 多个文件搬过来，package.json 名字要改、版本要对、git 要干净、.gitignore 不能漏东西，不能漏也不能多。现在两个仓库分清楚了：<strong>wiki 仓管文档和品牌素材、XC-星枢 管源码</strong>，墙从仓库结构上焊死了。</li>
+<li>8 月 16 其实是默默推进的一天——审批瀑布这件事，V3.14 用户端卡片先做了，后面憋了两天才把内部状态机、预设、不变式校验一口气全补齐。用户能摸到的 UI 没变，但后台从"点同意就放行"升级成"有记录、能升级、有超时、能审计"的真·审批流。</li>
+<li>类型文件扩到 48 大模块，新增 MemoryRanker / GoalDispatch / GoalStatusChange；不变式从 9 条扩展到 10 条（加了"非默认预设必须有真实审批后端"这条 fail-closed 规则）。</li>
 </ul>
 <hr>
 <h2 id="v3-15">V3.15 · 代码脚本调试器 + 计划写完先自查风险</h2>
@@ -385,11 +395,11 @@
 <nav class="bottom-nav">
   <span class="bn-label">📖 Wiki 导航</span>
   <div class="bn-group">
-<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <a class="kbd-btn" href="./高级功能.html">高级功能</a> <a class="kbd-btn" href="./常见问题.html">常见问题</a> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <span class="kbd-btn active">更新日志</span>
+<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <a class="kbd-btn" href="./高级功能.html">高级功能</a> <a class="kbd-btn" href="./常见问题.html">常见问题</a> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <span class="kbd-btn active">更新日志</span> <a class="kbd-btn" href="./项目路线图.html">项目路线图</a>
   </div>
   <div class="bn-prevnext">
     <a class="kbd-btn" href="./截图画廊.html">← 截图画廊</a>
-    <span class="kbd-btn">已是最后一页</span>
+    <a class="kbd-btn" href="./项目路线图.html">项目路线图 →</a>
   </div>
 </nav>
 <footer class="wiki-footer">

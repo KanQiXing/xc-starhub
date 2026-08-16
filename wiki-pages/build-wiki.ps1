@@ -25,6 +25,7 @@ $pages = @(
     @{ file = '常见问题';           name = '常见问题';         title = '常见问题 · 小星 Wiki' }
     @{ file = '截图画廊';           name = '截图画廊';         title = '截图画廊 · 小星 Wiki' }
     @{ file = '更新日志';           name = '更新日志';         title = '更新日志 · 小星 Wiki' }
+    @{ file = '项目路线图';         name = '项目路线图';       title = '项目路线图 · 小星 Wiki' }
 )
 
 # ---------- 转换器共享状态（script 作用域） ----------

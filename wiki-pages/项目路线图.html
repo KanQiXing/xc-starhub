@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>项目路线图 · 小星 Wiki</title>
+<meta name="description" content="XC 星枢 · 小星 Wiki — 项目路线图">
+<meta property="og:title" content="项目路线图 · 小星 Wiki">
+<meta property="og:description" content="XC 星枢 · 小星 Wiki — 项目路线图">
+<meta property="og:image" content="../assets/xiaoxing/character-fullbody.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="项目路线图 · 小星 Wiki">
+<meta name="twitter:description" content="XC 星枢 · 小星 Wiki — 项目路线图">
+<meta name="twitter:image" content="../assets/xiaoxing/character-fullbody.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./wiki.css">
+</head>
+<body>
+<nav class="topbar">
+  <div class="nav-left">
+    <a class="nav-chip" href="../index.html">&larr; <span class="long">门户首页</span></a>
+  </div>
+  <div class="nav-title">项目路线图<span class="crumb-sub">· 小星 Wiki</span></div>
+  <div class="nav-right">
+    <a class="nav-chip arrow" href="./更新日志.html">← <span class="long">更新日志</span></a>
+    <span class="nav-chip muted">下一篇 →</span>
+  </div>
+</nav>
+<main class="wiki-wrap">
+<section class="wiki-hero">
+  <h1>项目路线图</h1>
+  <span class="hero-sub">XC · 星枢 · 小星 Wiki</span>
+</section>
+  <article class="wiki-content">
+<!--
+  ════════════════════════════════════════════════════════════════
+  📗  项目路线图 · 对外公开版
+  排版意图：工程进度播报 + 里程碑看板 + 剩下的 15 件事一条条给你看
+  ════════════════════════════════════════════════════════════════
+-->
+<img src="../assets/xiaoxing/banner-top.svg" width="100%" height="1">
+<div align="center">
+  <h1>🗺️ 小星 · 项目路线图</h1>
+  <blockquote>
+  <p>现在走到哪儿了？<br>
+  接下来还要做什么？<br>
+  大概什么时候能用？<br>
+  <strong>这里给你摊开说，不藏着，不画饼。</strong></p>
+  </blockquote>
+  <p>
+    <img src="https://img.shields.io/badge/%E5%B7%A5%E7%A8%8B%E8%BF%9B%E5%BA%A6-42.3%25-orange?style=for-the-badge" alt="工程进度 42.3%">
+    &nbsp;
+    <img src="https://img.shields.io/badge/P0-%E6%94%B6%E5%B0%BE%E4%B8%AD-%238BE28B?style=for-the-badge" alt="P0 收尾中">
+    &nbsp;
+    <img src="https://img.shields.io/badge/%E6%80%BB%E4%BB%BB%E5%8A%A1-26%20%E9%A1%B9-%239BB8FF?style=for-the-badge" alt="总任务 26 项">
+  </p>
+  <br>
+  <img src="../assets/xiaoxing/xiaoxing-portrait.jpg" alt="小星头像" width="90" style="border-radius:50%;opacity:.85">
+</div>
+<hr>
+<h2 id="🎯-一句话先讲完">🎯 一句话先讲完</h2>
+<blockquote>
+<p>我们一共画了 26 件事，现在<strong>做了 11 件，还剩 15 件</strong>。</p>
+<p></p>
+<p>最最核心的底座（能力解耦 / 配置合并 / 不变式校验 / 会话持久化 / 工具流水线 / 沙箱 / 子智能体 / 工作流 / 审批）已经全部落地。</p>
+<p></p>
+<p><strong>下一步就剩一件事没做：缓存命中率 ≥ 90% 的质量门关闸。</strong> 关完闸，P0 就全闭合，正式进入 P1。</p>
+<p></p>
+<p>P1 之后就是类型安全、远程沙箱、会话投影、压缩策略、子智能体身份投影、三大领域模式、后台作业注册表、LSP 集成、凭据配置双能力。</p>
+<p></p>
+<p>P2 才开始做对外开放：ACP 服务、代码模式子调用传输、Web 路由、HMR 热更新、目录生成器和 CI 校验。</p>
+</blockquote>
+<hr>
+<h2 id="📊-进度看板">📊 进度看板</h2>
+<h3 id="三层任务一览">三层任务一览</h3>
+<table>
+<thead><tr>
+<th>层级</th>
+<th>定位</th>
+<th>总数</th>
+<th>已做完</th>
+<th>正在做</th>
+<th>还没动</th>
+<th>完成率</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>🔴 P0 · 核心架构</strong></td>
+<td>先把地基打稳，不然上面全晃</td>
+<td>12</td>
+<td>11</td>
+<td>0</td>
+<td>1</td>
+<td><strong>91.7%</strong></td>
+</tr>
+<tr>
+<td><strong>🟡 P1 · 能力扩充</strong></td>
+<td>把能力一个个安上，功能开始成型</td>
+<td>9</td>
+<td>0</td>
+<td>0</td>
+<td>9</td>
+<td><strong>0%</strong></td>
+</tr>
+<tr>
+<td><strong>🟢 P2 · 生态外延</strong></td>
+<td>对外连通，给别人用、接外面进来</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td><strong>0%</strong></td>
+</tr>
+<tr>
+<td><strong>📦 合计</strong></td>
+<td>——</td>
+<td><strong>26</strong></td>
+<td><strong>11</strong></td>
+<td><strong>0</strong></td>
+<td><strong>15</strong></td>
+<td><strong>42.3%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="里程碑进度条">里程碑进度条</h3>
+<table>
+<thead><tr>
+<th>代号</th>
+<th>里程碑</th>
+<th>状态</th>
+<th>备注</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>M1</strong></td>
+<td>📑 文档机制落定</td>
+<td>✅ 完成</td>
+<td>8 月 16 号当天就把 Agent Notes 七种模板和七类归档目录全建好了。改代码不记笔记等于白干，写文档是给自己留后路。</td>
+</tr>
+<tr>
+<td><strong>M2</strong></td>
+<td>⚙️ Seams 基础内核</td>
+<td>✅ 完成</td>
+<td>能力三层角色抽象搞完了；配置 / 预设 / 补丁三层合在一起；不变式注册中心上线，目前能挂 <strong>10 条</strong>运行时校验规则。</td>
+</tr>
+<tr>
+<td><strong>M3</strong></td>
+<td>⚡ 运行时六项并行</td>
+<td>✅ 完成</td>
+<td>会话存盘（双后端）、工具流水线五段式、沙箱多后端切换、子智能体多 Provider 共存、可继续子智能体、工作流引擎（真 worker 线程），六件事一口气全通，单测 200+ 条绿。</td>
+</tr>
+<tr>
+<td><strong>M4</strong></td>
+<td>🔒 核心收尾</td>
+<td>🟡 差临门一脚</td>
+<td>只剩 P0-12「缓存命中率 ≥ 90%」质量门没关。关完之后，整个 P0 层就闭合了，再也不动架构级代码。</td>
+</tr>
+<tr>
+<td><strong>M5</strong></td>
+<td>🧩 P1 能力扩充</td>
+<td>🕒 还没开始</td>
+<td>P1 一共 9 项，三条并行线：<strong>A 类型与 RPC → B 投影与压缩 → C 领域/任务/服务</strong>。P0 关闸后立刻启动。</td>
+</tr>
+<tr>
+<td><strong>M6</strong></td>
+<td>🌐 外延与 CI</td>
+<td>⏸️ 再等等</td>
+<td>P1 完成度七成以上才会开。对外开放、热更新、自动化校验这几块，地基不稳开了反而容易出事故。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="✅-已经做完的-11-件事-p0-全景">✅ 已经做完的 11 件事（P0 全景）</h2>
+<blockquote>
+<p>这部分如果你不是特别关心工程细节，跳着看也行。反正就一句话总结：<strong>该有的基础能力全部按预期落地了，单测全绿，关键路径上了不变式。</strong></p>
+</blockquote>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>实际交付物</th>
+<th>一句话说它解决了啥</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>P0-10</td>
+<td>📑 文档机制</td>
+<td><code>Agent Notes</code> 七种档案模板 + 七类目录</td>
+<td>改代码以后自动写笔记，半年以后回看不用靠脑内存。</td>
+</tr>
+<tr>
+<td>P0-1</td>
+<td>⚙️ 能力 Seam 三角色</td>
+<td>Provider / Seam / Facade 三层解耦接口</td>
+<td>想换工具后端、换审批后端、换沙箱后端，代码一行替换就行，不用全项目找引用改。</td>
+</tr>
+<tr>
+<td>P0-2</td>
+<td>🎛️ 配置三层组合</td>
+<td>Profile / Bundle / Patch 三层合并 + Zod 校验</td>
+<td>官方配置一套、团队再改一层、你自己再覆盖一层，三层不打架；哪个字段改坏了立刻报错。</td>
+</tr>
+<tr>
+<td>P0-3</td>
+<td>🚦 不变式注册中心</td>
+<td>10 条 invariant，CLI + runtime 双模式</td>
+<td>运行时每跑一次模型就自动扫一遍最关键的 4 条；CI 里跑全量 10 条。有任何配置乱了，早发现早修，不等到线上崩。</td>
+</tr>
+<tr>
+<td>P0-4</td>
+<td>💾 会话持久化双后端</td>
+<td>JSONL + SQLite 两实现，崩溃兜底三阶段 closeReason</td>
+<td>突然断电、异常退出，会话数据不丢；崩了以后重新打开能自动捡回没保存的记录。</td>
+</tr>
+<tr>
+<td>P0-5</td>
+<td>🔧 工具执行流水线五段式</td>
+<td>前执行 / 调用前 / 执行中 / 调用后 / 后执行 五段</td>
+<td>任何工具调用之前都能插你自己的拦截逻辑（比如打日志、检查权限、改参数），工具结果也能统一后处理。</td>
+</tr>
+<tr>
+<td>P0-6</td>
+<td>🧱 沙箱多后端</td>
+<td>本地临时目录 / 本地子进程 / 云端沙箱三实现 + 逐调用策略</td>
+<td>跑代码不用再怕动到真实文件；同一个会话里，简单命令用本地快的，危险命令自动切云端沙箱。</td>
+</tr>
+<tr>
+<td>P0-7</td>
+<td>🤹 子智能体多 Provider</td>
+<td>内注册中心 + 薄壳 Facade + Fail-closed</td>
+<td>开子任务有三种路由挑；没装 Provider 直接报错不沉默失败；兼容旧代码。</td>
+</tr>
+<tr>
+<td>P0-8</td>
+<td>🔙 可继续子智能体 + Activation 快照</td>
+<td>激活态快照 + fork/resume 真句柄</td>
+<td>开个小助手跑一半暂停了，关了软件第二天打开还能接着上次的断点继续往下干。</td>
+</tr>
+<tr>
+<td>P0-9</td>
+<td>🛠️ Workflow 引擎（真 worker）</td>
+<td>worker_thread 独立进程 + 心跳监控 + 双实现</td>
+<td>复杂流程调度跑在独立线程里，不会把主对话界面卡死掉；挂了自动杀，重试兜底。</td>
+</tr>
+<tr>
+<td><strong>P0-11</strong></td>
+<td>🛡️ 审批瀑布 + 权限预设</td>
+<td>三态状态机 + 四态响应 + 2 条内置 Preset + I3/I10 双 invariant</td>
+<td>写文件、跑危险命令这些敏感动作，终于<strong>先审再放</strong>了；超时无人审自动升级给上级，流程能全记录可审计。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>「踩坑一句」P0-11 做的时候踩了 8 轮小坑：字段拼写错、异步可选语法歧义、旧预设名没全换、测试断言漏更、类型守卫没加全。最后一遍跑 tsc + 单元测试才算真的稳了。这些坑全写进决策档案了，下次做类似的不用再踩一遍。</p>
+</blockquote>
+<hr>
+<h2 id="📋-剩下的-15-件事-按时间顺序给你列清楚">📋 剩下的 15 件事，按时间顺序给你列清楚</h2>
+<h3 id="🔴-下一件必须做-p0-12-p0-关闸">🔴 下一件必须做（P0-12 · P0 关闸）</h3>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>要交付什么</th>
+<th>卡到哪了</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>P0-12</strong></td>
+<td>🧠 缓存命中率 ≥ 90% 质量门</td>
+<td>① 基准脚本；② 命中率 invariant 升为 critical；③ 决策档案。</td>
+<td>整个 P0 就剩这一件。只要过了，P0 层彻底闭环。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="🟡-p1-9-件事-三条并行线-p0-关闸后立刻启动">🟡 P1 · 9 件事（三条并行线，P0 关闸后立刻启动）</h3>
+<p>P1 不是一件接一件串行的。我们拆了三条并行线，开发资源够的话三条可以同时跑，互相不打架。</p>
+<p>#### 并行线 A · 类型与 RPC（得按顺序 1→2 做）</p>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>大概什么时候可用</th>
+<th>用户能感受到什么变化</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>P1-1</td>
+<td>🗺️ Typert 类型图 + API Gateway</td>
+<td>P1 前半段</td>
+<td>跨模块传参再也不用手写"接口文档"，类型不一致立刻红，IDE 跳转一步到位；外部 HTTP 调用统一走一个网关入口，鉴权/重试/限流一处配。</td>
+</tr>
+<tr>
+<td>P1-2</td>
+<td>🌐 云端沙箱 + 共享运行世界</td>
+<td>P1 中段</td>
+<td>代码跑在云端真隔离环境，本地再怎么折腾也不污染；多个任务共享同一个云环境，不用每次启动都重新装依赖。</td>
+</tr>
+</tbody>
+</table>
+<p>#### 并行线 B · 投影与压缩（独立线，和 A 没关系，和 C 也没关系）</p>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>大概什么时候可用</th>
+<th>用户能感受到什么变化</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>P1-3</td>
+<td>🪞 会话投影单元</td>
+<td>P1 前半段</td>
+<td>超长会话按视图去切片，看历史不用拉全量几万条；摘要、统计、任务列表都能投影出来，打开老会话秒出。</td>
+</tr>
+<tr>
+<td>P1-4</td>
+<td>📏 压缩多策略</td>
+<td>P1 中段</td>
+<td>会话太长了压缩，不是一刀切全丢；有"只留工具结果"、"保留关键节点"、"便宜模型摘要"三种策略自动选；压缩前留一份原始副本不毁档。</td>
+</tr>
+<tr>
+<td>P1-5</td>
+<td>🎭 子智能体身份投影</td>
+<td>P1 中段</td>
+<td>开再多子智能体也能分清谁干了啥；子任务有自己的身份卡片和结果汇总，父线程不用每次打开子线程才看进度。</td>
+</tr>
+</tbody>
+</table>
+<p>#### 并行线 C · 领域 / 任务 / 服务（四件互相独立，能穿插做）</p>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>大概什么时候可用</th>
+<th>用户能感受到什么变化</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>P1-6</td>
+<td>🧭 三种模式（问答 / 计划 / 目标）</td>
+<td>P1 全段任意时</td>
+<td>三种模式明确定义：<strong>你问我答模式</strong>（不追着你要下一步）、<strong>计划模式</strong>（先调研写计划给你批再动手）、<strong>目标模式</strong>（告诉小星我要啥，她自己拆任务自己追进度）。</td>
+</tr>
+<tr>
+<td>P1-7</td>
+<td>📋 后台作业注册表</td>
+<td>P1 全段任意时</td>
+<td>跑视频、批量生成、大文件下载这种长任务，统一挂在后台作业面板里，进度条、重试按钮、日志查看全有，不再盯着面板干等。</td>
+</tr>
+<tr>
+<td>P1-8</td>
+<td>💻 LSP 代码智能接口</td>
+<td>P1 后段</td>
+<td>写代码终于不是瞎写了：跳转定义、找引用、错误高亮、自动补全，和 VSCode 里一模一样；支持 TS/Python/Rust/Go/Java 五门语言。</td>
+</tr>
+<tr>
+<td>P1-9</td>
+<td>🔐 凭据 + 配置双能力</td>
+<td>P1 全段任意时</td>
+<td>你给的 API Key 再也不是明文放配置文件了；凭据和配置分家：敏感的进凭据保险箱（加密存，只在需要时才解锁），外观设置、偏好、快捷键走普通配置。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>「闲话补一句」P1 一共 9 件，并行线拆成 A/B/C 三条是因为它们几乎没耦合——这是 P0 层 11 件事情先做的回报。如果不先把 Seam 三层、不变式、持久化、流水线、沙箱这些底打好，P1 每一件事都会和另外 8 件打架，只能一件件串行写，那要慢一倍。现在能三条并行，全靠前面花了时间拆架子。</p>
+</blockquote>
+<hr>
+<h3 id="🟢-p2-5-件事-p1-完成度-≥-七成再开-按顺序-1→2→3→4→5">🟢 P2 · 5 件事（P1 完成度 ≥ 七成再开，按顺序 1→2→3→4→5）</h3>
+<p>P2 的主题是「对外」：别人能用、别人能接、别人能写插件。这些事情<strong>必须等地基稳到一定程度</strong>才能开，不然别人刚接进来我们里面接口又改了，别人会骂。</p>
+<table>
+<thead><tr>
+<th>#</th>
+<th>名称</th>
+<th>启动门槛</th>
+<th>大家能感受到什么</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>P2-1</td>
+<td>🔌 ACP 服务端 + 客户端</td>
+<td>P1-7（后台作业）+ P1-9（凭据配置） 完成</td>
+<td>第三方程序可以接小星：你电脑上其他软件、浏览器插件、手机 App，都能调小星做事；小星也能对外广播事件。</td>
+</tr>
+<tr>
+<td>P2-2</td>
+<td>📤 代码模式子调用传输</td>
+<td>P1-3（会话投影）+ P1-4（压缩） 完成</td>
+<td>代码脚本模式和外部工具的双向传参有统一协议；复杂对象、流式输出、进度回调都能传。</td>
+</tr>
+<tr>
+<td>P2-3</td>
+<td>🧭 Web 路由注册表</td>
+<td>P1-9（凭据配置）+ P2-1（ACP） 完成</td>
+<td>Web 面板、远程页面终于有正经路由了；插件想加页面也能走路由注册，不用自己硬塞 iframe。</td>
+</tr>
+<tr>
+<td>P2-4</td>
+<td>♨️ HMR 热更新 + 客户端模块</td>
+<td>P2-3 路由注册表完成</td>
+<td>改了小星的界面和插件不用重启整个软件，热更新就生效；界面开发效率翻倍。</td>
+</tr>
+<tr>
+<td>P2-5</td>
+<td>🏭 目录生成器 + CI 校验</td>
+<td>P1 完成度 ≥ 90%</td>
+<td>目录结构、核心接口、文件命名规则全自动化校验；新贡献者提交 PR 就自动跑一遍，不通过打回，省人工看。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="🎱-关于-什么时候能用-的老实回答">🎱 关于"什么时候能用"的老实回答</h2>
+<blockquote>
+<p>这部分不是给老板汇报的 PPT，是给你看的真心话。</p>
+</blockquote>
+<p><strong>🔴 P0 关闸</strong>（就剩 P0-12）：<strong>几天以内</strong>。缓存命中率 invariant 我们跑过基线，其实目前已经高于 90%，但是得把脚本和 invariant 正式接进 CI，以后每次 PR 自动跑。这项不是大工程，收尾很快。</p>
+<p><strong>🟡 P1 全 9 项可触达的体验</strong>：P1 里面有些功能会先出（比如 P1-3 会话投影一开，用户立刻能感觉到打开老会话不卡了；P1-6 三种模式一定义，对话里的模式切换立刻就合理了）。P1 是"边做边见效"的阶段，不需要等 9 项全部做完才感觉变好。</p>
+<p><strong>🟢 P2 对外开放</strong>：P2 没有 8-9 成稳，我们不会开放。这部分我们不急着吹。先把本地单用户体验做好，比什么都实在。对外开放搞早了，接口一改，大家一起骂娘。</p>
+<blockquote>
+<p>「取舍一句」路线图这种东西，写得越宏大越容易成为笑话。我们故意不写"某月某日必定发布"的死线，只写先做什么后做什么、每做完一件用户能感受到什么。时间永远估不准，但前后顺序和依赖关系不会乱。</p>
+</blockquote>
+<hr>
+<h2 id="📜-版本与进度对应关系速查">📜 版本与进度对应关系速查</h2>
+<table>
+<thead><tr>
+<th>HELIOS 版本</th>
+<th>对应主要工程里程碑</th>
+<th>对外功能变化（你能摸到的）</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>V3.11</td>
+<td>M2 + M3 早期（22 件事全怼上）</td>
+<td>脚本模式、计划模式、拦截点引擎骨架、压缩摘要标记、老会话自愈、插嘴转向队列。</td>
+</tr>
+<tr>
+<td>V3.12</td>
+<td>M3 中后段</td>
+<td>大模型统一适配器、四种沙箱后端、文件读写权限分家、代码补全助手、用量账本、浏览器自动化、并行分支不打架、插件对外接口。</td>
+</tr>
+<tr>
+<td>V3.13</td>
+<td>M3 后半收尾</td>
+<td>对话全文搜索高亮、后台作业看板、一键诊断包。</td>
+</tr>
+<tr>
+<td>V3.14</td>
+<td>P0-11 前置铺垫（拦截点对外）</td>
+<td>拦截点审批层、策略面板、审批日志。用户端先有真实可用的"先审再放"卡片。</td>
+</tr>
+<tr>
+<td>V3.15</td>
+<td>P0-9 Workflow 前置铺垫</td>
+<td>代码脚本调试器面板、脚本模式自动降级、计划写完先自查风险。底层工作流引擎在这一版先替代码模式打工。</td>
+</tr>
+<tr>
+<td><strong>V3.16</strong></td>
+<td><strong>P0-11 正式落地（M14）</strong></td>
+<td>审批瀑布（先 → 超时升级 → 后决）+ 权限预设真正接管预设配置。同时不变式 10 条全线投入使用。</td>
+</tr>
+<tr>
+<td>V3.x 下一版</td>
+<td><strong>预计 P0-12 关闸 + P1-1 开局</strong></td>
+<td>缓存命中率质量门关闸（用户体感：相同前缀命中缓存更快、更省）；类型图和网关在这一版开始替换旧接口。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<br>
+<div align="center">
+  <sub>· 路线图会随实际进度随时更新，不放死线，不吹大话 ·</sub><br>
+  <sub>✦ 小星 · XC-星枢　·　最后更新：2026-08-16</sub>
+</div>
+  </article>
+</main>
+<nav class="bottom-nav">
+  <span class="bn-label">📖 Wiki 导航</span>
+  <div class="bn-group">
+<a class="kbd-btn" href="./Home.html">首页</a> <a class="kbd-btn" href="./功能总览.html">功能总览</a> <a class="kbd-btn" href="./快速开始.html">快速开始</a> <a class="kbd-btn" href="./核心功能.html">核心功能</a> <a class="kbd-btn" href="./主对话与任务编排.html">主对话与任务编排</a> <a class="kbd-btn" href="./高级功能.html">高级功能</a> <a class="kbd-btn" href="./常见问题.html">常见问题</a> <a class="kbd-btn" href="./截图画廊.html">截图画廊</a> <a class="kbd-btn" href="./更新日志.html">更新日志</a> <span class="kbd-btn active">项目路线图</span>
+  </div>
+  <div class="bn-prevnext">
+    <a class="kbd-btn" href="./更新日志.html">← 更新日志</a>
+    <span class="kbd-btn">已是最后一页</span>
+  </div>
+</nav>
+<footer class="wiki-footer">
+  <sub>✦ XC · 星枢 · 小星 · HELIOS V3.16 · LOCAL-FIRST · OBSERVABLE · COMPOSABLE · CRAFTED ✦</sub>
+</footer>
+</body>
+</html>
