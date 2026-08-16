@@ -61,7 +61,7 @@
   <!-- 主入口按钮 -->
   <p>
     &nbsp;
-    <a href="./wiki-pages/Home.html">
+    <a href="https://kanqixing.github.io/xc-starhub/wiki-pages/Home.html">
       <img src="https://img.shields.io/badge/%F0%9F%93%98%20%E6%89%93%E5%BC%80%20Wiki-%2371B6FF?style=for-the-badge" alt="打开 Wiki">
     </a>
     &nbsp;&nbsp;
